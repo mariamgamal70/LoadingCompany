@@ -44,8 +44,8 @@ frontPtr	 backPtr
 #include "Node.h"
 #include "QueueADT.h"
 #include <vector>
+#include <iostream>
 using namespace std;
-
 
 template <typename T>
 class LinkedQueue :public QueueADT<T>
@@ -54,12 +54,13 @@ private:
 
 	Node<T>* backPtr;
 	Node<T>* frontPtr;
+	int count;
 public:
 	LinkedQueue()
 	{
 		backPtr = nullptr;
 		frontPtr = nullptr;
-
+		count = 0;
 	}
 	/*
 Function: isEmpty
@@ -88,6 +89,7 @@ Output: True if the operation is successful; otherwise false.
 			backPtr->setNext(newNodePtr); // The queue was not empty
 
 		backPtr = newNodePtr; // New node is the last node now
+		count++;
 		return true;
 	}
 	/*Function: dequeue
@@ -102,7 +104,6 @@ Output: True if the operation is successful; otherwise false.
 	{
 		if (isEmpty())
 			return;
-
 		else
 		{
 			Node<T>* temp = frontPtr;
@@ -110,16 +111,9 @@ Output: True if the operation is successful; otherwise false.
 			{
 				cout<<temp->getItem();
 				temp = temp->getNext();
-
 			}
 
 		}
-	
-	
-	
-	
-	
-	
 	}
 
 	bool dequeue(T& frntEntry)
@@ -136,7 +130,7 @@ Output: True if the operation is successful; otherwise false.
 
 		// Free memory reserved for the dequeued node
 		delete nodeToDeletePtr;
-
+		count--;
 		return true;
 
 	}
@@ -200,6 +194,10 @@ removes all nodes from the queue by dequeuing them
 			backPtr = ptr;
 			NodePtr = NodePtr->getNext();
 		}
+	}
+	int getCount()
+	{
+		return count;
 	}
 };
 

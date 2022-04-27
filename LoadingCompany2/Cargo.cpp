@@ -1,4 +1,5 @@
 #include "Cargo.h"
+#include "Truck.h"
 #include<iostream>
 using namespace std;
 

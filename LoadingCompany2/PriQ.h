@@ -73,13 +73,14 @@ public:
 		return true;
 	}
 	//Function the takes out elements out of the queue
-	bool dequeue(PriQNode<T>& temp)
+	bool dequeue(T& temp)
 	{
 		if (isEmpty())
 			return false;
 
 		temp = Head;
 		Head = Head->getNext();
+		count--;
 		return true;
 	}
 	//Function the checks the first element.and copies the front of this queue to the passed param.

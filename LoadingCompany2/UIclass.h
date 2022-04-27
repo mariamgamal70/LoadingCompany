@@ -22,18 +22,17 @@ private:
 	CompanyClass* comp;
 public:
 	UIclass(CompanyClass* company);
-	int getidslinQcargo(LinkedQueue<Cargo*>* q);
-	int getidsPriQcargo(PriQ<Cargo*>* q);
-	int getidslinQtruck(LinkedQueue<Truck*>* q);
-	int getidsPriQtruck(PriQ<Truck*>* q);
-	int getLinlistcargo(LinkedList<Cargo*>* lis);
+	string getidslinQcargo(LinkedQueue<Cargo*>* q);
+	string getidsPriQcargo(PriQ<Cargo*>* q);
+	string getidslinQtruck(LinkedQueue<Truck*>* q);
+	string getidsPriQtruck(PriQ<Truck*>* q);
+	string getLinlistcargo(LinkedList<Cargo*>* lis);
 	void printwaitingcargos();
 	void printbeingdeliveredcargos();
 	void printavailtrucks();
 	void printinCheckuptrucks();
 	void printdeliveredcargo();
 	void printInteractive();	//Print Output in interactive
-	void write();   //open txt file and Write data
 	void getinput();	//Open the inputs.txt file and read the data
 	~UIclass();
 	

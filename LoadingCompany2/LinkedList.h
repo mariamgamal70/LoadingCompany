@@ -7,7 +7,7 @@
 #include <iostream>
 using namespace std;
 
-
+class Cargo;
 template <typename T>
 class LinkedList
 {
@@ -87,7 +87,7 @@ public:
 		return true;
 	}
 
-	void DeleteSpecificNode(const T& value)
+	void DeleteSpecificNode(const T& value) //CHECK COUNT DECREMENTENTATION
 	{
 		Node<T>* temp = Head;
 		if (temp == nullptr)
@@ -112,6 +112,7 @@ public:
 					temp->setNext(curr->getNext());
 					delete curr;
 					curr = nullptr;
+					break;
 
 				}
 				temp = curr;
@@ -136,22 +137,21 @@ public:
 			delete Head;
 			Head = nullptr;
 		}
+		count--;
 	}
 
 	void DeleteEnd()
 	{
 		if (!Head)
 			return;
-
 		Node<T>* prev = Head;
 		if (Head->getNext() == NULL)
 		{
 			delete Head;
 			Head = NULL;
 		}
-
-		else {
-
+		else 
+		{
 			Node<T>* curr = prev->getNext();
 			while (curr->getNext() != NULL)
 			{
@@ -160,28 +160,18 @@ public:
 
 
 			}
-
 			prev->setNext(curr->getNext());
 			delete curr;
 			curr = NULL;
-
 		}
+		count--;
 	}
 
 	int getCount()
 	{
-		int count = 0;
-		if (!Head)
-			return 0;
-
-		Node <T>* temp = Head;
-		while (temp)
-		{
-			count++;
-			temp = temp->getNext();
-		}
 		return count;
 	}
+
 	T getLastNode()
 	{
 		if (!Head)
@@ -197,13 +187,7 @@ public:
 		}
 		return (curr->getItem());
 	}
-
-
 };
-#endif
-
-
-
 
 
 template<>
@@ -266,6 +250,7 @@ public:
 
 	void printList()
 	{
+
 		Node<Cargo*>* curr = Head;
 		while (curr != nullptr)
 		{
@@ -287,9 +272,6 @@ public:
 			return true;
 		}
 	}
-
-
-
 
 	void DeleteSpecificNode(const int& value)
 	{
@@ -317,10 +299,11 @@ public:
 					temp->setNext(curr->getNext());
 					delete curr;
 					curr = nullptr;
+					break;
 
 				}
 				temp = curr;
-				curr = curr->getNext();
+				curr = curr->getNext(); //FY warning hena ya sherif
 			}
 		}
 
@@ -363,14 +346,10 @@ public:
 			{
 				prev = curr;
 				curr = curr->getNext();
-
-
 			}
-
 			prev->setNext(curr->getNext());
 			delete curr;
 			curr = NULL;
-
 		}
 	}
 
@@ -388,7 +367,7 @@ public:
 	Cargo* getLastNode()
 	{
 		if (!Head)
-			return;
+			return nullptr;
 
 		if (Head->getNext() == NULL)
 			return(Head->getItem());
@@ -401,7 +380,6 @@ public:
 		return (curr->getItem());
 	}
 
-
-
 };
 
+#endif

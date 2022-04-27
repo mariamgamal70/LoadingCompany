@@ -28,7 +28,7 @@ class CompanyClass
 	int CargoAvgTime;
 	int SumAllloadTime;
 	double VIPCargoPriority;
-	//------------------------event list-----------------------------
+	//------------------------event list----------------------------------------------
 	LinkedQueue <Event*> Eventlist;
 	//------------------------intial Truck lists ==empty truck list-------------------
 	//available but empty 
@@ -36,7 +36,7 @@ class CompanyClass
 	LinkedQueue<Truck*> SpecialTruckQueue;
 	LinkedQueue <Truck*> VIPTruckQueue;
 
-	//----------------------related trucks list--------------------
+	//-----------------------------related trucks list---------------------------------
 	//not available trucks
 	PriQ<Truck*> MovingTrucks;
 	LinkedQueue<Truck*> NormalTrucksUnderCheckup; //each truck has its own check up time
@@ -47,15 +47,15 @@ class CompanyClass
 	LinkedQueue<Truck*> LoadingNormalTrucks;
 	LinkedQueue<Truck*> LoadingSpecialTrucks;
 	LinkedQueue<Truck*> LoadingVIPTrucks;
-	//-----------------------initial cargo list--------------------
+	//----------------------------initial cargo list------------------------------------
 		//waiting to be loaded 
 	LinkedList<Cargo*> NormalCargos; // to apply cancellation and promotion on it easier
 	LinkedQueue<Cargo*> SpecialCargos;
 	PriQ <Cargo*> VIPCargoPriQueue;
-	//---------------------cargo related lists---------------------
+	//----------------------------cargo related lists-----------------------------------
 			//PriQ<Cargo*> MovingCargos;//priority to the least delivery time
 	LinkedQueue <Cargo*> DeliveredCargos;
-	//-------------------for file loading function------------------
+	//---------------------------for file loading function------------------------------
 	int nN, nS, nV;
 	int Ns, Ss, Vs;
 	int Nc, Sc, Vc;
@@ -93,50 +93,19 @@ public:
 	int getCurrentTimeDay();
 	LinkedList<Cargo*> getNormalCargos(); // to apply cancellation and promotion on it easier
 	LinkedQueue<Cargo*> getSpecialCargos();
-	PriQ <Cargo*> getVIPCargos();
+	PriQ<Cargo*> getVIPCargos();
 	LinkedQueue<Truck*> getLoadingNormalTrucks();
-	LinkedQueue<Truck*> getLoadingSpecialTrucks();
+	LinkedQueue<Truck*>getLoadingSpecialTrucks();
 	LinkedQueue<Truck*> getLoadingVIPTrucks();
 	LinkedQueue<Truck*> getNormalTrucksUnderCheckup(); //each truck has its own check up time
 	LinkedQueue<Truck*> getSpecialTrucksUnderCheckup();
 	LinkedQueue<Truck*> getVIPTrucksUnderCheckup();
-	LinkedQueue <Cargo*> getDeliveredCargos();
+	LinkedQueue<Cargo*> getDeliveredCargos();
 
 	//----------------CALCULATIONS------------------//
 	double CalculateWaitingTime();
 	double CalculateTruckUtilizationTime();
 	void SimulatorFunction();
 
-
 	~CompanyClass();
-
-	/*void Simulationfunc()
-	{
-		/*Hour = 1;
-		Day = 1;*/
-		/*Node<Event*> * currEvent = NULL;
-		while (!(Eventlist.isEmpty()))                           //<< < -------------------- - TIMESTEP---------------- -
-		{
-			Eventlist.dequeue(currEvent);
-
-
-
-
-
-
-
-			//			//Execute events
-			//			//check waiting list -> if exist assign to available trucks
-			//			//move cargos from waiting->loading->moving ->delivered
-			//			//move trucks from available->loading->moving ->checkup->available
-			//			//collect all the needed calculations for output file
-			//			//call ui class to print details on the output screen
-			//			//if time<24 increment time else increment day and reset time
-		}*/
-		// 
-		//CARGO DELIVERY TIME CALCULATIONS
-//}
-		//		//produce output file <<<----------OUTPUTFILE---------------------
-		//	
-
 };
