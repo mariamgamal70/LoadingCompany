@@ -1,8 +1,4 @@
 #include "Event.h"
-#include "PreparationEvent.h"
-#include "PromoteEvent.h"
-#include "CancelEvent.h"
-#include "CompanyClass.h"
 
 Event::Event()
 {
@@ -11,8 +7,78 @@ Event::Event()
 	SelectedId = 0;
 	EventExecuted = nullptr;
 	 
-	//?Cargo c;  
 }
+
+
+Event::Event(int EventTimeHours, int EventTimeDays, int sid,CompanyClass*c)
+{
+	Hours = EventTimeHours;
+	Days = EventTimeDays;
+	SelectedId = sid;
+	EventExecuted = c;
+}
+
+void Event::SetHours(int h)
+{
+	Hours = h;
+}
+
+void Event::SetDays(int d)
+{
+	Days = d;
+}
+
+void Event::SetID(int id)
+{
+	SelectedId = id;
+}
+
+void Event::SetComapnyptr(CompanyClass* c)
+{
+	EventExecuted = c;
+
+}
+
+int Event::GetHours() const
+{
+
+	return Hours;
+}
+
+int Event::GetDays() const
+{
+
+	return Days;
+}
+int Event::GetSelectedId() const
+{
+	return SelectedId;
+
+}
+
+Event::~Event()
+{
+
+}
+
+
+
+
+
+
+
+
+/*Company* Event::GetCompanyptr() const
+{
+
+
+	return EventExecuted;
+
+}
+
+
+
+
 
 /*void Event::IsLetter(char ch, Cargo c)
 {
@@ -55,52 +121,3 @@ int Event::GetEventTime(int& EventTimeDays)
 	Days = 1;
 	SelectedId = 0;
 }*/
-
-
-
-Event::Event(int EventTimeHours, int EventTimeDays, int sid)
-{
-	Hours = EventTimeHours;
-	Days = EventTimeDays;
-	SelectedId = sid;
-}
-
-void Event::SetHours(int h)
-{
-	Hours = h;
-}
-
-void Event::SetDays(int d)
-{
-	Days = d;
-}
-
-void Event::SetID(int id)
-{
-	SelectedId = id;
-}
-
-int Event::GetHours() const
-{
-
-	return Hours;
-}
-
-int Event::GetDays() const
-{
-
-	return Days;
-}
-int Event::GetSelectedId() const
-{
-	return SelectedId;
-
-}
-void Execute()
-{
-
-}
-Event::~Event()
-{
-
-}

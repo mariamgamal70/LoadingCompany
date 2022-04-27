@@ -1,28 +1,31 @@
 #pragma once
-#include "Cargo.h"
 
 class CompanyClass;
+
 class Event
 {
 protected:
-	int Hours = 1;
-	int Days = 1;
-	int SelectedId = 0;
+	int Hours ;
+	int Days ;
+	int SelectedId ;
 	CompanyClass* EventExecuted;
 	//char CargoType;
 
 public:
 	Event();
 
-	Event(int EventTimeHours, int EventTimeDays, int sid);
+	Event(int EventTimeHours, int EventTimeDays, int sid,CompanyClass*c);
 
 	void SetHours(int h);
 	void SetDays(int d);
 	void SetID(int id);
+	void SetComapnyptr(CompanyClass*c);
 
 	int GetHours() const;
 	int GetDays() const;
 	int GetSelectedId() const;
+
+	//ComapnyClass*GetCompanyptr() const;
 
 	virtual void Execute() = 0;
 

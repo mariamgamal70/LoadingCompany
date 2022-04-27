@@ -144,7 +144,6 @@
     <ClCompile Include="CompanyClass.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Preparation.cpp" />
     <ClCompile Include="PreparationEvent.cpp" />
     <ClCompile Include="PromoteEvent.cpp" />
     <ClCompile Include="Truck.cpp" />
@@ -159,7 +158,6 @@
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="LinkedQueue.h" />
     <ClInclude Include="Node.h" />
-    <ClInclude Include="Preparation.h" />
     <ClInclude Include="PreparationEvent.h" />
     <ClInclude Include="PriQ.h" />
     <ClInclude Include="PriQNode.h" />

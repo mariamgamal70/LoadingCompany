@@ -1,7 +1,5 @@
 #pragma once
-#include "Event.h"
-//#include"CompanyClass.h"
-class CompanyClass;
+#include"Event.h"
 class PreparationEvent :public Event
 {
 private:

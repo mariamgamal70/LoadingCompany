@@ -129,6 +129,6 @@ Cargo::~Cargo()  //any additions?
 
 ostream& operator<<(ostream& output, Cargo* c)
 {
-	output << c->getCargoID();
+	output << c->getCargoID()<<","<<" ";
 	return output;
 }

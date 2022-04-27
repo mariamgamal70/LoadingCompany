@@ -7,7 +7,6 @@
 #include <iostream>
 using namespace std;
 
-class Cargo;
 template <typename T>
 class LinkedList
 {
@@ -78,7 +77,7 @@ public:
 		cout << endl;
 	}
 
-	bool peek(T& Top)
+	bool peek(Node<T>& Top)
 	{
 		if (!Head)
 			return false;
@@ -189,7 +188,7 @@ public:
 	}
 };
 
-
+class Cargo;
 template<>
 class  LinkedList <Cargo*>
 {
@@ -200,7 +199,7 @@ public:
 
 	LinkedList()
 	{
-		Head = nullptr;
+		Head = NULL;
 		count = 0;
 	}
 	~LinkedList()//List is being desturcted ==> delete all items in the list
@@ -248,13 +247,14 @@ public:
 		count++;
 	}
 
+
 	void printList()
 	{
 
 		Node<Cargo*>* curr = Head;
 		while (curr != nullptr)
 		{
-			cout << curr->getItem() << " ";
+			cout << curr->getItem() ;
 			curr = curr->getNext();
 
 		}

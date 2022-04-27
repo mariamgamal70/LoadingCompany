@@ -115,149 +115,38 @@ void CompanyClass::FileLoading()
 		inFile.close(); //close the file object.
 	}
 }
-void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T)
-{
-	Truck* deq;
-	LinkedQueue<Truck*>* extra;
-	if (T->getTruckType() == 'N')
-	{
-		while (NormalTruckQueue.peek(deq) && deq != T) //find T in queue
-		{
-			NormalTruckQueue.dequeue(deq);
-			extra->enqueue(deq);
-		}
-		NormalTruckQueue.dequeue(T); //dequeue T and add it to loading truck
-		LoadingNormalTrucks.enqueue(T);
-
-		while (!extra->isEmpty()) // return emptytrucksnormal queue to its original form
-		{
-			extra->dequeue(deq);
-			NormalTruckQueue.enqueue(deq);
-		}
-	}
-	else if (T->getTruckType() == 'V')
-	{
-		while (VIPTruckQueue.peek(deq) && deq != T)
-		{
-			VIPTruckQueue.dequeue(deq);
-			extra->enqueue(deq);
-
-		}
-		VIPTruckQueue.dequeue(T);
-		LoadingVIPTrucks.enqueue(T);
-
-		while (!extra->isEmpty())
-		{
-			extra->dequeue(deq);
-			VIPTruckQueue.enqueue(deq);
-		}
-	}
-	else
-	{
-		while (SpecialTruckQueue.peek(deq) && deq != T)
-		{
-			SpecialTruckQueue.dequeue(deq);
-			extra->enqueue(deq);
-
-		}
-		SpecialTruckQueue.dequeue(T);
-		LoadingSpecialTrucks.enqueue(T);
-
-		while (!extra->isEmpty())
-		{
-			extra->dequeue(deq);
-			SpecialTruckQueue.enqueue(deq);
-		}
-
-	}
-}
-void  CompanyClass::MoveTruckFromLoadingToMoving(Truck* T)
-{
-	Truck* deq;
-	LinkedQueue<Truck*>* extra;
-	if (T->getTruckType() == 'N')
-	{
-		while (LoadingNormalTrucks.peek(deq) && deq != T) //find T in queue
-		{
-			LoadingNormalTrucks.dequeue(deq);
-			extra->enqueue(deq);
-
-		}
-		LoadingNormalTrucks.dequeue(T); //dequeue T and add it to loading truck
-		MovingTrucks.enqueueAscending(T, T->getTruckDeliveryIntervalDays());//------------> sort according to least time 
-
-		while (!extra->isEmpty()) // return emptytrucksnormal queue to its original form
-		{
-			extra->dequeue(deq);
-			LoadingNormalTrucks.enqueue(deq);
-		}
-	}
-	else if (T->getTruckType() == 'V')
-	{
-		while (LoadingVIPTrucks.peek(deq) && deq != T)
-		{
-			LoadingVIPTrucks.dequeue(deq);
-			extra->enqueue(deq);
-
-		}
-		LoadingVIPTrucks.dequeue(T);
-		MovingTrucks.enqueueDescending(T, VIPCargoPriority);//------->check priority
-
-		while (!extra->isEmpty())
-		{
-			extra->dequeue(deq);
-			LoadingVIPTrucks.enqueue(deq);
-		}
-	}
-	else
-	{
-		while (LoadingSpecialTrucks.peek(deq) && deq != T)
-		{
-			LoadingSpecialTrucks.dequeue(deq);
-			extra->enqueue(deq);
-
-		}
-		LoadingSpecialTrucks.dequeue(T);
-		MovingTrucks.enqueueAscending(T, T->getTruckDeliveryIntervalDays());//------------> sort according to least time 
-
-		while (!extra->isEmpty())
-		{
-			extra->dequeue(deq);
-			LoadingSpecialTrucks.enqueue(deq);
-		}
-	}
-}
 
 
 //-------------------------------RELATED TO EXECUTE EVENTS---------------------------------
 
 void CompanyClass::RemoveCargo(int id)
 {
+	NormalCargos.DeleteSpecificNode(id);
 
 }
 void CompanyClass::PromoteCargo(int id)
-{
-	int loaded = 0;
-	Cargo c;
-	Truck t;
-	PriQNode<Cargo*> dequeued;
-	c = c.getCID(id);
-	Cargo* c2 = t.getLoadedCargosInTruck().peek(); //get first cargo in queue of loadingcargos
-
-	while (c2->getCargoID() != NULL)
 	{
-		Cargo* c2 = t.getLoadedCargosInTruck().peek();
-		if (c2->getCargoID() == id)
+		int loaded = 0;
+		Cargo c;
+		Truck t;
+		PriQNode<Cargo*> dequeued;
+		c = c.getCID(id);
+		Cargo* c2 = t.getLoadedCargosInTruck().peek(); //get first cargo in queue of loadingcargos
+
+		while (c2->getCargoID() != NULL)
 		{
-			loaded++;
-			break;
+			Cargo* c2 = t.getLoadedCargosInTruck().peek();
+			if (c2->getCargoID() == id)
+			{
+				loaded++;
+				break;
+			}
+			else
+				t.getLoadedCargosInTruck().dequeue(&dequeued);
 		}
-		else
-			t.getLoadedCargosInTruck().dequeue(dequeued);
+		if (c.getCargoType() == 'N' && loaded == 0)
+			c.setCargoType('V');
 	}
-	if (c.getCargoType() == 'N' && loaded == 0)
-		c.setCargoType('V');
-}
 /*	Cargo* temp = nullptr;
 	while (!(WaitingToLoadNormalTrucks.isEmpty()))
 	{
@@ -318,7 +207,7 @@ void CompanyClass::AddToAppropriateList(Cargo* C)
 void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T)
 {
 	Truck* deq;
-	LinkedQueue<Truck*>* extra;
+	LinkedQueue<Truck*>* extra=NULL;
 	if (T->getTruckType() == 'N')
 	{
 		NormalTruckQueue.peek(deq);
@@ -371,7 +260,7 @@ void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T)
 		SpecialTruckQueue.dequeue(T);
 		LoadingSpecialTrucks.enqueue(T);
 
-			while (!extra->isEmpty())
+			while (!extra->isEmpty())//<----- -----el warning el hena asdo eh? msh zaher 3andy h3ml build // dereferencing null pointer asdo eh y3ny mmknnn el ptr da yb
 			{
 
 				extra->dequeue(deq);
@@ -384,7 +273,7 @@ void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T)
 void  CompanyClass::MoveTruckFromLoadingToMoving(Truck* T)
 {
 	Truck* deq;
-	LinkedQueue<Truck*>* extra;
+	LinkedQueue<Truck*>* extra=NULL;
 	if (T->getTruckType() == 'N')
 	{
 		LoadingNormalTrucks.peek(deq);
@@ -473,19 +362,19 @@ void  CompanyClass::MoveTruckFromLoadingToMoving(Truck* T)
 	}
 
 }*/
-void CompanyClass::AddTruckToCheckup(Truck *T)
+	void CompanyClass::AddTruckToCheckup(Truck *T)
 	{
 		
-		 //PriQNode<Truck*>  qnode;
-		 //PriQ <Truck*> q;
-		 //while (MovingTrucks.peek() != T)
-		 //{
-			// MovingTrucks.dequeue(qnode);
-			// q.enqueueAscending(qnode.getItem(), qnode.getItem()->getTruckDeliveryIntervalDays());
+		 PriQNode<Truck*> qnode;
+		 PriQ <Truck*> q;
+		 while (MovingTrucks.peek() != T)
+		 {
+			 MovingTrucks.dequeue(&qnode);
+			 q.enqueueAscending(qnode.getItem(), qnode.getItem()->getTruckDeliveryIntervalDays());
 
-		 //}
+		 }
 
-		MovingTrucks.dequeue(T);//<------------------- someone fix this pls
+		MovingTrucks.dequeue(&qnode);//<------------------- someone fix this pls
 		switch (T->getTruckType())
 		{
 		case('N'):
@@ -506,11 +395,11 @@ void CompanyClass::AddTruckToCheckup(Truck *T)
 		default:
 			break;
 		}
-		//while (!q.isEmpty())
-		//{
-		//	q.dequeue(qnode);
-		//	MovingTrucks.enqueueAscending(qnode.getItem(), qnode.getItem()->getTruckDeliveryIntervalDays());
-		//}
+		while (!q.isEmpty())
+		{
+			q.dequeue(&qnode);
+			MovingTrucks.enqueueAscending(qnode.getItem(), qnode.getItem()->getTruckDeliveryIntervalDays());
+		}
 	}
 //-------------------------------------------GETTERS----------------------------------------//
 double CompanyClass::getCargoAvgTime()
@@ -536,7 +425,7 @@ int CompanyClass::getCurrentTimeDay()
 {
 	return Day;
 }
-LinkedList<Cargo*> CompanyClass::getNormalCargos()//to call in UI class
+/*LinkedList<Cargo*> CompanyClass::getNormalCargos()//to call in UI class
 {
 	return NormalCargos;
 }
@@ -575,15 +464,80 @@ LinkedQueue<Truck*> CompanyClass::getVIPTrucksUnderCheckup()
 LinkedQueue<Cargo*> CompanyClass::getDeliveredCargos()
 {
 	return DeliveredCargos;
-}
+}*/
 //----------------------------------------CALCULATIONS-------------------------------------//
-double CompanyClass::CalculateWaitingTime()
+
+void CompanyClass::printWNormalCargos()
 {
 
+	NormalCargos.printList();
+
 }
-double CompanyClass::CalculateTruckUtilizationTime()
+
+void CompanyClass::printWspecialCargos()
 {
+	SpecialCargos.PrintQueue();
+
 }
+
+void CompanyClass::printWvipCargos()
+{
+
+	VIPCargoPriQueue.printList();
+
+}
+
+
+void CompanyClass::printLnormalTrucks()
+{
+
+	LoadingNormalTrucks.PrintQueue();
+
+}
+
+
+
+
+void CompanyClass::printLspecialTrucks()
+{
+	LoadingSpecialTrucks.PrintQueue();
+
+
+}
+
+void CompanyClass::printLVIPTrucks()
+{
+
+	LoadingVIPTrucks.PrintQueue();
+}
+
+
+void CompanyClass::printCheckupNormal()
+{
+	NormalTrucksUnderCheckup.PrintQueue();
+
+
+}
+
+void CompanyClass::printCheckupSpecial()
+{
+	SpecialTrucksUnderCheckup.PrintQueue();
+
+}
+
+void CompanyClass::printCheckupVIP()
+{
+
+	VIPTrucksUnderCheckup.PrintQueue();
+
+}
+
+
+
+
+
+
+
 
 void CompanyClass::SimulatorFunction()
 {
@@ -600,9 +554,8 @@ void CompanyClass::SimulatorFunction()
 		if (count == 5)
 		{
 			Cargo* peeked;
-			LinkedList <Cargo*>* temp;
-			temp->peek(Head); // correct?
-
+			LinkedList <Cargo*>* temp=NULL;
+			temp->peek(Head); // correct? //<-------------------------------CORRECT IT
 			DeliveredCargos.enqueue(Head);
 			SpecialCargos.peek(peeked);
 			if (peeked->getPreparationTimeDay() == 0 && peeked->getPreparationTimeHour() == 0)
@@ -636,7 +589,12 @@ void CompanyClass::SimulatorFunction()
 	CARGO DELIVERY TIME CALCULATIONS
 }
 				//produce output file <<<----------OUTPUTFILE---------------------*/
-
+				/*
+	LinkedList<Cargo*> NormalCargos; // to apply cancellation and promotion on it easier
+	LinkedQueue<Cargo*> SpecialCargos;
+	PriQ <Cargo*> VIPCargoPriQueue;
+	void print
+				*/
 CompanyClass::~CompanyClass()
 {
 }

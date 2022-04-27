@@ -3,14 +3,14 @@
 #include <string>
 #include<fstream>
 #include <cstdlib>
-//#include "Cargo.h"
+#include "Cargo.h"
 #include"LinkedList.h"
 #include"PriQ.h"
 #include"LinkedQueue.h"
 using std::ifstream;
 using namespace std;
 
-class Cargo;
+//class Cargo;
 class Truck
 {
 private:
@@ -24,8 +24,7 @@ private:
 	int TruckNoOfJourneys;
 	int TruckID;//truck id
 	int DeliveredCargosByTruck;
-	PriQ <Cargo*> LoadingCargos; //priority to delivery distance (becomes moving cargos once truck is moving)
-	PriQ <Cargo*> MovingCargos;
+	PriQ<Cargo*> LoadingCargos; //priority to delivery distance (becomes moving cargos once truck is moving)
 	int TruckMoveTimeHour;
 	int TruckMoveTimeDay;
 	int TruckTotalActiveTimeH;

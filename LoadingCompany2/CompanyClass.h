@@ -15,7 +15,7 @@
 #include"PromoteEvent.h"
 
 //#include"UIclass.h"
-
+class Event;
 class CompanyClass
 {
 	static int Hour;
@@ -91,7 +91,7 @@ public:
 	int getTotalNumberOfTrucks();
 	int getCurrentTimeHour();
 	int getCurrentTimeDay();
-	LinkedList<Cargo*> getNormalCargos(); // to apply cancellation and promotion on it easier
+	/*LinkedList<Cargo*> getNormalCargos(); // to apply cancellation and promotion on it easier
 	LinkedQueue<Cargo*> getSpecialCargos();
 	PriQ<Cargo*> getVIPCargos();
 	LinkedQueue<Truck*> getLoadingNormalTrucks();
@@ -100,11 +100,26 @@ public:
 	LinkedQueue<Truck*> getNormalTrucksUnderCheckup(); //each truck has its own check up time
 	LinkedQueue<Truck*> getSpecialTrucksUnderCheckup();
 	LinkedQueue<Truck*> getVIPTrucksUnderCheckup();
-	LinkedQueue<Cargo*> getDeliveredCargos();
+	LinkedQueue<Cargo*> getDeliveredCargos();*/
 
-	//----------------CALCULATIONS------------------//
-	double CalculateWaitingTime();
-	double CalculateTruckUtilizationTime();
+
+	void printWNormalCargos();
+	void printWspecialCargos();
+	void printWvipCargos();
+
+	void printLnormalTrucks();
+	void printLspecialTrucks();
+	void printLVIPTrucks();
+
+
+	void printCheckupNormal();
+	void printCheckupSpecial();
+	void printCheckupVIP();
+
+
+	//void printE
+
+
 	void SimulatorFunction();
 
 	~CompanyClass();

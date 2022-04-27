@@ -3,10 +3,11 @@
 #include <string>
 #include<fstream>
 #include <cstdlib>
-#include"LinkedList.h"
-#include"PriQ.h"
-#include"ArrayStack.h"
-#include"LinkedQueue.h"
+//#include"Truck.h"
+//#include"LinkedList.h"
+//#include"PriQ.h"
+//#include"ArrayStack.h"
+//#include"LinkedQueue.h"
 //#include "Truck.h"
 using std::ifstream;
 using namespace std;

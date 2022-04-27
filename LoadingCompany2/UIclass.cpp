@@ -1,5 +1,5 @@
-#include "UIclass.h"
-#include "CompanyClass.h"
+/*#include "UIclass.h"
+//#include "CompanyClass.h"
 #include<iostream>
 #include <fstream>
 using namespace std;
@@ -22,7 +22,7 @@ string UIclass::getidslinQcargo(LinkedQueue<Cargo*>* q)
 	qu->dequeue(carg);
 	while (qu->dequeue(temp))
 	{
-		id += "," + to_string(temp->getCargoID());
+		id += "," + to_string(temp->getCargoID());*
 	}
 	return id;
 }
@@ -138,4 +138,4 @@ void UIclass::printinCheckuptrucks()
 	cout << "(";
 	cout << getidslinQtruck(vip);
 	cout << ")";
-}
+}*/

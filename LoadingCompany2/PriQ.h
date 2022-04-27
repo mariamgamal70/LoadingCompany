@@ -1,8 +1,13 @@
 #pragma once
 #include <iostream>
 #include "PriQNode.h"
+//#include"Cargo.h"
+//#include"Truck.h"
 using namespace std;
 
+
+//class Cargo;
+//class Truck;
 template <typename T>
 class PriQ
 {
@@ -73,7 +78,7 @@ public:
 		return true;
 	}
 	//Function the takes out elements out of the queue
-	bool dequeue(T& temp)
+	bool dequeue(PriQNode<T>* temp)
 	{
 		if (isEmpty())
 			return false;
@@ -98,7 +103,7 @@ public:
 		if (Head)
 			return Head->getItem();
 		else
-			return;
+			return 0;
 	}
 	//Function that checks whether the queue is empty or not
 	bool isEmpty()
@@ -109,6 +114,7 @@ public:
 	{
 		return count;
 	}
+
 	void printList()
 	{
 		PriQNode<T>* curr = Head;

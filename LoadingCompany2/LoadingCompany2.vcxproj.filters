@@ -33,9 +33,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Preparation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PreparationEvent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -60,9 +57,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Event.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Preparation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PreparationEvent.h">

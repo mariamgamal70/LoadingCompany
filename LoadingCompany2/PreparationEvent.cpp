@@ -2,7 +2,7 @@
 #include "PreparationEvent.h"
 #include "Event.h"
 #include "CompanyClass.h"
-//#include "Cargo.h"
+#include "Cargo.h"
 PreparationEvent::PreparationEvent()
 {
 	CargoCost = 0;
@@ -16,7 +16,6 @@ PreparationEvent::PreparationEvent(char CargoT, int EventTimeHours, int EventTim
 	SetLoadtime(LoadTimeHours);
 	SetDeliveryDist(CargoDist);
 	SetCargotype(CargoT);
-
 	SetHours(EventTimeHours);
 	SetDays(EventTimeDays);
 	SetID(CargoID);
