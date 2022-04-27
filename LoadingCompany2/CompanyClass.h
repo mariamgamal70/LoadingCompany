@@ -5,6 +5,7 @@
 //-------------------------//
 #include "LinkedQueue.h"
 #include "PriQ.h"
+#include "CargoLinkedList.h"
 //-------------------------//
 #include "Truck.h"
 #include"Cargo.h"
@@ -13,8 +14,7 @@
 #include "PreparationEvent.h"
 #include "CancelEvent.h"
 #include"PromoteEvent.h"
-
-//#include"UIclass.h"
+#include"UIclass.h"
 class Event;
 class CompanyClass
 {
@@ -49,9 +49,9 @@ class CompanyClass
 	LinkedQueue<Truck*> LoadingVIPTrucks;
 	//----------------------------initial cargo list------------------------------------
 		//waiting to be loaded 
-	LinkedList<Cargo*> NormalCargos; // to apply cancellation and promotion on it easier
+	CargoLinkedList NormalCargos; // to apply cancellation and promotion on it easier
 	LinkedQueue<Cargo*> SpecialCargos;
-	PriQ <Cargo*> VIPCargoPriQueue;
+	PriQ<Cargo*> VIPCargoPriQueue;
 	//----------------------------cargo related lists-----------------------------------
 			//PriQ<Cargo*> MovingCargos;//priority to the least delivery time
 	LinkedQueue <Cargo*> DeliveredCargos;
@@ -71,12 +71,12 @@ class CompanyClass
 	int EventTimeHours, EventTimeDays;
 	int CargoID, CargoDist, CargoLoadTime, CargoCost;
 	int CargoExtraMoney;
-
-	//UIclass* p;
+    UIclass* ui;
 
 
 public:
 	CompanyClass();
+	CompanyClass(UIclass* uii);
 	void FileLoading();
 	void RemoveCargo(int id);
 	void PromoteCargo(int id);
@@ -111,15 +111,17 @@ public:
 	void printLspecialTrucks();
 	void printLVIPTrucks();
 
-
 	void printCheckupNormal();
 	void printCheckupSpecial();
 	void printCheckupVIP();
 
+	void printEmptyNormalTrucks();
+	void printEmptySpecialTrucks();
+	void printEmptyVIPTrucks();
 
 	//void printE
-
-
+	void printcheckuptruck();
+	void printwaitingcargos();
 	void SimulatorFunction();
 
 	~CompanyClass();

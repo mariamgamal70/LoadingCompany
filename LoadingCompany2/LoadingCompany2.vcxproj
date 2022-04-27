@@ -153,6 +153,7 @@
     <ClInclude Include="ArrayStack.h" />
     <ClInclude Include="CancelEvent.h" />
     <ClInclude Include="Cargo.h" />
+    <ClInclude Include="CargoLinkedList.h" />
     <ClInclude Include="CompanyClass.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="LinkedList.h" />
@@ -166,6 +167,9 @@
     <ClInclude Include="StackADT.h" />
     <ClInclude Include="Truck.h" />
     <ClInclude Include="UIclass.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\NEWWW\LoadingCompany\input.txt.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

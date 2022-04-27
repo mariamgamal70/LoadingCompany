@@ -95,5 +95,13 @@
     <ClInclude Include="UIclass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CargoLinkedList.h">
+      <Filter>Header Files\DS</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\NEWWW\LoadingCompany\input.txt.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

@@ -194,7 +194,7 @@ public:
 			return false;
 	}
 };
-
+/*
 class Cargo;
 template<>
 class  LinkedList <Cargo*>
@@ -394,5 +394,5 @@ public:
 			return false;
 	}
 };
-
+*/
 #endif

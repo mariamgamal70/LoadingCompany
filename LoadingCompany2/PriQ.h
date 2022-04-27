@@ -150,7 +150,7 @@ public:
 		return true;
 	}
 };
-	class Cargo;
+/*	class Cargo;
 	template<>
 	class PriQ <Cargo*>
 	{
@@ -253,5 +253,10 @@ public:
 			}
 			count++;
 			return true;
+
 		}
-	};
+		int getCount()
+		{
+			return count;
+		}
+	};*/
