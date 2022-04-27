@@ -593,7 +593,12 @@ void CompanyClass::SimulatorFunction()
 	LinkedList<Cargo*> NormalCargos; // to apply cancellation and promotion on it easier
 	LinkedQueue<Cargo*> SpecialCargos;
 	PriQ <Cargo*> VIPCargoPriQueue;
-	void print
+	void CompanyClass:: printwaitingcargos ()
+	{
+	 int numofwait=NormalCargos->getcount() + SpecialCargos->getcount() + VIPCargoPriQueue->getCount();
+	 ui 
+	 
+	}
 				*/
 CompanyClass::~CompanyClass()
 {

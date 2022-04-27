@@ -22,7 +22,7 @@ private:
 	CompanyClass* comp;
 public:
 	UIclass(CompanyClass* company);
-	string getidslinQcargo(LinkedQueue<Cargo*>* q);
+	/*string getidslinQcargo(LinkedQueue<Cargo*>* q);
 	string getidsPriQcargo(PriQ<Cargo*>* q);
 	string getidslinQtruck(LinkedQueue<Truck*>* q);
 	string getidsPriQtruck(PriQ<Truck*>* q);
@@ -35,5 +35,9 @@ public:
 	void printInteractive();	//Print Output in interactive
 	void getinput();	//Open the inputs.txt file and read the data
 	~UIclass();
+
+	void coutinteger (int m);
+	void coutstring (string "k"");
+	void coutchar (char 's');
 	
 };
