@@ -18,8 +18,8 @@
 class Event;
 class CompanyClass
 {
-	static int Hour;
-	static int Day;
+	int Hour;
+	int Day;
 	int TotalNumberOfTrucks;
 	int SumNormalCargos;
 	int SumSpecialCargos;

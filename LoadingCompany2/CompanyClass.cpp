@@ -128,7 +128,8 @@ void CompanyClass::PromoteCargo(int id)//FIX PROMOTE CARGOOOOOO
 		int loaded = 0;
 		Cargo c;
 		Truck t;
-		Cargo* dequeued;//<------------- errorrrr UNINITIALIZED VARIABLE
+		Cargo* deq=nullptr;
+		PriQ <Cargo*> q;//<------------- errorrrr UNINITIALIZED VARIABLE
 		c = c.getCID(id);
 		Cargo* c2 = t.getLoadedCargosInTruck().peek(); //get first cargo in queue of loadingcargos
 
@@ -141,7 +142,9 @@ void CompanyClass::PromoteCargo(int id)//FIX PROMOTE CARGOOOOOO
 				break;
 			}
 			else
-				t.getLoadedCargosInTruck().dequeue(dequeued); //<------------- errorrrr UNINITIALIZED VARIABLE
+				t.getLoadedCargosInTruck().dequeue(deq);
+			q.enqueueAscending(deq, deq->getLoadTime());
+				//<------------- errorrrr UNINITIALIZED VARIABLE
 		}
 		if (c.getCargoType() == 'N' && loaded == 0)
 			c.setCargoType('V');
@@ -268,7 +271,7 @@ void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T)
 void  CompanyClass::MoveTruckFromLoadingToMoving(Truck* T)
 {
 	Truck* deq;
-	LinkedQueue<Truck*>* extra; //for all trucks??? all conditions? or could be initialized for each condition?--------------------------------->
+	LinkedQueue<Truck*>* extra=nullptr; //for all trucks??? all conditions? or could be initialized for each condition?---ANSWER: each type is separated and all trucks in the list are loading so it doesnt matter since it's only used by one type'------------------------------>
 	//if u do = nullptr it says dereferencing nullptr ,if left this way it says uninitialized local variable
 	if (T->getTruckType() == 'N')
 	{
