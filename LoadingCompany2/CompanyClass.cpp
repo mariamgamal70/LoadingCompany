@@ -36,7 +36,7 @@ void CompanyClass::FileLoading()
 		exit(1); // terminate with error
 	}
 
-	if (inFile.is_open())// 2D ARRAY OR  CIN EACH INTEGER?
+	if (inFile.is_open())
 	{ //checking whether the file is open
 
 
@@ -46,7 +46,6 @@ void CompanyClass::FileLoading()
 		inFile >> Ns >> Ss >> Vs;
 		inFile >> Nc >> Sc >> Vc;
 		inFile >> NoOfJourneys >> NCheckupTime >> SCheckupTime >> VCheckupTime;
-		/*Truck(char type, int speed, int capacity, int noOfJourneys, int CheckupTime)*/
 		static int TruckID = 0;
 		for (int i = 0; i < nN; i++)
 		{
@@ -62,7 +61,7 @@ void CompanyClass::FileLoading()
 		for (int i = 0; i < nV; i++)
 		{
 			Truck T3('V', Vs, Vc, Vj, VCheckupTime, TruckID);
-			VIPTruckQueue.enqueue(&T3); //<<<<<------------------------------ASK----------------------------------------------
+			VIPTruckQueue.enqueue(&T3);
 		}
 		inFile >> AutoPDays >> MaxWaitHours;
 		inFile >> NoOfEvents;
@@ -122,14 +121,14 @@ void CompanyClass::FileLoading()
 void CompanyClass::RemoveCargo(int id)
 {
 	NormalCargos.DeleteSpecificNode(id);
-
 }
-void CompanyClass::PromoteCargo(int id)
+
+void CompanyClass::PromoteCargo(int id)//FIX PROMOTE CARGOOOOOO
 	{
 		int loaded = 0;
 		Cargo c;
 		Truck t;
-		PriQNode<Cargo*> dequeued;
+		Cargo* dequeued;//<------------- errorrrr UNINITIALIZED VARIABLE
 		c = c.getCID(id);
 		Cargo* c2 = t.getLoadedCargosInTruck().peek(); //get first cargo in queue of loadingcargos
 
@@ -142,7 +141,7 @@ void CompanyClass::PromoteCargo(int id)
 				break;
 			}
 			else
-				t.getLoadedCargosInTruck().dequeue(&dequeued);
+				t.getLoadedCargosInTruck().dequeue(dequeued); //<------------- errorrrr UNINITIALIZED VARIABLE
 		}
 		if (c.getCargoType() == 'N' && loaded == 0)
 			c.setCargoType('V');
@@ -242,10 +241,8 @@ void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T)
 
 		while (!extra->isEmpty())
 		{
-
 			extra->dequeue(deq);
 			VIPTruckQueue.enqueue(deq);
-
 		}
 	}
 	else
@@ -262,18 +259,17 @@ void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T)
 
 			while (!extra->isEmpty())//<----- -----el warning el hena asdo eh? msh zaher 3andy h3ml build // dereferencing null pointer asdo eh y3ny mmknnn el ptr da yb
 			{
-
 				extra->dequeue(deq);
 				SpecialTruckQueue.enqueue(deq);
-
 			}
 	}
-	}
+}
 
 void  CompanyClass::MoveTruckFromLoadingToMoving(Truck* T)
 {
 	Truck* deq;
-	LinkedQueue<Truck*>* extra=NULL;
+	LinkedQueue<Truck*>* extra; //for all trucks??? all conditions? or could be initialized for each condition?--------------------------------->
+	//if u do = nullptr it says dereferencing nullptr ,if left this way it says uninitialized local variable
 	if (T->getTruckType() == 'N')
 	{
 		LoadingNormalTrucks.peek(deq);
@@ -532,14 +528,55 @@ void CompanyClass::printCheckupVIP()
 
 }
 
-
-
-
-
-
-
-
 void CompanyClass::SimulatorFunction()
+{
+	FileLoading();
+	int TimeStepCount = 0;
+	Event* EventToBeExecuted;
+	Eventlist.peek(EventToBeExecuted);
+	while (!Eventlist.isEmpty())
+	{
+		while (EventToBeExecuted->GetHours() == Hour && EventToBeExecuted->GetDays() == Day)
+		{
+			Eventlist.dequeue(EventToBeExecuted);
+			EventToBeExecuted->Execute();
+		}
+		if (TimeStepCount % 5 == 0)
+		{
+			Cargo* cargo;
+			if (NormalCargos.peek(cargo))
+			{
+				DeliveredCargos.enqueue(cargo);
+				NormalCargos.DeleteBeg();
+			}
+			else if (SpecialCargos.peek(cargo))
+			{
+				SpecialCargos.dequeue(cargo);
+				DeliveredCargos.enqueue(cargo);
+			}
+			else if (!VIPCargoPriQueue.isEmpty())
+			{
+				VIPCargoPriQueue.dequeue(cargo);
+				DeliveredCargos.enqueue(cargo);
+			}
+		}
+		Hour++;
+		Day++;
+		while (Hour > 24)
+		{
+			Hour = Hour - 23;
+			Day++;
+		}
+		TimeStepCount++;
+	}
+}
+
+
+
+
+
+
+/*void CompanyClass::SimulatorFunction() //YARA CREATED
 {
 	FileLoading();
 	int count = 0;
@@ -566,7 +603,7 @@ void CompanyClass::SimulatorFunction()
 		}
 		//missing "Print all applicable info to the interface as describes in Program interface section without truck info"
 	}
-}
+}*/
 
 
 /*void CompanyClass::Simulationfunc()

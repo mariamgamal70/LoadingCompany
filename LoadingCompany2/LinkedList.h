@@ -186,6 +186,13 @@ public:
 		}
 		return (curr->getItem());
 	}
+	bool isEmpty()
+	{
+		if (!Head)
+			return true;
+		else
+			return false;
+	}
 };
 
 class Cargo;
@@ -379,7 +386,13 @@ public:
 		}
 		return (curr->getItem());
 	}
-
+	bool isEmpty()
+	{
+		if (!Head)
+			return true;
+		else
+			return false;
+	}
 };
 
 #endif
