@@ -262,7 +262,7 @@ public:
 	}
 	
 	
-	bool peek(Cargo* c)
+	bool peek(Cargo*& c)
 	{
 		if (!Head)
 			return false;
