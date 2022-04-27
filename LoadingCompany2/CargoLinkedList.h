@@ -47,7 +47,37 @@ public:
 
 	}
 
+	Cargo* findSpecificNode(int& value)
+	{
 
+		Cargo* c = nullptr;
+		Node<Cargo*>* temp = Head;
+
+		if (temp == NULL)
+		{
+			return c;
+		}
+
+		else
+		{
+
+			while (temp)
+			{
+				if (temp->getItem()->getCargoID()==value)
+				{
+					c = temp->getItem();
+					return c;
+				}
+
+
+				temp = temp->getNext();
+			}
+
+
+
+		}
+
+	}
 
 
 };

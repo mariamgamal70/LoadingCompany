@@ -31,59 +31,139 @@ CompanyClass::CompanyClass(UIclass* uii)
 {
 	this->ui = uii;
 }
+/*void CompanyClass::FileLoading()
+{
+	ifstream inFile;
+	inFile.open("input.txt");//open a file to perform read operation using file object
+	You need to call ui to get file name
+		Company class should have a pointer to UI to do so.
+
+
+		if (!inFile)
+		{
+			cout << "Unable to open file";
+			exit(1); // terminate with error
+		}
+
+	if (inFile.is_open())// 2D ARRAY OR  CIN EACH INTEGER?
+	{ //checking whether the file is open
+
+
+		TotalNumberOfTrucks = nN + nS + nV;
+		How could you sum these variables while they have not loaded from file yet.
+
+
+			inFile >> nN >> nS >> nV;
+		inFile >> Ns >> Ss >> Vs;
+		inFile >> Nc >> Sc >> Vc;
+		inFile >> NoOfJourneys >> NCheckupTime >> SCheckupTime >> VCheckupTime;
+		/ Truck(char type, int speed, int capacity, int noOfJourneys, int CheckupTime) /
+			static int TruckID = 0;
+		for (int i = 0; i < nN; i++)
+		{
+			TruckID++;
+			Truck T1('N', Ns, Nc, Nj, NCheckupTime, TruckID);
+			T1 is a local object.It will be automatically destroyed one this function end
+				You should use pointersand create a dynamic object using new then enqueue the pointer
+				This comment is applicable for all types of trucks you createand also for all events you create.
+
+				NormalTruckQueue.enqueue(&T1);
+		}
+		for (int i = 0; i < nS; i++)
+		{
+			Truck T2('S', Ss, Sc, Sj, SCheckupTime, TruckID);
+			specialTruckQueue.enqueue(&T2);
+		}
+		for (int i = 0; i < nV; i++)
+		{
+			Truck T3('V', Vs, Vc, Vj, VCheckupTime, TruckID);
+			VIPTruckQueue.enqueue(&T3); //<<<<<------------------------------ASK----------------------------------------------
+		}
+		inFile >> AutoPDays >> MaxWaitHours;
+		inFile >> NoOfEvents;
+		while (count != NoOfEvents)
+			Better make it for loop
+
+		{
+		inFile.get(EventType);
+
+		switch (EventType)
+		{
+		case('R')://<<<<<---------------CALL PREPARATION EVENT--------------
+		{
+		inFile.get(CargoType);
+		Just write inFile >> CargoType
+
+		inFile >> EventTimeHours;
+		Read days first the hours
+
+		inFile.ignore(100, ':');
+		You may simply replace this line by
+		InFile >> dummy;
+		Where dummy is a char variable
+
+		inFile >> EventTimeDays;
+		/ fscanf(inFile , "% d : % d", EventTimeHours, EventTimeDays); /
+		inFile >> CargoID >> CargoDist >> CargoLoadTime >> CargoCost;
+		PreparationEvent PrepE(CargoType, EventTimeHours, EventTimeDays, CargoID, CargoDist, CargoLoadTime, CargoCost);
+		Eventlist.enqueue(&PrepE);
+		count++;
+		break;
+		Why break.
+		File is not finished yet*/
 
 void CompanyClass::FileLoading()
 {
 	ifstream inFile;
-	string filename = filename + ".txt";//ACCORDING TO MALAK'S WORDS
-	inFile.open(filename);//"input.txt");//open a file to perform read operation using file object
+	//ui.
+	//string filename = filename + ".txt";//ACCORDING TO MALAK'S WORDS
+	//inFile.open(filename);//"input.txt");//open a file to perform read operation using file object
 	if (!inFile)
 	{
+		cout << "Unable to open file";
 		exit(1); // terminate with error
 	}
 
 	if (inFile.is_open())
 	{ //checking whether the file is open
-
-
-		TotalNumberOfTrucks = nN + nS + nV;
-
 		inFile >> nN >> nS >> nV;
 		inFile >> Ns >> Ss >> Vs;
 		inFile >> Nc >> Sc >> Vc;
+		//TotalNumberOfTrucks = nN + nS + nV;
 		inFile >> NoOfJourneys >> NCheckupTime >> SCheckupTime >> VCheckupTime;
+		Truck* T1;
 		static int TruckID = 0;
 		for (int i = 0; i < nN; i++)
 		{
 			TruckID++;
-			Truck T1('N', Ns, Nc, Nj, NCheckupTime, TruckID);
-			NormalTruckQueue.enqueue(&T1);
+			T1 = new Truck('N', Ns, Nc, Nj, NCheckupTime, TruckID);
+			NormalTruckQueue.enqueue(T1);
 		}
 		for (int i = 0; i < nS; i++)
 		{
-			Truck T2('S', Ss, Sc, Sj, SCheckupTime, TruckID);
-			SpecialTruckQueue.enqueue(&T2);
+			T1 = new Truck('S', Ss, Sc, Sj, SCheckupTime, TruckID);
+			SpecialTruckQueue.enqueue(T1);
 		}
 		for (int i = 0; i < nV; i++)
 		{
-			Truck T3('V', Vs, Vc, Vj, VCheckupTime, TruckID);
-			VIPTruckQueue.enqueue(&T3);
+			T1 = new Truck('V', Vs, Vc, Vj, VCheckupTime, TruckID);
+			VIPTruckQueue.enqueue(T1);
 		}
 		inFile >> AutoPDays >> MaxWaitHours;
 		inFile >> NoOfEvents;
-		while (count != NoOfEvents)
+		for (int i = 0; i < NoOfEvents; i++)
 		{
-			inFile.get(EventType);
+			inFile >> EventType;
+			char dummy;
 
 			switch (EventType)
 			{
 			case('R')://<<<<<---------------CALL PREPARATION EVENT--------------
 			{
-				inFile.get(CargoType);
+				inFile >> CargoType;
 				inFile >> EventTimeHours;
-				inFile.ignore(100, ':');
+				inFile >> dummy;
 				inFile >> EventTimeDays;
-				/*fscanf(inFile , "% d : % d", EventTimeHours, EventTimeDays);*/
 				inFile >> CargoID >> CargoDist >> CargoLoadTime >> CargoCost;
 				PreparationEvent PrepE(CargoType, EventTimeHours, EventTimeDays, CargoID, CargoDist, CargoLoadTime, CargoCost);
 				Eventlist.enqueue(&PrepE);
@@ -93,7 +173,7 @@ void CompanyClass::FileLoading()
 			case('X')://<<<---------------CALL CANCELLATION EVENT----------------
 			{
 				inFile >> EventTimeHours;
-				inFile.ignore(100, ':');
+				inFile >> dummy;
 				inFile >> EventTimeDays;
 				inFile >> CargoID;
 				CancelEvent CE(EventTimeHours, EventTimeDays, CargoID);
@@ -104,7 +184,7 @@ void CompanyClass::FileLoading()
 			case('P')://<<-----------------CALL PROMOTION EVENT-------------------
 			{
 				inFile >> EventTimeHours;
-				inFile.ignore(100, ':');
+				inFile >> dummy;
 				inFile >> EventTimeDays;
 				inFile >> CargoID;
 				inFile >> CargoExtraMoney;
@@ -114,10 +194,12 @@ void CompanyClass::FileLoading()
 				break;
 			}
 			default:
-				break;
+			{
+
 			}
+			}
+			inFile.close(); //close the file object.
 		}
-		inFile.close(); //close the file object.
 	}
 }
 
@@ -129,37 +211,82 @@ void CompanyClass::RemoveCargo(int id)
 	NormalCargos.DeleteSpecificNode(id);
 }
 
+//void CompanyClass::PromoteCargo(int id)
+//{
+//	int loaded = 0;
+//	Cargo c;
+//	Truck t;
+//	LoadingNormalTrucks.peek(t);
+//	//instead of t using NormalLoadingTrucks
+//	Cargo* deq = nullptr;
+//	PriQ <Cargo*> q;
+//	c = c.getCID(id);
+//	while (t)
+//	{
+//		Cargo* c2 = t.getLoadedCargosInTruck().peek(); //get first cargo in queue of loadingcargos
+
+//		while (c2->getCargoID() != NULL)
+//		{
+//			Cargo* c2 = t.getLoadedCargosInTruck().peek();
+//			if (c2->getCargoID() == id)
+//			{
+//				loaded++;
+//				break;
+//			}
+//			else
+//			{
+//				t.getLoadedCargosInTruck().dequeue(deq);
+//				q.enqueueAscending(deq, deq->getLoadTime());
+//			}
+//			if (loaded == 1)
+//				break;
+//	LoadingNormalTrucks.dequeue(t);
+//		}
+
+//	}
+//	if (c.getCargoType() == 'N' && loaded == 0)
+//	{
+//		c.setCargoType('V');
+//		Cargo* cptr = &c;
+//		VIPCargoPriQueue.enqueueAscending(cptr, cptr->getPreparationTimeDay());
+//	}
+//}
+
+
+/*
 void CompanyClass::PromoteCargo(int id)
 {
-	int loaded = 0;
-	Cargo c;
-	Truck t;
-	Cargo* deq = nullptr;
-	PriQ <Cargo*> q;
-	c = c.getCID(id);
-	Cargo* c2 = t.getLoadedCargosInTruck().peek(); //get first cargo in queue of loadingcargos
+	
+Cargo*CargoToPromote=NormalCargos.findSpecificNode(id);
 
-	while (c2->getCargoID() != NULL)
-	{
-		Cargo* c2 = t.getLoadedCargosInTruck().peek();
-		if (c2->getCargoID() == id)
-		{
-			loaded++;
-			break;
-		}
-		else
-		{
-			t.getLoadedCargosInTruck().dequeue(deq);
-			q.enqueueAscending(deq, deq->getLoadTime());
-		}
-	}
-	if (c.getCargoType() == 'N' && loaded == 0)
-	{
-		c.setCargoType('V');
-		Cargo* cptr = &c;
-		VIPCargoPriQueue.enqueueAscending(cptr, cptr->getPreparationTimeDay());
-	}
+if(CargoToPromote!=nullptr)
+{
+NormalCargos.DeleteSpecificNode(id);
+
+VIPCargoPriQueue.enqueueAscending(CargoToPromote,)
+
+CargoToPromote->setCargoType('V'); 
 }
+
+
+
+}
+
+
+
+
+
+
+*/
+
+
+
+
+
+
+
+
+
 /*	Cargo* temp = nullp 
 
 void CompanyClass::AddToAppropriateList(Cargo* C)
@@ -376,6 +503,7 @@ int CompanyClass::getTotalNumberOfCargos()
 
 int CompanyClass::getTotalNumberOfTrucks()
 {
+	TotalNumberOfTrucks = nN + nS + nV;
 	return TotalNumberOfTrucks;
 }
 int CompanyClass::getCurrentTimeHour()
@@ -507,7 +635,9 @@ void CompanyClass::SimulatorFunction()
 	FileLoading();
 	int TimeStepCount = 0;
 	Event* EventToBeExecuted;
-	Eventlist.peek(EventToBeExecuted);
+	if (Eventlist.peek(EventToBeExecuted));
+	
+	
 	while (!Eventlist.isEmpty())
 	{
 		while (EventToBeExecuted->GetHours() == Hour && EventToBeExecuted->GetDays() == Day)

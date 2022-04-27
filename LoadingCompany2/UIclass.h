@@ -9,6 +9,7 @@
 #include <string>
 #include "Truck.h"
 #include "Cargo.h"
+#include <iostream>
 
 
 using namespace std;
@@ -40,6 +41,7 @@ public:
     void coutstring(string k);
     void coutchar(char s);
     //void coutendl();
+	//void waitforenter();
     ~UIclass();
 	
 };

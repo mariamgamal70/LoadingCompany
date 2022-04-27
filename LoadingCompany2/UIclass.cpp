@@ -35,6 +35,10 @@ void UIclass::coutchar(char s)
 {
 	cout << 's';
 }
+//void UIclass::waitforenter()
+//{
+//	cin.get();
+//}
 /*void UIclass::coutendl()
 {
 	cout << endl;

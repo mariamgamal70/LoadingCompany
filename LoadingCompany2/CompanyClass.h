@@ -91,17 +91,6 @@ public:
 	int getTotalNumberOfTrucks();
 	int getCurrentTimeHour();
 	int getCurrentTimeDay();
-	/*LinkedList<Cargo*> getNormalCargos(); // to apply cancellation and promotion on it easier
-	LinkedQueue<Cargo*> getSpecialCargos();
-	PriQ<Cargo*> getVIPCargos();
-	LinkedQueue<Truck*> getLoadingNormalTrucks();
-	LinkedQueue<Truck*>getLoadingSpecialTrucks();
-	LinkedQueue<Truck*> getLoadingVIPTrucks();
-	LinkedQueue<Truck*> getNormalTrucksUnderCheckup(); //each truck has its own check up time
-	LinkedQueue<Truck*> getSpecialTrucksUnderCheckup();
-	LinkedQueue<Truck*> getVIPTrucksUnderCheckup();
-	LinkedQueue<Cargo*> getDeliveredCargos();*/
-
 
 	void printWNormalCargos();
 	void printWspecialCargos();
