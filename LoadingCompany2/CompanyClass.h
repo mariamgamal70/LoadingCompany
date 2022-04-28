@@ -73,7 +73,7 @@ class CompanyClass
 	int EventTimeHours, EventTimeDays;
 	int CargoID, CargoDist, CargoLoadTime, CargoCost;
 	int CargoExtraMoney;
-    UIclass* ui;
+	UIclass* ui;
 
 
 public:
@@ -109,6 +109,13 @@ public:
 	void printEmptyNormalTrucks();
 	void printEmptySpecialTrucks();
 	void printEmptyVIPTrucks();
+
+
+	void printNormalDeliveredCargos();
+	void printSpecialDeliveredCargos();
+	void printVIPDeliveredCargos();
+
+
 
 	//void printE
 	void printcheckuptruck();

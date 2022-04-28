@@ -77,13 +77,25 @@ public:
 		cout << endl;
 	}
 
-	bool peekL(Node<T>& Top)
+	/*bool peekL(Node<T>& Top)
 	{
 		if (!Head)
 			return false;
 
 		Top = Head->getItem();
 		return true;
+	}*/
+	bool peek(Node<T>& c)
+	{
+		if (!Head)
+			return false;
+
+		else
+		{
+			c = Head->getItem();
+			return true;
+
+		}
 	}
 	
 	void DeleteSpecificNode(const T& value) //CHECK COUNT DECREMENTENTATION

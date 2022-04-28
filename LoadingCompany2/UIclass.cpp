@@ -2,6 +2,7 @@
 #include "CompanyClass.h"
 #include<iostream>
 #include <fstream>
+
 using namespace std;
 UIclass::UIclass(CompanyClass* company)
 {
@@ -21,7 +22,7 @@ void UIclass::printInteractive()
 	cout << "\n--------------------------------------------------------\n";
 	comp->printcheckuptruck();
 	cout << "\n--------------------------------------------------------\n";
-	//printdeliveredcargo();
+	comp->printdeliveredcargo();
 }
 void UIclass::coutinteger(int m)
 {
@@ -51,15 +52,15 @@ string UIclass::cinfilename ()
 	}
 	return inFile;
 }
-//void UIclass::waitforenter()
-//{
+void UIclass::waitforenter()
+{
 	//char c;
-	//c=cin.getline();
-//}
+	cin.get();
+}
 
-/*void UIclass::coutendl()
+void UIclass::coutendl()
 {
 	cout << endl;
 }
-*/
+
 

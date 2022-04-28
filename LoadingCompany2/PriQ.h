@@ -26,7 +26,7 @@ public:
 	}
 
 	//Function that enqueues the elements sorted ASCENDING ORDER according to the key(small->big)
-	bool enqueueAscending(T newEntry, const int& newKey)//removed astricks before newentry
+	bool enqueueAscending(T newEntry, const double& newKey)//removed astricks before newentry
 	{
 		//Creating the new node to be inserted 
 		PriQNode<T>* temp = new PriQNode<T>(newEntry, newKey);
@@ -53,7 +53,7 @@ public:
 	}
 
 	//Function that enqueues the elements sorted DESCENDING ORDER according to the key(BIG->SMALL)
-	bool enqueueDescending(T newEntry, const int& newKey)//removed astricks before newentry
+	bool enqueueDescending(T newEntry, const double& newKey)//removed astricks before newentry
 	{
 		//Creating the new node to be inserted 
 		PriQNode<T>* temp = new PriQNode<T>(newEntry, newKey);
@@ -79,7 +79,7 @@ public:
 		return true;
 	}
 	//Function the takes out elements out of the queue
-	bool dequeue(PriQNode<T>* temp)
+	/*bool dequeue(PriQNode<T>* temp)
 	{
 		if (isEmpty())
 			return false;
@@ -89,23 +89,45 @@ public:
 		count--;
 		return true;
 	}
+	*/
+
+	bool dequeue(T value)
+	{
+		if (isEmpty())
+			return false;
+
+		PriQNode<T>*temp = Head;
+		value = temp->getItem();
+
+		Head = Head->getNext();
+		delete temp;
+		count--;
+		return true;
+	}
+
+
+
+
+
+
+
 	//Function the checks the first element.and copies the front of this queue to the passed param.
 	bool peek(PriQNode<T>& temp)
 	{
 		if (isEmpty())
 			return false;
 
-		temp = Head;
+		temp = *Head;
 		return true;
 	}
 	//function that returns the value of first element
-	T peek()
+	/*T peek()
 	{
 		if (Head)
 			return Head->getItem();
 		else
 			return 0;
-	}
+	}*/
 	//Function that checks whether the queue is empty or not
 	bool isEmpty()
 	{
@@ -139,16 +161,19 @@ public:
 		T LastNode = curr->getItem();
 		return LastNode;
 	}
-	bool dequeue(Cargo* temp)
+	bool dequeue(PriQNode<T>& temp)   
 	{
 		if (isEmpty())
 			return false;
 
-		temp = Head;
+		temp = *Head;
 		Head = Head->getNext();
 		count--;
+		//delete temp;
+		//temp = NULL;
 		return true;
 	}
+	
 };
 /*	class Cargo;
 	template<>

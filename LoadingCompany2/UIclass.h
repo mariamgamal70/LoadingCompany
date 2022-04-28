@@ -40,7 +40,7 @@ public:
 	void coutinteger(int m);
     void coutstring(string k);
     void coutchar(char s);
-    //void coutendl();
+    void coutendl();
 	void waitforenter();
 	string cinfilename();
     ~UIclass();
