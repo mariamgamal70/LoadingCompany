@@ -44,7 +44,7 @@ public:
 			Head = P;
 		}
 	}
-	void InsertEnd(const T& data) //Create new node at the end of the list
+	/*void InsertEnd(const T& data) //Create new node at the end of the list
 	{
 		Node<T>* R = new Node<T>(data);
 		Node<T>* curr = Head;
@@ -63,8 +63,23 @@ public:
 			R->setNext(NULL);
 		}
 		count++;
-	}
+	}*/
+	void InsertEnd(T data)
+	{
+		Node<T>* R = new Node<T>(data);
+		if (!Head)
+		{
+			Head = R;
+			return;
+		}
 
+		Node<T>* ptr = Head;
+		while (ptr->getNext() != nullptr)
+		{
+			ptr = ptr->getNext();
+		}
+		ptr->setNext(R);
+	}
 	void printList()
 	{
 		Node<T>* curr = Head;
@@ -74,7 +89,7 @@ public:
 			curr = curr->getNext();
 
 		}
-		cout << endl;
+		//cout << endl;
 	}
 
 	/*bool peekL(Node<T>& Top)

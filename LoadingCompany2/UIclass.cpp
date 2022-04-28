@@ -30,11 +30,11 @@ void UIclass::coutinteger(int m)
 }
 void UIclass::coutstring(string k)
 {
-	cout << "k";
+	cout << k;
 }
 void UIclass::coutchar(char s)
 {
-	cout << 's';
+	cout << s;
 }
 string UIclass::cinfilename () 
 {
@@ -51,6 +51,10 @@ string UIclass::cinfilename ()
 		fin.open(inFile);
 	}
 	return inFile;
+}
+void UIclass::printline()
+{
+	cout << "-----------------------------------------------------------------------------" << endl;
 }
 void UIclass::waitforenter()
 {

@@ -43,6 +43,7 @@ public:
     void coutendl();
 	void waitforenter();
 	string cinfilename();
+	void printline();
     ~UIclass();
 	
 };

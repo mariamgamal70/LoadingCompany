@@ -5,6 +5,9 @@
 #include "Cargo.h"
 PreparationEvent::PreparationEvent()
 {
+	Hours = 1;
+	Days = 1;
+	SelectedId = 0;
 	CargoCost = 0;
 	LoadTime = 0;
 	DeliveryDistance = 0;
@@ -69,7 +72,7 @@ void PreparationEvent::Execute()
 	int dist = GetDeliveryDistance();
 	int LoadT = GetLoadTime();
 	int cost = GetCargoCost();
-	Cargo* CargoReady = new Cargo(Type, PrepD, PrepH, id, dist, LoadT, cost);
+	Cargo* CargoReady = new Cargo(Type, PrepH, PrepD, id, dist, LoadT, cost);
 	EventExecuted->AddToAppropriateList(CargoReady);
 
 }

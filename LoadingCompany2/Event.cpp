@@ -2,10 +2,10 @@
 
 Event::Event()
 {
-	Hours = 1;
-	Days = 1;
-	SelectedId = 0;
-	EventExecuted = nullptr;
+	//Hours = 1;
+	//Days = 1;
+	//SelectedId = 0;
+	//EventExecuted = nullptr;
 	 
 }
 

@@ -145,9 +145,8 @@ public:
 		{
 			cout << curr->getItem() << " ";
 			curr = curr->getNext();
-
 		}
-		cout << endl;
+		//cout << endl;
 	}
 	T getLastNode()
 	{

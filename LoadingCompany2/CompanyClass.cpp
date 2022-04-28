@@ -118,8 +118,8 @@ CompanyClass::CompanyClass(UIclass* uii)
 void CompanyClass::FileLoading()
 {
 	ifstream inFile;
-	string filename = ui->cinfilename();//ACCORDING TO MALAK'S WORDS
-	inFile.open(filename);//"input.txt");//open a file to perform read operation using file object
+	//string filename = ui->cinfilename();//ACCORDING TO MALAK'S WORDS
+	inFile.open("input.txt");//open a file to perform read operation using file object
 	if (!inFile)
 	{
 		cout << "Unable to open file";
@@ -143,65 +143,79 @@ void CompanyClass::FileLoading()
 		}
 		for (int i = 0; i < nS; i++)
 		{
+			TruckID++;
 			T1 = new Truck('S', Ss, Sc, Sj, SCheckupTime, TruckID);
 			SpecialTruckQueue.enqueue(T1);
 		}
 		for (int i = 0; i < nV; i++)
 		{
+			TruckID++;
 			T1 = new Truck('V', Vs, Vc, Vj, VCheckupTime, TruckID);
 			VIPTruckQueue.enqueue(T1);
 		}
 		inFile >> AutoPDays >> MaxWaitHours;
 		inFile >> NoOfEvents;
+		//PreparationEvent* PrepE;
+		//CancelEvent* CE;
+		//PromoteEvent* PromoE;
+		Event* E;
 		for (int i = 0; i < NoOfEvents; i++)
 		{
 			inFile >> EventType;
 			char dummy;
 
-			switch (EventType)
+			if (EventType)
 			{
-			case('R')://<<<<<---------------CALL PREPARATION EVENT--------------
+				/*inFile >> EventTimeHours;
+				inFile >> dummy;
+				inFile >> EventTimeDays;
+				inFile >> CargoID;*/
+
+			if('R')//<<<<<---------------CALL PREPARATION EVENT--------------
 			{
 				inFile >> CargoType;
-				inFile >> EventTimeHours;
-				inFile >> dummy;
 				inFile >> EventTimeDays;
-				inFile >> CargoID >> CargoDist >> CargoLoadTime >> CargoCost;
-				PreparationEvent PrepE(CargoType, EventTimeHours, EventTimeDays, CargoID, CargoDist, CargoLoadTime, CargoCost);
-				Eventlist.enqueue(&PrepE);
-				count++;
-				break;
-			}
-			case('X')://<<<---------------CALL CANCELLATION EVENT----------------
-			{
-				inFile >> EventTimeHours;
 				inFile >> dummy;
-				inFile >> EventTimeDays;
+				inFile >> EventTimeHours;
 				inFile >> CargoID;
-				CancelEvent CE(EventTimeHours, EventTimeDays, CargoID);
-				Eventlist.enqueue(&CE);
+				inFile>> CargoDist >> CargoLoadTime >> CargoCost;
+				E=new PreparationEvent(CargoType, EventTimeHours, EventTimeDays, CargoID, CargoDist, CargoLoadTime, CargoCost);
+				Eventlist.enqueue(E);
 				count++;
-				break;
+
+				//break;
 			}
-			case('P')://<<-----------------CALL PROMOTION EVENT-------------------
+			else if('X')//<<<---------------CALL CANCELLATION EVENT----------------
 			{
-				inFile >> EventTimeHours;
-				inFile >> dummy;
 				inFile >> EventTimeDays;
+				inFile >> dummy;
+				inFile >> EventTimeHours;
+				inFile >> CargoID;
+				E=new CancelEvent(EventTimeHours, EventTimeDays, CargoID);
+				Eventlist.enqueue(E);
+				count++;
+				//break;
+			}
+			else if('P')//<<-----------------CALL PROMOTION EVENT-------------------
+			{
+				inFile >> EventTimeDays;
+				inFile >> dummy;
+				inFile >> EventTimeHours;
 				inFile >> CargoID;
 				inFile >> CargoExtraMoney;
-				PromoteEvent PromoE(EventTimeHours, EventTimeDays, CargoID, CargoExtraMoney);
-				Eventlist.enqueue(&PromoE);
+				E=new PromoteEvent (EventTimeHours, EventTimeDays, CargoID, CargoExtraMoney);
+				Eventlist.enqueue(E);
 				count++;
-				break;
+				//break;
 			}
-			default:
-			{
-
+			
+			//Eventlist.enqueue(PrepE);
+			//Eventlist.enqueue(CE);
+			
 			}
-			}
-			inFile.close(); //close the file object.
+			
 		}
+		inFile.close(); //close the file object.
 	}
 }
 
@@ -269,7 +283,7 @@ void CompanyClass::PromoteCargo(int id)
 
 		VIPCargoPriQueue.enqueueAscending(CargoToPromote, VIPCargoPriority);
 
-			CargoToPromote->setCargoType('V');
+		CargoToPromote->setCargoType('V');
 	}
 
 
@@ -291,7 +305,7 @@ void CompanyClass::PromoteCargo(int id)
 
 
 
-/*	Cargo* temp = nullp
+//	Cargo* temp = nullp
 
 void CompanyClass::AddToAppropriateList(Cargo* C)
 {
@@ -316,15 +330,15 @@ void CompanyClass::AddToAppropriateList(Cargo* C)
 		int PrepDay = C->getPreparationTimeDay();
 		int DeliveryDist = C->getDeliveringDistance();
 		int CargoCost = C->getCargoDeliveringCost();
-		/*VIPCargoPriority = ((PrepHour + PrepDay) * DeliveryDist) / CargoCost;
+		VIPCargoPriority = (2 * (PrepHour + PrepDay) + 1 * DeliveryDist) / CargoCost;
 		VIPCargoPriQueue.enqueueAscending(C, VIPCargoPriority);
 		SumVIPCargos++;
 		break;
 	}
 	default:
 		break;
-	}*/
-	//}
+	}
+}
 void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T)
 {
 	Truck* deq;
@@ -456,7 +470,7 @@ void  CompanyClass::MoveTruckFromLoadingToMoving(Truck* T)
 
 /*void CompanyClass::AddTruckToCheckup(Truck* T)// SHERIF
 {
-	
+
 	Truck* qnode;
 	PriQ <Truck*> q;
 	while (MovingTrucks.peek() != T)
@@ -757,22 +771,29 @@ void CompanyClass::SimulatorFunction()
 {
 	FileLoading();
 	int TimeStepCount = 0;
-	Event* EventToBeExecuted;
-	if (Eventlist.peek(EventToBeExecuted))
-	{
+	//Event* EventToBeExecuted;
+	//if (Eventlist.peek(EventToBeExecuted))
+	//{
 		while (!Eventlist.isEmpty())
-		{
+		{			
+			while (Hour > 23) //24hour will be 00H:00MIN AM
+			{
+				Hour = Hour - 23;
+				Day++;
+			}
 			ui->coutstring("Current Time (Day:Hour)");//<----- trace el code keda
 			ui->coutinteger(Day);
 			ui->coutchar(':');
 			ui->coutinteger(Hour);
-			ui->coutendl();
-			if (EventToBeExecuted->GetHours() == Hour && EventToBeExecuted->GetDays() == Day)
+			ui->coutendl(); 
+			Event* EventToBeExecuted;
+			Eventlist.peek(EventToBeExecuted);
+			if (EventToBeExecuted->GetHours() == Hour && EventToBeExecuted->GetDays() == Day)//pointer and hours and days are incorrect
 			{
 				Eventlist.dequeue(EventToBeExecuted);
 				EventToBeExecuted->Execute();
 			}
-			if (TimeStepCount % 5 == 0)
+			if (TimeStepCount % 5 == 0 && TimeStepCount!=0)
 			{
 				Cargo* specialcargo;
 				Node<Cargo*> normalcargo;
@@ -793,17 +814,22 @@ void CompanyClass::SimulatorFunction()
 					VIPDeliveredCargos.enqueue(vipcargo.getItem());
 				}
 			}
+			
+			printwaitingcargos();
+			printloadingtrucks();
+			printavailtrucks();
+			printmovingcargos();
+			printcheckuptruck();
+			printdeliveredcargo();
+			
+
+
+			Hour++;
+			TimeStepCount++;
+			ui->waitforenter();
 		}
-		Hour++;
-		Day++;
-		while (Hour > 23) //24hour will be 00H:00MIN AM
-		{
-			Hour = Hour - 23;
-			Day++;
-		}
-		TimeStepCount++;
-		ui->waitforenter();
-	}
+		
+	//}
 }
 
 
@@ -875,6 +901,7 @@ void CompanyClass::printwaitingcargos()
 	ui->coutchar('{');
 	VIPCargoPriQueue.printList();
 	ui->coutchar('}');
+	ui->coutendl();
 }
 
 void CompanyClass::printcheckuptruck()
@@ -893,6 +920,7 @@ void CompanyClass::printcheckuptruck()
 	ui->coutchar('{');
 	VIPTrucksUnderCheckup.PrintQueue();
 	ui->coutchar('}');
+	ui->coutendl();
 }
 
 void CompanyClass::printloadingtrucks()
@@ -903,6 +931,7 @@ void CompanyClass::printloadingtrucks()
 	ui->coutstring("[] ");
 	ui->coutstring("() ");
 	ui->coutstring("{} ");
+	ui->coutendl();
 }
 
 void CompanyClass::printmovingcargos()
@@ -913,6 +942,7 @@ void CompanyClass::printmovingcargos()
 	ui->coutstring("[] ");
 	ui->coutstring("() ");
 	ui->coutstring("{} ");
+	ui->coutendl();
 }
 
 void CompanyClass::printavailtrucks()
@@ -931,6 +961,7 @@ void CompanyClass::printavailtrucks()
 	ui->coutchar('{');
 	VIPTruckQueue.PrintQueue();
 	ui->coutchar('}');
+	ui->coutendl();
 }
 void CompanyClass::printdeliveredcargo()
 {
@@ -948,6 +979,7 @@ void CompanyClass::printdeliveredcargo()
 	ui->coutchar('{');
 	VIPDeliveredCargos.PrintQueue();
 	ui->coutchar('}');
+	ui->coutendl();
 }
 
 CompanyClass::~CompanyClass()
