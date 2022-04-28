@@ -650,18 +650,18 @@ void CompanyClass::printEmptyVIPTrucks()
 			Cargo* cargo;
 			if (NormalCargos.peek(cargo))//<---CHECK
 			{
-				DeliveredCargos.enqueue(cargo);
+				NormalDeliveredCargos.enqueue(cargo);
 				NormalCargos.DeleteBeg();
 			}
 			else if (SpecialCargos.peek(cargo))
 			{
 				SpecialCargos.dequeue(cargo);
-				DeliveredCargos.enqueue(cargo);
+				SpecialDeliveredCargos.enqueue(cargo);
 			}
 			else if (!VIPCargoPriQueue.isEmpty())
 			{
 				VIPCargoPriQueue.dequeue(cargo);
-				DeliveredCargos.enqueue(cargo);
+				VIPDeliveredCargos.enqueue(cargo);
 			}
 			TimeStepCount = 0;
 		}
@@ -700,18 +700,18 @@ void CompanyClass::SimulatorFunction()
 				Cargo* cargo;
 				if (NormalCargos.peek(cargo))//<---CHECK
 				{
-					DeliveredCargos.enqueue(cargo);
+					NormalDeliveredCargos.enqueue(cargo);
 					NormalCargos.DeleteBeg();
 				}
 				 if (SpecialCargos.peek(cargo))
 				{
 					SpecialCargos.dequeue(cargo);
-					DeliveredCargos.enqueue(cargo);
+					SpecialDeliveredCargos.enqueue(cargo);
 				}
 				 if (!VIPCargoPriQueue.isEmpty())
 				{
 					VIPCargoPriQueue.dequeue(cargo);
-					DeliveredCargos.enqueue(cargo);
+					VIPDeliveredCargos.enqueue(cargo);
 				}
 			}
 		}
@@ -853,6 +853,24 @@ void CompanyClass::printavailtrucks()
 	VIPTruckQueue.PrintQueue();
 	ui->coutchar('}');
 }
+/*void CompanyClass::printdeliveredcargo()
+{
+    int numofavlt = NormalTruckQueue.getCount() + SpecialTruckQueue.getCount() + VIPTruckQueue.getCount();
+	ui->coutinteger(numofavlt);
+	ui->coutstring(" Empty Trucks: ");
+	ui->coutchar('[');
+	NormalTruckQueue.PrintQueue();
+	ui->coutchar(']');
+	ui->coutchar(' ');
+	ui->coutchar('(');
+	SpecialTruckQueue.PrintQueue();
+	ui->coutchar(')');
+	ui->coutchar(' ');
+	ui->coutchar('{');
+	VIPTruckQueue.PrintQueue();
+	ui->coutchar('}');
+}
+*/
 CompanyClass::~CompanyClass()
 {
 

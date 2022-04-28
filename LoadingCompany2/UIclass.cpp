@@ -15,7 +15,7 @@ void UIclass::printInteractive()
 	cout << "\n--------------------------------------------------------\n";
 	comp->printloadingtrucks();
 	cout << "\n--------------------------------------------------------\n";
-	//printavailtrucks();
+	comp->printavailtrucks();
 	cout << "\n--------------------------------------------------------\n";
 	comp->printmovingcargos();
 	cout << "\n--------------------------------------------------------\n";
