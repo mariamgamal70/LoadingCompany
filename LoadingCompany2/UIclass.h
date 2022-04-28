@@ -41,7 +41,8 @@ public:
     void coutstring(string k);
     void coutchar(char s);
     //void coutendl();
-	//void waitforenter();
+	void waitforenter();
+	string cinfilename();
     ~UIclass();
 	
 };

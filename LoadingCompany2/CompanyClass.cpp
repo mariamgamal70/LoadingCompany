@@ -8,6 +8,7 @@
 //-------------------------//
 #include "Truck.h"
 #include"Cargo.h"
+#include"UIclass.h"
 //-------------------------//
 #include "Event.h"
 #include "PreparationEvent.h"
@@ -115,9 +116,8 @@ CompanyClass::CompanyClass(UIclass* uii)
 void CompanyClass::FileLoading()
 {
 	ifstream inFile;
-	//ui.
-	//string filename = filename + ".txt";//ACCORDING TO MALAK'S WORDS
-	//inFile.open(filename);//"input.txt");//open a file to perform read operation using file object
+	string filename = ui->cinfilename();//ACCORDING TO MALAK'S WORDS
+	inFile.open(filename);//"input.txt");//open a file to perform read operation using file object
 	if (!inFile)
 	{
 		cout << "Unable to open file";
@@ -630,7 +630,7 @@ void CompanyClass::printEmptyVIPTrucks()
 }
 
 
-void CompanyClass::SimulatorFunction()
+/*void CompanyClass::SimulatorFunction()
 {
 	FileLoading();
 	int TimeStepCount = 0;
@@ -673,8 +673,60 @@ void CompanyClass::SimulatorFunction()
 			Day++;
 		}
 		TimeStepCount++;
+		ui->waitforenter();
 	}
 }
+
+
+*/
+
+
+void CompanyClass::SimulatorFunction()
+{
+	FileLoading();
+	int TimeStepCount = 0;
+	Event* EventToBeExecuted;
+	if (Eventlist.peek(EventToBeExecuted))
+	{
+		while (!Eventlist.isEmpty())
+		{
+			if (EventToBeExecuted->GetHours() == Hour && EventToBeExecuted->GetDays() == Day)
+			{
+				Eventlist.dequeue(EventToBeExecuted);
+				EventToBeExecuted->Execute();
+			}
+			if (TimeStepCount%5==0)
+			{
+				Cargo* cargo;
+				if (NormalCargos.peek(cargo))//<---CHECK
+				{
+					DeliveredCargos.enqueue(cargo);
+					NormalCargos.DeleteBeg();
+				}
+				 if (SpecialCargos.peek(cargo))
+				{
+					SpecialCargos.dequeue(cargo);
+					DeliveredCargos.enqueue(cargo);
+				}
+				 if (!VIPCargoPriQueue.isEmpty())
+				{
+					VIPCargoPriQueue.dequeue(cargo);
+					DeliveredCargos.enqueue(cargo);
+				}
+			}
+		}
+		Hour++;
+		Day++;
+		while (Hour > 23) //24hour will be 00H:00MIN AM
+		{
+			Hour = Hour - 23;
+			Day++;
+		}
+		TimeStepCount++;
+		ui->waitforenter();
+	}
+}
+
 
 /*void CompanyClass::SimulatorFunction() //YARA CREATED
 {
@@ -764,6 +816,44 @@ void CompanyClass::printcheckuptruck()
 	ui->coutchar('}');
 }
 
+void CompanyClass::printloadingtrucks()
+{
+	int z = 0;
+	ui->coutinteger(z);
+	ui->coutstring(" Loading Trucks: ");
+	ui->coutstring("[] ");
+	ui->coutstring("() ");
+	ui->coutstring("{} ");
+}
+
+void CompanyClass::printmovingcargos()
+{
+    int z = 0;
+	ui->coutinteger(z);
+	ui->coutstring(" Moving Cargos: ");
+	ui->coutstring("[] ");
+	ui->coutstring("() ");
+	ui->coutstring("{} ");
+}
+
+void CompanyClass::printavailtrucks()
+{
+ int numofavlt = NormalTruckQueue.getCount() + SpecialTruckQueue.getCount() + VIPTruckQueue.getCount();
+	ui->coutinteger(numofavlt);
+	ui->coutstring(" Empty Trucks: ");
+	ui->coutchar('[');
+	NormalTruckQueue.PrintQueue();
+	ui->coutchar(']');
+	ui->coutchar(' ');
+	ui->coutchar('(');
+	SpecialTruckQueue.PrintQueue();
+	ui->coutchar(')');
+	ui->coutchar(' ');
+	ui->coutchar('{');
+	VIPTruckQueue.PrintQueue();
+	ui->coutchar('}');
+}
 CompanyClass::~CompanyClass()
 {
+
 }

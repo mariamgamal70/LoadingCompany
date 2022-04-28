@@ -44,7 +44,6 @@ public:
 				curr = curr->getNext(); //FY warning hena ya sherif
 			}
 		}
-
 	}
 
 	Cargo* findSpecificNode(int& value)
@@ -60,7 +59,6 @@ public:
 
 		else
 		{
-
 			while (temp)
 			{
 				if (temp->getItem()->getCargoID()==value)
@@ -72,12 +70,22 @@ public:
 
 				temp = temp->getNext();
 			}
-
-
-
 		}
-
 	}
 
+
+
+	bool peek(Cargo*c)
+	{
+		if (!Head)
+			return false;
+
+		else
+		{
+			c = Head->getItem();
+			return true;
+
+		}
+	}
 
 };

@@ -13,11 +13,11 @@ void UIclass::printInteractive()
 	cout << "Current Time (Day:Hour): " << comp->getCurrentTimeHour() << ":" << comp->getCurrentTimeHour() << endl;
 	comp->printwaitingcargos(); 
 	cout << "\n--------------------------------------------------------\n";
-	//printloadingtrucks();
+	comp->printloadingtrucks();
 	cout << "\n--------------------------------------------------------\n";
 	//printavailtrucks();
 	cout << "\n--------------------------------------------------------\n";
-	//printmovingcargos();
+	comp->printmovingcargos();
 	cout << "\n--------------------------------------------------------\n";
 	comp->printcheckuptruck();
 	cout << "\n--------------------------------------------------------\n";
@@ -35,10 +35,28 @@ void UIclass::coutchar(char s)
 {
 	cout << 's';
 }
+string UIclass::cinfilename () 
+{
+    string inFile;
+	cin >> inFile;
+	inFile = inFile + ".txt";
+	cout << endl;
+	fin.open(inFile);
+	while (!fin.is_open()) 
+	{
+		cout << "File is not found, Please re-enter the file you want to load: ";
+		cin >> inFile;
+		inFile = inFile + ".txt";
+		fin.open(inFile);
+	}
+	return inFile;
+}
 //void UIclass::waitforenter()
 //{
-//	cin.get();
+	//char c;
+	//c=cin.getline();
 //}
+
 /*void UIclass::coutendl()
 {
 	cout << endl;

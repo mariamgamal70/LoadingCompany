@@ -112,6 +112,8 @@ public:
 	void printcheckuptruck();
 	void printwaitingcargos();
 	void SimulatorFunction();
-
+	void printloadingtrucks();
+	void printmovingcargos();
+	void printavailtrucks();
 	~CompanyClass();
 };
