@@ -182,6 +182,6 @@ Truck::~Truck()
 
 ostream& operator<<(ostream& output, Truck* t)
 {
-	output << t->getTruckID()<<","<<" ";
+	output << t->getTruckID();
 	return output;
 }

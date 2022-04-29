@@ -14,6 +14,7 @@ private:
     int LoadTime;
     int DeliveryDistance;
     char CargoType;
+    Cargo* CargoReady;
 
 public:
     PreparationEvent();

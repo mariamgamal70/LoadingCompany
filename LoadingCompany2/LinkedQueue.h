@@ -111,7 +111,16 @@ Output: True if the operation is successful; otherwise false.
 			Node<T>* temp = frontPtr;
 			while (temp)
 			{
-				cout<<temp->getItem();
+			if(temp->getNext()==NULL)
+			{
+			cout<<temp->getItem();
+
+			}
+			else{
+			cout<<temp->getItem()<<","<<" ";
+
+			}
+				
 				temp = temp->getNext();
 			}
 

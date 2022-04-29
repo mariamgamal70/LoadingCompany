@@ -285,59 +285,69 @@ void CompanyClass::PromoteCargo(int id)
 
 		CargoToPromote->setCargoType('V');
 	}
-
-
-
 }
 
+/*double CompanyClass::setpriorityequation(int pH, int pD, int DD, int CC)
+{
+	VIPCargoPriority = (2 * (pH + pD) + 1 * DD) / CC;
+	return VIPCargoPriority;
+}
 
+void CompanyClass::AddToNormalCargos(Cargo* C)
+{
+	NormalCargos.InsertEnd(C);
+	SumNormalCargos++;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
+void CompanyClass::AddToSpecialCargos(Cargo* C)
+{
+	SpecialCargos.enqueue(C);
+	SumSpecialCargos++;
+}
 
 //	Cargo* temp = nullp
 
-void CompanyClass::AddToAppropriateList(Cargo* C)
+void CompanyClass::AddToVIPCargos(Cargo* C ,double priority)
 {
-	char CargoType = C->getCargoType();
-	switch (CargoType)
+	VIPCargoPriQueue.enqueueAscending(C, priority);
+	SumVIPCargos++;
+}*/
+//
+void CompanyClass::AddToAppropriateList(Cargo* Cl)
+{
+	/*char Type = Cl->getCargoType();
+	int PrepD = Cl->getPreparationTimeDay();
+	int PrepH = Cl->getPreparationTimeHour();
+	int id = Cl->getCargoID();
+	int dist = Cl->getDeliveringDistance();
+	int LoadT = Cl->getLoadTime();
+	int cost = Cl->getCargoDeliveringCost();
+	
+	c=new Cargo(Type, PrepD, PrepH, id, dist, LoadT, cost);*/
+	if(Cl->getCargoType() == 'N')
 	{
-	case('N'):
-	{
-		NormalCargos.InsertEnd(C);
+		NormalCargos.InsertEndC(Cl);
 		SumNormalCargos++;
-		break;
+		//break;
 	}
-	case('S'):
+	else if(Cl->getCargoType() == 'S')
 	{
-		SpecialCargos.enqueue(C);
+		SpecialCargos.enqueue(Cl);
 		SumSpecialCargos++;
-		break;
+		//break;
 	}
-	case('V'):
+	else if(Cl->getCargoType() == 'V')
 	{
-		int PrepHour = C->getPreparationTimeHour();
-		int PrepDay = C->getPreparationTimeDay();
-		int DeliveryDist = C->getDeliveringDistance();
-		int CargoCost = C->getCargoDeliveringCost();
+		int PrepHour = Cl->getPreparationTimeHour();
+		int PrepDay = Cl->getPreparationTimeDay();
+		int DeliveryDist = Cl->getDeliveringDistance();
+		int CargoCost = Cl->getCargoDeliveringCost();
 		VIPCargoPriority = (2 * (PrepHour + PrepDay) + 1 * DeliveryDist) / CargoCost;
-		VIPCargoPriQueue.enqueueAscending(C, VIPCargoPriority);
+		VIPCargoPriQueue.enqueueAscending(Cl, VIPCargoPriority);
 		SumVIPCargos++;
-		break;
+		//break;
 	}
-	default:
-		break;
-	}
+
 }
 void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T)
 {
@@ -716,6 +726,7 @@ void CompanyClass::printVIPDeliveredCargos()
 
 }
 
+
 /*void CompanyClass::SimulatorFunction()
 {
 	FileLoading();
@@ -785,7 +796,7 @@ void CompanyClass::SimulatorFunction()
 			ui->coutinteger(Day);
 			ui->coutchar(':');
 			ui->coutinteger(Hour);
-			ui->coutendl(); 
+ 			ui->coutendl(); 
 			Event* EventToBeExecuted;
 			Eventlist.peek(EventToBeExecuted);
 			if (EventToBeExecuted->GetHours() == Hour && EventToBeExecuted->GetDays() == Day)//pointer and hours and days are incorrect
@@ -814,16 +825,13 @@ void CompanyClass::SimulatorFunction()
 					VIPDeliveredCargos.enqueue(vipcargo.getItem());
 				}
 			}
-			
 			printwaitingcargos();
 			printloadingtrucks();
 			printavailtrucks();
 			printmovingcargos();
 			printcheckuptruck();
 			printdeliveredcargo();
-			
-
-
+			//ui->printInteractive();
 			Hour++;
 			TimeStepCount++;
 			ui->waitforenter();

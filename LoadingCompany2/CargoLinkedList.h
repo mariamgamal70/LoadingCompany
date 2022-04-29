@@ -1,13 +1,15 @@
 #pragma once
 #include "Cargo.h"
-#include "LinkedList.h"//dy class gedida  hya nafs el linked list fya kol 7agat el linked list ma3ada delete node, shofy eza me7tageen peek specialized lel cargo wala la2
-class CargoLinkedList :public LinkedList<Cargo*>// da 3ashan delete node, le event cancellation
-{//nafs el class da ba2a e7temal ne7tag ne3mel zayo priQ sepecific lel cargo
-	Node<Cargo*>* Head;// leeh dh class gdyyd hn3ml fyh eh??    efta7y meeting yala dlwa2tyy link 3al whatsapp
+#include "LinkedList.h"
+class CargoLinkedList :public LinkedList<Cargo*>
+{
+	//Node<Cargo*>* Head;
+	//int countc;
 public:
 	CargoLinkedList()
 	{
 		Head = nullptr;
+		count = 0;
 	}
 	void DeleteSpecificNode(int& value)
 	{
@@ -72,6 +74,56 @@ public:
 			}
 		}
 	}
+	void InsertEndC(Cargo* data)
+	{
+		if (count==0) //emptylist
+		{
+			InsertBegC(data);
+		}
+		else
+		{
+			Node<Cargo*>* P = Head;
+			while (P->getNext() != nullptr)
+			{
+				P = P->getNext();
+			}
+			Node<Cargo*>* R = new Node<Cargo*>(data);
+			R->setNext(nullptr);
+			P->setNext(R);
+		}
+	}
+
+
+
+	 //Creates a new node and adds it to the beginning of a linked list,
+	                                                 //data : The value to be stored in the new node.
+     void InsertBegC(Cargo* C)  
+	{
+		Node<Cargo*>* R = new Node<Cargo*>(C);
+		R->setNext(Head);
+		Head = R;
+		count++;
+	}
+
+
+
+
+
+	/*void InsertBegC(Cargo* C)//Creates a new node and adds it to the beginning of a linked list,
+	//data : The value to be stored in the new node.
+
+	{
+		Node<Cargo*>* R = new Node<Cargo*>(C);
+		R->setNext(Head);
+		Head = R;
+		countc++;
+	}*/
+
+
+
+
+
+
 
 
 

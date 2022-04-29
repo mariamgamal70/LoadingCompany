@@ -143,7 +143,18 @@ public:
 		PriQNode<T>* curr = Head;
 		while (curr != nullptr)
 		{
-			cout << curr->getItem() << " ";
+
+		if(curr->getNext()==NULL)
+		{
+			cout << curr->getItem();
+
+		}
+		else
+		{
+		cout << curr->getItem() << ","<<" ";
+
+
+		}
 			curr = curr->getNext();
 		}
 		//cout << endl;

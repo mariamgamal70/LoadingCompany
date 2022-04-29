@@ -10,7 +10,7 @@ using namespace std;
 template <typename T>
 class LinkedList
 {
-private:
+protected:
 	Node<T>* Head;	//Pointer to the head of the list
 	int count;
 	//You can add tail pointer too (depending on your problem)
@@ -64,7 +64,26 @@ public:
 		}
 		count++;
 	}*/
-	void InsertEnd(T data)
+	void InsertEnd(const T& data)
+	{
+
+		if (!Head) //emptylist
+		{
+			InsertBeg(data);
+		}
+		else
+		{
+			Node<T>* P = Head;
+			while (P->getNext() != nullptr)
+			{
+				P = P->getNext();
+			}
+			Node<T>* R = new Node<T>(data);
+			R->setNext(nullptr);
+			P->setNext(R);
+		}
+	}
+	/*void InsertEnd(T data)
 	{
 		Node<T>* R = new Node<T>(data);
 		if (!Head)
@@ -79,13 +98,24 @@ public:
 			ptr = ptr->getNext();
 		}
 		ptr->setNext(R);
-	}
+	}*/
 	void printList()
 	{
 		Node<T>* curr = Head;
 		while (curr != nullptr)
 		{
-			cout << curr->getItem() << " ";
+			
+			if(curr->getNext()==NULL)
+			{
+				cout << curr->getItem();
+
+			}
+			else
+			{
+			cout << curr->getItem() << ","<<" ";
+
+			}
+			
 			curr = curr->getNext();
 
 		}
@@ -112,7 +142,7 @@ public:
 
 		}
 	}
-	
+
 	void DeleteSpecificNode(const T& value) //CHECK COUNT DECREMENTENTATION
 	{
 		Node<T>* temp = Head;
@@ -176,7 +206,7 @@ public:
 			delete Head;
 			Head = NULL;
 		}
-		else 
+		else
 		{
 			Node<T>* curr = prev->getNext();
 			while (curr->getNext() != NULL)
@@ -294,8 +324,8 @@ public:
 		}
 		cout << endl;
 	}
-	
-	
+
+
 	bool peek(Cargo*& c)
 	{
 		if (!Head)

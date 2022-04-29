@@ -72,10 +72,49 @@ void PreparationEvent::Execute()
 	int dist = GetDeliveryDistance();
 	int LoadT = GetLoadTime();
 	int cost = GetCargoCost();
-	Cargo* CargoReady = new Cargo(Type, PrepH, PrepD, id, dist, LoadT, cost);
+	CargoReady=new Cargo(Type, PrepD,PrepH, id, dist, LoadT, cost);
 	EventExecuted->AddToAppropriateList(CargoReady);
-
 }
+
+/*void PreparationEvent::Execute()
+{
+	char Type = GetCargoType();
+	int PrepD = GetDays();
+	int PrepH = GetHours();
+	int id = GetSelectedId();
+	int dist = GetDeliveryDistance();
+	int LoadT = GetLoadTime();
+	int cost = GetCargoCost();
+	Cargo* CargoReady = new Cargo(Type, PrepH, PrepD, id, dist, LoadT, cost);
+	//EventExecuted->AddToAppropriateList(CargoReady);
+	//char CargoType = C->getCargoType();
+	switch (Type)
+	{
+	case('N'):
+	{
+		EventExecuted->AddToNormalCargos(CargoReady);
+		break;
+	}
+	case('S'):
+	{
+		EventExecuted->AddToSpecialCargos(CargoReady);
+		break;
+	}
+	case('V'):
+	{
+		int PrepHour = CargoReady->getPreparationTimeHour();
+		int PrepDay = CargoReady->getPreparationTimeDay();
+		int DeliveryDist = CargoReady->getDeliveringDistance();
+		int CargoCost = CargoReady->getCargoDeliveringCost();
+		double Priority = (2 * (PrepHour + PrepDay) + 1 * DeliveryDist) / CargoCost;
+		EventExecuted->AddToVIPCargos(CargoReady,Priority);
+		break;
+	}
+	default:
+		break;
+	}
+
+}*/
 PreparationEvent::~PreparationEvent()
 {
 }

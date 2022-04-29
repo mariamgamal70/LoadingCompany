@@ -74,6 +74,7 @@ class CompanyClass
 	int CargoID, CargoDist, CargoLoadTime, CargoCost;
 	int CargoExtraMoney;
 	UIclass* ui;
+	Cargo** c;
 
 
 public:
@@ -82,7 +83,11 @@ public:
 	void FileLoading();
 	void RemoveCargo(int id);
 	void PromoteCargo(int id);
+	//double setpriorityequation(int pH, int pD, int DD, int CC);
 
+	/*void AddToNormalCargos(Cargo* C);
+	void AddToSpecialCargos(Cargo* C);
+	void AddToVIPCargos(Cargo* C, double priority);*/
 	void AddToAppropriateList(Cargo* C);
 	void AddTruckToCheckup(Truck* T);
 	void MoveTruckFromEmptyToLoading(Truck* T);
@@ -114,8 +119,6 @@ public:
 	void printNormalDeliveredCargos();
 	void printSpecialDeliveredCargos();
 	void printVIPDeliveredCargos();
-
-
 
 	//void printE
 	void printcheckuptruck();
