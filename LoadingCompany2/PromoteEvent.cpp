@@ -10,7 +10,6 @@ PromoteEvent::PromoteEvent()
 	CargoExtraCost = 0;
 }
 
-
 PromoteEvent::~PromoteEvent()
 {
 }
@@ -25,14 +24,10 @@ PromoteEvent::PromoteEvent(int EventTimeHours, int EventTimeDays, int CargoID, i
 
 void PromoteEvent::Execute()
 {
-
 	EventExecuted->PromoteCargo(SelectedId);
-
 }
-
 
 void PromoteEvent::SetExtraMoney(int extra)
 {
 	CargoExtraCost = extra;
-
 }

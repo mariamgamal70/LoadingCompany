@@ -8,10 +8,6 @@ public:
     void Execute();
     ~CancelEvent();
 
-    // CancelEvent();?
-    //void IsLetter(char x);   ?
-  //  void CancelIDNormal(Cargo c);   ?
-
-
+    // CancelEvent();
 };
 

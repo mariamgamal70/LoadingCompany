@@ -65,7 +65,6 @@ class CompanyClass
 	char N, S, V;
 	int NoOfJourneys, NCheckupTime, VCheckupTime, SCheckupTime;
 	int AutoPDays, MaxWaitHours;
-
 	int NoOfEvents;
 	int count = 0;
 	char EventType;
@@ -74,8 +73,6 @@ class CompanyClass
 	int CargoID, CargoDist, CargoLoadTime, CargoCost;
 	int CargoExtraMoney;
 	UIclass* ui;
-	Cargo** c;
-
 
 public:
 	CompanyClass();
@@ -85,20 +82,23 @@ public:
 	void PromoteCargo(int id);
 	//double setpriorityequation(int pH, int pD, int DD, int CC);
 
-	/*void AddToNormalCargos(Cargo* C);
+	void AddToNormalCargos(Cargo* C);
 	void AddToSpecialCargos(Cargo* C);
-	void AddToVIPCargos(Cargo* C, double priority);*/
+	void AddToVIPCargos(Cargo* C, double priority);
 	void AddToAppropriateList(Cargo* C);
 	void AddTruckToCheckup(Truck* T);
 	void MoveTruckFromEmptyToLoading(Truck* T);
 	void MoveTruckFromLoadingToMoving(Truck* T);
+	
 	//-----------------GETTERS----------------------//	
+	
 	double getCargoAvgTime();
 	int getTotalNumberOfCargos();
 	int getTotalNumberOfTrucks();
 	int getCurrentTimeHour();
 	int getCurrentTimeDay();
 
+	//----------------PRINTS------------------------//
 	void printWNormalCargos();
 	void printWspecialCargos();
 	void printWvipCargos();

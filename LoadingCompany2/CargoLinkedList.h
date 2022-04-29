@@ -13,12 +13,9 @@ public:
 	}
 	void DeleteSpecificNode(int& value)
 	{
-		//Node<Cargo*> top;
-		//peek(top);
 		Node<Cargo*>* temp = Head;
 		if (temp == nullptr)
 			return;
-
 		if (temp->getNext() == NULL)
 		{
 			if (temp->getItem()->getCargoID() == value)
@@ -50,7 +47,6 @@ public:
 
 	Cargo* findSpecificNode(int& value)
 	{
-
 		Cargo* c = nullptr;
 		Node<Cargo*>* temp = Head;
 
@@ -58,7 +54,6 @@ public:
 		{
 			return c;
 		}
-
 		else
 		{
 			while (temp)
@@ -68,8 +63,6 @@ public:
 					c = temp->getItem();
 					return c;
 				}
-
-
 				temp = temp->getNext();
 			}
 		}
@@ -93,10 +86,6 @@ public:
 		}
 	}
 
-
-
-	 //Creates a new node and adds it to the beginning of a linked list,
-	                                                 //data : The value to be stored in the new node.
      void InsertBegC(Cargo* C)  
 	{
 		Node<Cargo*>* R = new Node<Cargo*>(C);
@@ -104,40 +93,5 @@ public:
 		Head = R;
 		count++;
 	}
-
-
-
-
-
-	/*void InsertBegC(Cargo* C)//Creates a new node and adds it to the beginning of a linked list,
-	//data : The value to be stored in the new node.
-
-	{
-		Node<Cargo*>* R = new Node<Cargo*>(C);
-		R->setNext(Head);
-		Head = R;
-		countc++;
-	}*/
-
-
-
-
-
-
-
-
-
-	/*bool peek(Cargo* c)
-	{
-		if (!Head)
-			return false;
-
-		else
-		{
-			c = Head->getItem();
-			return true;
-
-		}
-	}*/
 
 };

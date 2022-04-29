@@ -8,7 +8,6 @@ Truck::Truck()
 	setTruckCapacity(0);
 	setTruckMaintenanceTime(0);
 	setTruckSpeed(0);
-	/*setTruckDeliveryInterval(0);*/
 	SetNoOfJourneys(0);
 	TruckID = 0;
 	DeliveredCargosByTruck = 0;
@@ -50,11 +49,6 @@ void Truck::setTruckSpeed(int speed)
 	TruckSpeed = speed;
 }
 
-//void Truck::setTruckDeliveryInterval(int interval)
-//{
-//	TruckDeliveryInterval = interval;
-//}
-
 void Truck::SetNoOfJourneys(int number)
 {
 	TruckNoOfJourneys = number;
@@ -71,9 +65,9 @@ void Truck::incrementDeliveredCargosByTruck()
 void Truck::incrementTruckTotalActiveTime()
 {
 	TruckTotalActiveTimeH++;
-	while (TruckTotalActiveTimeH > 24)
+	while (TruckTotalActiveTimeH > 23)
 	{
-		TruckTotalActiveTimeH = TruckTotalActiveTimeH - 24;
+		TruckTotalActiveTimeH = TruckTotalActiveTimeH - 23;
 		TruckTotalActiveTimeD++;
 	}
 }
@@ -125,9 +119,9 @@ int Truck::getTruckDeliveryIntervalHours() //------------------->NEEDS CONTINUTA
 	getTimeToComeBack(comeH, comeD);
 	int FurthestCargoDeliveryDistance=c->getDeliveringDistance();
 	TruckDeliveryIntervalH = FurthestCargoDeliveryDistance / getTruckSpeed() + getNoDeliveredCargosByTruck() +comeH;//+ time to come back;
-	while (TruckDeliveryIntervalH > 24)
+	while (TruckDeliveryIntervalH > 23)
 	{
-		TruckDeliveryIntervalH = TruckDeliveryIntervalH - 24;
+		TruckDeliveryIntervalH = TruckDeliveryIntervalH - 23;
 		TruckDeliveryIntervalD++;
 	}
 	return TruckDeliveryIntervalH;

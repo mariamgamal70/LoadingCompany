@@ -22,9 +22,7 @@ PreparationEvent::PreparationEvent(char CargoT, int EventTimeHours, int EventTim
 	SetHours(EventTimeHours);
 	SetDays(EventTimeDays);
 	SetID(CargoID);
-
 }
-
 
 int PreparationEvent::GetCargoCost() const
 {
@@ -76,120 +74,6 @@ void PreparationEvent::Execute()
 	EventExecuted->AddToAppropriateList(CargoReady);
 }
 
-/*void PreparationEvent::Execute()
-{
-	char Type = GetCargoType();
-	int PrepD = GetDays();
-	int PrepH = GetHours();
-	int id = GetSelectedId();
-	int dist = GetDeliveryDistance();
-	int LoadT = GetLoadTime();
-	int cost = GetCargoCost();
-	Cargo* CargoReady = new Cargo(Type, PrepH, PrepD, id, dist, LoadT, cost);
-	//EventExecuted->AddToAppropriateList(CargoReady);
-	//char CargoType = C->getCargoType();
-	switch (Type)
-	{
-	case('N'):
-	{
-		EventExecuted->AddToNormalCargos(CargoReady);
-		break;
-	}
-	case('S'):
-	{
-		EventExecuted->AddToSpecialCargos(CargoReady);
-		break;
-	}
-	case('V'):
-	{
-		int PrepHour = CargoReady->getPreparationTimeHour();
-		int PrepDay = CargoReady->getPreparationTimeDay();
-		int DeliveryDist = CargoReady->getDeliveringDistance();
-		int CargoCost = CargoReady->getCargoDeliveringCost();
-		double Priority = (2 * (PrepHour + PrepDay) + 1 * DeliveryDist) / CargoCost;
-		EventExecuted->AddToVIPCargos(CargoReady,Priority);
-		break;
-	}
-	default:
-		break;
-	}
-
-}*/
 PreparationEvent::~PreparationEvent()
 {
 }
-
-
-
-
-
-
-
-
-/*void PreparationEvent::SetDIST(Cargo c, int d)
-{
-	c.setDeliveringDistance(d);
-}
-void PreparationEvent::SetCost(Cargo c, int co)
-{
-	c.setCargoDeliveringCost(co);
-}
-void PreparationEvent::SetLT(Cargo c, int lt)
-{
-	c.setCargoLoadTime(lt);
-}
-int PreparationEvent::GetCost(Cargo c )
-{
-	return(c.getCargoDeliveringCost());
-}
-int PreparationEvent::GetLT(Cargo c )
-{
-	return(c.getLoadTime()); //ADD LOAD START AND END TIMES
-}
-
-int PreparationEvent::GetDist(Cargo c)
-{
-	return(c.getDeliveringDistance());
-}
-*/
-
-
-/*Cargo Preparation::GetCargo(Cargo c, )
-{
-	return c;
-} */
-/* void PreparationEvent::SetCargoOfExecute(Cargo c, char type, int lt, int dc, int dd, int td, int th)
-{
-	c.setCargoType(type);
-	c.setCargoLoadTime(lt);
-	c.setCargoDeliveringCost(dc);
-	c.setDeliveringDistance(dd);
-	c.setPreparationTimeDay(td);
-	c.setPreparationTimeHour(th);
-}*/
-
-/*void PreparationEvent::Execute(LinkedQueue<Cargo> Lspecial, LinkedQueue<Cargo> Lnormal, LinkedQueue<Cargo> Lvip, char type, int lt, int dc, int dd, int td, int th)
-{
-	Cargo c;
-	c.setCargoType(type);
-	c.setCargoLoadTime(lt);
-	c.setCargoDeliveringCost(dc);
-	c.setDeliveringDistance(dd);
-	c.setPreparationTimeDay(td);
-	c.setPreparationTimeHour(th);
-	if (type == 'N')
-	{
-		Lnormal.enqueue(c);
-	}
-	if (type == 'S')
-	{
-		Lspecial.enqueue(c);
-	}
-	if (type == 'V')
-	{
-		Lvip.enqueue(c);
-	}
-
-
-	return c;
-}*/

@@ -28,92 +28,11 @@ CompanyClass::CompanyClass()
 	SumSpecialCargos = 0;
 	SumVIPCargos = 0;
 	SumCargos = 0;
-
 }
 CompanyClass::CompanyClass(UIclass* uii)
 {
 	this->ui = uii;
 }
-/*void CompanyClass::FileLoading()
-{
-	ifstream inFile;
-	inFile.open("input.txt");//open a file to perform read operation using file object
-	You need to call ui to get file name
-		Company class should have a pointer to UI to do so.
-
-
-		if (!inFile)
-		{
-			cout << "Unable to open file";
-			exit(1); // terminate with error
-		}
-
-	if (inFile.is_open())// 2D ARRAY OR  CIN EACH INTEGER?
-	{ //checking whether the file is open
-
-
-		TotalNumberOfTrucks = nN + nS + nV;
-		How could you sum these variables while they have not loaded from file yet.
-
-
-			inFile >> nN >> nS >> nV;
-		inFile >> Ns >> Ss >> Vs;
-		inFile >> Nc >> Sc >> Vc;
-		inFile >> NoOfJourneys >> NCheckupTime >> SCheckupTime >> VCheckupTime;
-		/ Truck(char type, int speed, int capacity, int noOfJourneys, int CheckupTime) /
-			static int TruckID = 0;
-		for (int i = 0; i < nN; i++)
-		{
-			TruckID++;
-			Truck T1('N', Ns, Nc, Nj, NCheckupTime, TruckID);
-			T1 is a local object.It will be automatically destroyed one this function end
-				You should use pointersand create a dynamic object using new then enqueue the pointer
-				This comment is applicable for all types of trucks you createand also for all events you create.
-
-				NormalTruckQueue.enqueue(&T1);
-		}
-		for (int i = 0; i < nS; i++)
-		{
-			Truck T2('S', Ss, Sc, Sj, SCheckupTime, TruckID);
-			specialTruckQueue.enqueue(&T2);
-		}
-		for (int i = 0; i < nV; i++)
-		{
-			Truck T3('V', Vs, Vc, Vj, VCheckupTime, TruckID);
-			VIPTruckQueue.enqueue(&T3); //<<<<<------------------------------ASK----------------------------------------------
-		}
-		inFile >> AutoPDays >> MaxWaitHours;
-		inFile >> NoOfEvents;
-		while (count != NoOfEvents)
-			Better make it for loop
-
-		{
-		inFile.get(EventType);
-
-		switch (EventType)
-		{
-		case('R')://<<<<<---------------CALL PREPARATION EVENT--------------
-		{
-		inFile.get(CargoType);
-		Just write inFile >> CargoType
-
-		inFile >> EventTimeHours;
-		Read days first the hours
-
-		inFile.ignore(100, ':');
-		You may simply replace this line by
-		InFile >> dummy;
-		Where dummy is a char variable
-
-		inFile >> EventTimeDays;
-		/ fscanf(inFile , "% d : % d", EventTimeHours, EventTimeDays); /
-		inFile >> CargoID >> CargoDist >> CargoLoadTime >> CargoCost;
-		PreparationEvent PrepE(CargoType, EventTimeHours, EventTimeDays, CargoID, CargoDist, CargoLoadTime, CargoCost);
-		Eventlist.enqueue(&PrepE);
-		count++;
-		break;
-		Why break.
-		File is not finished yet*/
 
 void CompanyClass::FileLoading()
 {
@@ -155,9 +74,7 @@ void CompanyClass::FileLoading()
 		}
 		inFile >> AutoPDays >> MaxWaitHours;
 		inFile >> NoOfEvents;
-		//PreparationEvent* PrepE;
-		//CancelEvent* CE;
-		//PromoteEvent* PromoE;
+
 		Event* E;
 		for (int i = 0; i < NoOfEvents; i++)
 		{
@@ -166,11 +83,6 @@ void CompanyClass::FileLoading()
 
 			if (EventType)
 			{
-				/*inFile >> EventTimeHours;
-				inFile >> dummy;
-				inFile >> EventTimeDays;
-				inFile >> CargoID;*/
-
 			if('R')//<<<<<---------------CALL PREPARATION EVENT--------------
 			{
 				inFile >> CargoType;
@@ -182,7 +94,6 @@ void CompanyClass::FileLoading()
 				E=new PreparationEvent(CargoType, EventTimeHours, EventTimeDays, CargoID, CargoDist, CargoLoadTime, CargoCost);
 				Eventlist.enqueue(E);
 				count++;
-
 				//break;
 			}
 			else if('X')//<<<---------------CALL CANCELLATION EVENT----------------
@@ -209,16 +120,12 @@ void CompanyClass::FileLoading()
 				//break;
 			}
 			
-			//Eventlist.enqueue(PrepE);
-			//Eventlist.enqueue(CE);
 			
 			}
-			
 		}
 		inFile.close(); //close the file object.
 	}
 }
-
 
 //-------------------------------RELATED TO EXECUTE EVENTS---------------------------------
 
@@ -227,52 +134,8 @@ void CompanyClass::RemoveCargo(int id)
 	NormalCargos.DeleteSpecificNode(id);
 }
 
-//void CompanyClass::PromoteCargo(int id)
-//{
-//	int loaded = 0;
-//	Cargo c;
-//	Truck t;
-//	LoadingNormalTrucks.peek(t);
-//	//instead of t using NormalLoadingTrucks
-//	Cargo* deq = nullptr;
-//	PriQ <Cargo*> q;
-//	c = c.getCID(id);
-//	while (t)
-//	{
-//		Cargo* c2 = t.getLoadedCargosInTruck().peek(); //get first cargo in queue of loadingcargos
-
-//		while (c2->getCargoID() != NULL)
-//		{
-//			Cargo* c2 = t.getLoadedCargosInTruck().peek();
-//			if (c2->getCargoID() == id)
-//			{
-//				loaded++;
-//				break;
-//			}
-//			else
-//			{
-//				t.getLoadedCargosInTruck().dequeue(deq);
-//				q.enqueueAscending(deq, deq->getLoadTime());
-//			}
-//			if (loaded == 1)
-//				break;
-//	LoadingNormalTrucks.dequeue(t);
-//		}
-
-//	}
-//	if (c.getCargoType() == 'N' && loaded == 0)
-//	{
-//		c.setCargoType('V');
-//		Cargo* cptr = &c;
-//		VIPCargoPriQueue.enqueueAscending(cptr, cptr->getPreparationTimeDay());
-//	}
-//}
-
-
-
 void CompanyClass::PromoteCargo(int id)
 {
-
 	Cargo* CargoToPromote = NormalCargos.findSpecificNode(id);
 
 	if (CargoToPromote != nullptr)
@@ -291,7 +154,7 @@ void CompanyClass::PromoteCargo(int id)
 {
 	VIPCargoPriority = (2 * (pH + pD) + 1 * DD) / CC;
 	return VIPCargoPriority;
-}
+}*/
 
 void CompanyClass::AddToNormalCargos(Cargo* C)
 {
@@ -305,25 +168,22 @@ void CompanyClass::AddToSpecialCargos(Cargo* C)
 	SumSpecialCargos++;
 }
 
-//	Cargo* temp = nullp
-
 void CompanyClass::AddToVIPCargos(Cargo* C ,double priority)
 {
 	VIPCargoPriQueue.enqueueAscending(C, priority);
 	SumVIPCargos++;
-}*/
-//
+}
+
 void CompanyClass::AddToAppropriateList(Cargo* Cl)
 {
-	/*char Type = Cl->getCargoType();
+	char Type = Cl->getCargoType();
 	int PrepD = Cl->getPreparationTimeDay();
 	int PrepH = Cl->getPreparationTimeHour();
 	int id = Cl->getCargoID();
 	int dist = Cl->getDeliveringDistance();
 	int LoadT = Cl->getLoadTime();
 	int cost = Cl->getCargoDeliveringCost();
-	
-	c=new Cargo(Type, PrepD, PrepH, id, dist, LoadT, cost);*/
+	//c=new Cargo(Type, PrepD, PrepH, id, dist, LoadT, cost);
 	if(Cl->getCargoType() == 'N')
 	{
 		NormalCargos.InsertEndC(Cl);
@@ -338,16 +198,11 @@ void CompanyClass::AddToAppropriateList(Cargo* Cl)
 	}
 	else if(Cl->getCargoType() == 'V')
 	{
-		int PrepHour = Cl->getPreparationTimeHour();
-		int PrepDay = Cl->getPreparationTimeDay();
-		int DeliveryDist = Cl->getDeliveringDistance();
-		int CargoCost = Cl->getCargoDeliveringCost();
-		VIPCargoPriority = (2 * (PrepHour + PrepDay) + 1 * DeliveryDist) / CargoCost;
+		VIPCargoPriority = (2 * (PrepH + PrepD) + 1 * dist) / CargoCost;
 		VIPCargoPriQueue.enqueueAscending(Cl, VIPCargoPriority);
 		SumVIPCargos++;
 		//break;
 	}
-
 }
 void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T)
 {
@@ -360,17 +215,14 @@ void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T)
 		{
 			NormalTruckQueue.dequeue(deq);
 			extra->enqueue(deq);
-
 		}
 		NormalTruckQueue.dequeue(T); //dequeue T and add it to loading truck
 		LoadingNormalTrucks.enqueue(T);
 
 		while (!extra->isEmpty()) // return emptytrucksnormal queue to its original form
 		{
-
 			extra->dequeue(deq);
 			NormalTruckQueue.enqueue(deq);
-
 		}
 	}
 	else if (T->getTruckType() == 'V')
@@ -398,7 +250,6 @@ void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T)
 		{
 			SpecialTruckQueue.dequeue(deq);
 			extra->enqueue(deq);
-
 		}
 		SpecialTruckQueue.dequeue(T);
 		LoadingSpecialTrucks.enqueue(T);
@@ -423,17 +274,14 @@ void  CompanyClass::MoveTruckFromLoadingToMoving(Truck* T)
 		{
 			LoadingNormalTrucks.dequeue(deq);
 			extra->enqueue(deq);
-
 		}
 		LoadingNormalTrucks.dequeue(T); //dequeue T and add it to MOVING truck
 		MovingTrucks.enqueueAscending(T, T->getTruckDeliveryIntervalDays());
 
 		while (!extra->isEmpty()) // return emptytrucksnormal queue to its original form
 		{
-
 			extra->dequeue(deq);
 			LoadingNormalTrucks.enqueue(deq);
-
 		}
 	}
 	else if (T->getTruckType() == 'V')
@@ -443,17 +291,14 @@ void  CompanyClass::MoveTruckFromLoadingToMoving(Truck* T)
 		{
 			LoadingVIPTrucks.dequeue(deq);
 			extra->enqueue(deq);
-
 		}
 		LoadingVIPTrucks.dequeue(T);
 		MovingTrucks.enqueueAscending(T, T->getTruckDeliveryIntervalDays());
 
 		while (!extra->isEmpty())
 		{
-
 			extra->dequeue(deq);
 			LoadingVIPTrucks.enqueue(deq);
-
 		}
 	}
 	else
@@ -470,55 +315,14 @@ void  CompanyClass::MoveTruckFromLoadingToMoving(Truck* T)
 
 		while (!extra->isEmpty())
 		{
-
 			extra->dequeue(deq);
 			LoadingSpecialTrucks.enqueue(deq);
-
 		}
 	}
 }
 
-/*void CompanyClass::AddTruckToCheckup(Truck* T)// SHERIF
-{
-
-	Truck* qnode;
-	PriQ <Truck*> q;
-	while (MovingTrucks.peek() != T)
-	{
-			MovingTrucks.dequeue(qnode);
-			q.enqueueAscending(qnode, qnode->getTruckDeliveryIntervalDays());
-	}
-
-	MovingTrucks.dequeue(qnode);//<------------------- someone fix this pls
-	switch (T->getTruckType())
-	{
-	case('N'):
-	{
-		NormalTrucksUnderCheckup.enqueue(T);
-		break;
-	}
-	case('S'):
-	{
-		SpecialTrucksUnderCheckup.enqueue(T);
-		break;
-	}
-	case ('V'):
-	{
-		VIPTrucksUnderCheckup.enqueue(T);
-		break;
-	}
-	default:
-		break;
-	}
-	while (!q.isEmpty())
-	{
-		q.dequeue(qnode);
-		MovingTrucks.enqueueAscending(qnode, qnode->getTruckDeliveryIntervalDays());
-	}
-}*/
 void CompanyClass::AddTruckToCheckup(Truck* T) //->MARIAM
 {
-
 	PriQNode<Truck*> qnode;
 	PriQ <Truck*> q;
 	while (MovingTrucks.peek(qnode))//!= T)
@@ -533,7 +337,6 @@ void CompanyClass::AddTruckToCheckup(Truck* T) //->MARIAM
 			break;
 		}
 	}
-
 	MovingTrucks.dequeue(qnode);//<------------------- someone fix this pls
 	switch (T->getTruckType())
 	{
@@ -631,42 +434,31 @@ LinkedQueue<Cargo*> CompanyClass::getDeliveredCargos()
 
 void CompanyClass::printWNormalCargos()
 {
-
 	NormalCargos.printList();
-
 }
 
 void CompanyClass::printWspecialCargos()
 {
 	SpecialCargos.PrintQueue();
-
 }
 
 void CompanyClass::printWvipCargos()
 {
-
 	VIPCargoPriQueue.printList();
-
 }
-
 
 void CompanyClass::printLnormalTrucks()
 {
-
 	LoadingNormalTrucks.PrintQueue();
-
 }
 
 void CompanyClass::printLspecialTrucks()
 {
 	LoadingSpecialTrucks.PrintQueue();
-
-
 }
 
 void CompanyClass::printLVIPTrucks()
 {
-
 	LoadingVIPTrucks.PrintQueue();
 }
 
@@ -705,86 +497,26 @@ void CompanyClass::printEmptyVIPTrucks()
 
 void CompanyClass::printNormalDeliveredCargos()
 {
-
 	NormalDeliveredCargos.PrintQueue();
 }
 
 
 void CompanyClass::printSpecialDeliveredCargos()
 {
-
 	SpecialDeliveredCargos.PrintQueue();
-
 }
 
 
 
 void CompanyClass::printVIPDeliveredCargos()
 {
-
 	VIPDeliveredCargos.PrintQueue();
-
 }
-
-
-/*void CompanyClass::SimulatorFunction()
-{
-	FileLoading();
-	int TimeStepCount = 0;
-	Event* EventToBeExecuted;
-	if (Eventlist.peek(EventToBeExecuted));
-
-
-	while (!Eventlist.isEmpty())
-	{
-		while (EventToBeExecuted->GetHours() == Hour && EventToBeExecuted->GetDays() == Day)
-		{
-			Eventlist.dequeue(EventToBeExecuted);
-			EventToBeExecuted->Execute();
-		}
-		if (TimeStepCount == 5)
-		{
-			Cargo* cargo;
-			if (NormalCargos.peek(cargo))//<---CHECK
-			{
-				NormalDeliveredCargos.enqueue(cargo);
-				NormalCargos.DeleteBeg();
-			}
-			else if (SpecialCargos.peek(cargo))
-			{
-				SpecialCargos.dequeue(cargo);
-				SpecialDeliveredCargos.enqueue(cargo);
-			}
-			else if (!VIPCargoPriQueue.isEmpty())
-			{
-				VIPCargoPriQueue.dequeue(cargo);
-				VIPDeliveredCargos.enqueue(cargo);
-			}
-			TimeStepCount = 0;
-		}
-		Hour++;
-		Day++;
-		while (Hour > 23) //24hour will be 00H:00MIN AM
-		{
-			Hour = Hour - 23;
-			Day++;
-		}
-		TimeStepCount++;
-		ui->waitforenter();
-	}
-}
-
-
-*/
-
 
 void CompanyClass::SimulatorFunction()
 {
 	FileLoading();
 	int TimeStepCount = 0;
-	//Event* EventToBeExecuted;
-	//if (Eventlist.peek(EventToBeExecuted))
-	//{
 		while (!Eventlist.isEmpty())
 		{			
 			while (Hour > 23) //24hour will be 00H:00MIN AM
@@ -836,65 +568,12 @@ void CompanyClass::SimulatorFunction()
 			TimeStepCount++;
 			ui->waitforenter();
 		}
-		
-	//}
+		//produce output file <<<----------OUTPUTFILE---------------------*/
 }
-
-
-/*void CompanyClass::SimulatorFunction() //YARA CREATED
-{
-	FileLoading();
-	int count = 0;
-	Event* E;
-	Cargo* Head;
-
-	while (!Eventlist.isEmpty())
-	{
-		Eventlist.dequeue(E);
-		E->Execute();
-		count++;
-		if (count == 5)
-		{
-			Cargo* peeked;
-			LinkedList <Cargo*>* temp=NULL;
-			temp->peek(Head); // correct? //<-------------------------------CORRECT IT
-			DeliveredCargos.enqueue(Head);
-			SpecialCargos.peek(peeked);
-			if (peeked->getPreparationTimeDay() == 0 && peeked->getPreparationTimeHour() == 0)
-				DeliveredCargos.enqueue(peeked);
-
-			if (VIPCargoPriQueue.peek()->getPreparationTimeDay() == 0 && VIPCargoPriQueue.peek()->getPreparationTimeHour() == 0)
-				DeliveredCargos.enqueue(VIPCargoPriQueue.peek());
-		}
-		//missing "Print all applicable info to the interface as describes in Program interface section without truck info"
-	}
-}*/
-
-
-/*void CompanyClass::Simulationfunc()
-{
-	Hour = 1;
-	Day = 1;
-	Node<Event*> * currEvent = NULL;
-	while (!(Eventlist.isEmpty()))                           //<< < -------------------- - TIMESTEP---------------- -
-	{
-		Eventlist.dequeue(currEvent);
-					Execute events
-					check waiting list -> if exist assign to available trucks
-					move cargos from waiting->loading->moving ->delivered
-					move trucks from available->loading->moving ->checkup->available
-					collect all the needed calculations for output file
-					call ui class to print details on the output screen
-					if time<24 increment time else increment day and reset time
-	}
-
-	CARGO DELIVERY TIME CALCULATIONS
-}
-				//produce output file <<<----------OUTPUTFILE---------------------*/
+				
 
 void CompanyClass::printwaitingcargos()
 {
-
 	int numofwait = NormalCargos.getCount() + SpecialCargos.getCount() + VIPCargoPriQueue.getCount();
 	ui->coutinteger(numofwait);
 	ui->coutstring(" Waiting Cargos: ");
@@ -992,5 +671,4 @@ void CompanyClass::printdeliveredcargo()
 
 CompanyClass::~CompanyClass()
 {
-
 }

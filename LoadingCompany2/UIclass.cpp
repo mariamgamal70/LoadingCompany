@@ -58,7 +58,6 @@ void UIclass::printline()
 }
 void UIclass::waitforenter()
 {
-	//char c;
 	cin.get();
 }
 
