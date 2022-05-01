@@ -66,7 +66,6 @@ public:
 	}*/
 	void InsertEnd(const T& data)
 	{
-
 		if (!Head) //emptylist
 		{
 			InsertBeg(data);
@@ -104,7 +103,6 @@ public:
 		Node<T>* curr = Head;
 		while (curr != nullptr)
 		{
-			
 			if(curr->getNext()==NULL)
 			{
 				cout << curr->getItem();
@@ -122,24 +120,14 @@ public:
 		//cout << endl;
 	}
 
-	/*bool peekL(Node<T>& Top)
-	{
-		if (!Head)
-			return false;
-
-		Top = Head->getItem();
-		return true;
-	}*/
 	bool peek(Node<T>& c)
 	{
 		if (!Head)
 			return false;
-
 		else
 		{
 			c = Head->getItem();
 			return true;
-
 		}
 	}
 
@@ -169,7 +157,6 @@ public:
 					delete curr;
 					curr = nullptr;
 					break;
-
 				}
 				temp = curr;
 				curr = curr->getNext();
@@ -213,8 +200,6 @@ public:
 			{
 				prev = curr;
 				curr = curr->getNext();
-
-
 			}
 			prev->setNext(curr->getNext());
 			delete curr;

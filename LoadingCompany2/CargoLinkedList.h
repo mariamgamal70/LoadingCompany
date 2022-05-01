@@ -25,7 +25,6 @@ public:
 				Head = NULL;
 			}
 		}
-
 		else
 		{
 			Node<Cargo*>* curr = temp->getNext();
@@ -67,7 +66,7 @@ public:
 			}
 		}
 	}
-	void InsertEndC(Cargo* data)
+	/*void InsertEndC(Cargo* data)
 	{
 		if (count==0) //emptylist
 		{
@@ -84,7 +83,7 @@ public:
 			R->setNext(nullptr);
 			P->setNext(R);
 		}
-	}
+	}*/
 
      void InsertBegC(Cargo* C)  
 	{

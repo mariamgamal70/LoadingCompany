@@ -186,7 +186,7 @@ void CompanyClass::AddToAppropriateList(Cargo* Cl)
 	//c=new Cargo(Type, PrepD, PrepH, id, dist, LoadT, cost);
 	if(Cl->getCargoType() == 'N')
 	{
-		NormalCargos.InsertEndC(Cl);
+		NormalCargos.InsertEnd(Cl);
 		SumNormalCargos++;
 		//break;
 	}
@@ -236,7 +236,6 @@ void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T)
 		}
 		VIPTruckQueue.dequeue(T);
 		LoadingVIPTrucks.enqueue(T);
-
 		while (!extra->isEmpty())
 		{
 			extra->dequeue(deq);
@@ -531,30 +530,51 @@ void CompanyClass::SimulatorFunction()
  			ui->coutendl(); 
 			Event* EventToBeExecuted;
 			Eventlist.peek(EventToBeExecuted);
-			if (EventToBeExecuted->GetHours() == Hour && EventToBeExecuted->GetDays() == Day)//pointer and hours and days are incorrect
+			while (Hour >= 5 && Hour <= 23)
 			{
-				Eventlist.dequeue(EventToBeExecuted);
-				EventToBeExecuted->Execute();
-			}
-			if (TimeStepCount % 5 == 0 && TimeStepCount!=0)
-			{
-				Cargo* specialcargo;
-				Node<Cargo*> normalcargo;
-				PriQNode<Cargo*> vipcargo;
-				if (NormalCargos.peek(normalcargo))//<---CHECK
+				if (EventToBeExecuted->GetHours() == Hour && EventToBeExecuted->GetDays() == Day)//pointer and hours and days are incorrect
 				{
-					NormalDeliveredCargos.enqueue(normalcargo.getItem());
-					NormalCargos.DeleteBeg();
+					Eventlist.dequeue(EventToBeExecuted);
+					EventToBeExecuted->Execute();
 				}
-				if (SpecialCargos.peek(specialcargo))
+				if (TimeStepCount % 5 == 0 && TimeStepCount != 0)
 				{
-					SpecialCargos.dequeue(specialcargo);
-					SpecialDeliveredCargos.enqueue(specialcargo);
+					Cargo* specialcargo;
+					Node<Cargo*> normalcargo;
+					PriQNode<Cargo*> vipcargo;
+					if (NormalCargos.peek(normalcargo))//<---CHECK
+					{
+						NormalDeliveredCargos.enqueue(normalcargo.getItem());
+						NormalCargos.DeleteBeg();
+					}
+					if (SpecialCargos.peek(specialcargo))
+					{
+						SpecialCargos.dequeue(specialcargo);
+						SpecialDeliveredCargos.enqueue(specialcargo);
+					}
+					if (!VIPCargoPriQueue.isEmpty())
+					{
+						VIPCargoPriQueue.dequeue(vipcargo.getItem());
+						VIPDeliveredCargos.enqueue(vipcargo.getItem());
+					}
 				}
-				if (!VIPCargoPriQueue.isEmpty())
+				Truck* Normal;
+				Truck* Special;
+				Truck* VIP;
+				LoadingNormalTrucks.peek(Normal);// add while loop to check on each truck in loading? and if list is not empty?
+				LoadingSpecialTrucks.peek(Special);
+				LoadingVIPTrucks.peek(VIP);
+				if (Normal->getNoOfJourneys()%NoOfJourneys==0)
 				{
-					VIPCargoPriQueue.dequeue(vipcargo.getItem());
-					VIPDeliveredCargos.enqueue(vipcargo.getItem());
+					AddTruckToCheckup(Normal);
+				}
+				if (Special->getNoOfJourneys()%NoOfJourneys==0)
+				{
+					AddTruckToCheckup(Special);
+				}
+				if (VIP->getNoDeliveredCargosByTruck()%NoOfJourneys==0)
+				{
+					AddTruckToCheckup(VIP);
 				}
 			}
 			printwaitingcargos();
@@ -566,7 +586,8 @@ void CompanyClass::SimulatorFunction()
 			//ui->printInteractive();
 			Hour++;
 			TimeStepCount++;
-			ui->waitforenter();
+			ui->waitforenter(); 
+			
 		}
 		//produce output file <<<----------OUTPUTFILE---------------------*/
 }

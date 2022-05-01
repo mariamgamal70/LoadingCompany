@@ -38,7 +38,6 @@ frontPtr	 backPtr
 
 */
 
-
 #define LINKED_QUEUE_
 #pragma once
 #include "Node.h"
@@ -51,7 +50,6 @@ template <typename T>
 class LinkedQueue :public QueueADT<T>
 {
 private:
-
 	Node<T>* backPtr;
 	Node<T>* frontPtr;
 	int count;
@@ -99,9 +97,6 @@ Output: True if the operation is successful; otherwise false.
   Input: None.
   Output: True if the operation is successful; otherwise false.
   */
-
-
-
 	void PrintQueue()
 	{
 		if (isEmpty())
@@ -111,19 +106,16 @@ Output: True if the operation is successful; otherwise false.
 			Node<T>* temp = frontPtr;
 			while (temp)
 			{
-			if(temp->getNext()==NULL)
-			{
-			cout<<temp->getItem();
-
-			}
-			else{
-			cout<<temp->getItem()<<","<<" ";
-
-			}
-				
+				if(temp->getNext()==NULL)
+				{
+					cout<<temp->getItem();
+				}
+				else
+				{
+					cout<<temp->getItem()<<","<<" ";
+				}
 				temp = temp->getNext();
 			}
-
 		}
 	}
 
@@ -131,19 +123,16 @@ Output: True if the operation is successful; otherwise false.
 	{
 		if (isEmpty())
 			return false;
-
 		Node<T>* nodeToDeletePtr = frontPtr;
 		frntEntry = frontPtr->getItem();
 		frontPtr = frontPtr->getNext();
 		// Queue is not empty; remove front
 		if (nodeToDeletePtr == backPtr)	 // Special case: last node in the queue
 			backPtr = nullptr;
-
 		// Free memory reserved for the dequeued node
 		delete nodeToDeletePtr;
 		count--;
 		return true;
-
 	}
 	/*
 Function: peek
@@ -159,7 +148,6 @@ Output: The front of the queue.
 
 		frntEntry = frontPtr->getItem();
 		return true;
-
 	}
 	/*
 Function: destructor
@@ -168,7 +156,6 @@ removes all nodes from the queue by dequeuing them
 	~LinkedQueue()
 	{
 		T temp;
-
 		//Free (Dequeue) all nodes in the queue
 		while (dequeue(temp));
 	}
