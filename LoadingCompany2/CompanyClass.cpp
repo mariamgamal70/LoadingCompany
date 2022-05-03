@@ -530,8 +530,6 @@ void CompanyClass::SimulatorFunction()
  			ui->coutendl(); 
 			Event* EventToBeExecuted;
 			Eventlist.peek(EventToBeExecuted);
-			while (Hour >= 5 && Hour <= 23)
-			{
 				if (EventToBeExecuted->GetHours() == Hour && EventToBeExecuted->GetDays() == Day)//pointer and hours and days are incorrect
 				{
 					Eventlist.dequeue(EventToBeExecuted);
@@ -558,7 +556,7 @@ void CompanyClass::SimulatorFunction()
 						VIPDeliveredCargos.enqueue(vipcargo.getItem());
 					}
 				}
-				Truck* Normal;
+				/*Truck* Normal;
 				Truck* Special;
 				Truck* VIP;
 				LoadingNormalTrucks.peek(Normal);// add while loop to check on each truck in loading? and if list is not empty?
@@ -575,8 +573,7 @@ void CompanyClass::SimulatorFunction()
 				if (VIP->getNoDeliveredCargosByTruck()%NoOfJourneys==0)
 				{
 					AddTruckToCheckup(VIP);
-				}
-			}
+				}*/
 			printwaitingcargos();
 			printloadingtrucks();
 			printavailtrucks();

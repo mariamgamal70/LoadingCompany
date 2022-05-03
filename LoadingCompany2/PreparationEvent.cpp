@@ -3,6 +3,8 @@
 #include "Event.h"
 #include "CompanyClass.h"
 #include "Cargo.h"
+#include <iostream>
+using namespace std;
 PreparationEvent::PreparationEvent()
 {
 	Hours = 1;
