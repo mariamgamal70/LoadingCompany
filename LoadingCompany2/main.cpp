@@ -5,5 +5,5 @@ int main()
 {
 	CompanyClass Maestro;
 	Maestro.SimulatorFunction();
-
+	cout << "MARIAM WROTE THIS" << endl;
 }
