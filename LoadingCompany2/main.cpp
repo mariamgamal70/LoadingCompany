@@ -5,5 +5,9 @@ int main()
 {
 	CompanyClass Maestro;
 	Maestro.SimulatorFunction();
-	
+	cout << "TRRIAL NUMBER 3" << endl;
+	cout << "trial4" << endl;
+	cout << "not pushed" << endl;
+	cout << "yaravideo";
+	cout << "push to mariam";
 }
