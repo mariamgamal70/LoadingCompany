@@ -9,4 +9,5 @@ int main()
 	cout << "pushing branch into origin" << endl;
 	cout << "this is a new branch trying it out" << endl;
 	cout << "add new change" << endl;
+	cout << "pushing branch into origin" << endl;
 }
