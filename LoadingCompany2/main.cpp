@@ -5,5 +5,6 @@ int main()
 {
 	CompanyClass Maestro;
 	Maestro.SimulatorFunction();
-	
+	cout << "this is a new branch trying it out" << endl;
+	cout << "pushing branch into origin" << endl;
 }
