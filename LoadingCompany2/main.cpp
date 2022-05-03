@@ -5,6 +5,6 @@ int main()
 {
 	CompanyClass Maestro;
 	Maestro.SimulatorFunction();
-	cout << "Hello world2" << endl;
+	cout << "this is yara" << endl;
 
 }
