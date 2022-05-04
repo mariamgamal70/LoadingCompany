@@ -43,10 +43,10 @@ class CompanyClass
 	LinkedQueue<Truck*> SpecialTrucksUnderCheckup;
 	LinkedQueue<Truck*> VIPTrucksUnderCheckup;
 
-	//available but loading
-	LinkedQueue<Truck*> LoadingNormalTrucks;
+	//available but loading (NO LOADING TRUCKS , ONLY INITIAL TRUCKS)
+	/*LinkedQueue<Truck*> LoadingNormalTrucks;
 	LinkedQueue<Truck*> LoadingSpecialTrucks;
-	LinkedQueue<Truck*> LoadingVIPTrucks;
+	LinkedQueue<Truck*> LoadingVIPTrucks;*/
 	//----------------------------initial cargo list------------------------------------
 		//waiting to be loaded 
 	CargoLinkedList NormalCargos; // to apply cancellation and promotion on it easier
