@@ -204,7 +204,7 @@ void CompanyClass::AddToAppropriateList(Cargo* Cl)
 		//break;
 	}
 }
-void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T)
+/*void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T)
 {
 	Truck* deq;
 	LinkedQueue<Truck*>* extra = NULL;
@@ -259,9 +259,9 @@ void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T)
 			SpecialTruckQueue.enqueue(deq);
 		}
 	}
-}
+}*/
 
-void  CompanyClass::MoveTruckFromLoadingToMoving(Truck* T)
+/*void  CompanyClass::MoveTruckFromLoadingToMoving(Truck* T)
 {
 	Truck* deq;
 	LinkedQueue<Truck*>* extra = nullptr; //for all trucks??? all conditions? or could be initialized for each condition?---ANSWER: each type is separated and all trucks in the list are loading so it doesnt matter since it's only used by one type'------------------------------>
@@ -318,7 +318,7 @@ void  CompanyClass::MoveTruckFromLoadingToMoving(Truck* T)
 			LoadingSpecialTrucks.enqueue(deq);
 		}
 	}
-}
+}*/
 
 void CompanyClass::AddTruckToCheckup(Truck* T) //->MARIAM
 {
@@ -446,7 +446,7 @@ void CompanyClass::printWvipCargos()
 	VIPCargoPriQueue.printList();
 }
 
-void CompanyClass::printLnormalTrucks()
+/*void CompanyClass::printLnormalTrucks()
 {
 	LoadingNormalTrucks.PrintQueue();
 }
@@ -459,7 +459,7 @@ void CompanyClass::printLspecialTrucks()
 void CompanyClass::printLVIPTrucks()
 {
 	LoadingVIPTrucks.PrintQueue();
-}
+}*/
 
 
 void CompanyClass::printCheckupNormal()
