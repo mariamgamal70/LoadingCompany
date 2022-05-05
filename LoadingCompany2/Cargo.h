@@ -49,6 +49,7 @@ public:
 	int getCargoID() const;
 
 	void getCargoDeliveryTime(int& hours, int& days);//-------->get movetime and truckspeed
+	void calcCargoDeliveryTime(int Truckspeed);
 	friend ostream& operator<<(ostream&output,Cargo*c);
 	Cargo getCID(int CargoID);
 	~Cargo();
