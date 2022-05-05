@@ -87,8 +87,8 @@ public:
 	void AddToVIPCargos(Cargo* C, double priority);
 	void AddToAppropriateList(Cargo* C);
 	void AddTruckToCheckup(Truck* T);
-	void MoveTruckFromEmptyToLoading(Truck* T);
-	void MoveTruckFromLoadingToMoving(Truck* T);
+	/*void MoveTruckFromEmptyToLoading(Truck* T);
+	void MoveTruckFromLoadingToMoving(Truck* T);*/
 	
 	//-----------------GETTERS----------------------//	
 	
@@ -103,9 +103,9 @@ public:
 	void printWspecialCargos();
 	void printWvipCargos();
 
-	void printLnormalTrucks();
+	/*void printLnormalTrucks();
 	void printLspecialTrucks();
-	void printLVIPTrucks();
+	void printLVIPTrucks();*/
 
 	void printCheckupNormal();
 	void printCheckupSpecial();
