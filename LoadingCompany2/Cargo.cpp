@@ -13,8 +13,8 @@ Cargo::Cargo()
 	setPreparationTimeDay(1);
 	setPreparationTimeHour(1);
 	SetCargoID(0);
-	CargoDeliveryTimeHours = 0;
-	CargoDeliveryTimeDays = 0;
+	CargoDeliveryTimeHours = 1;
+	CargoDeliveryTimeDays = 1;
 }
 
 Cargo::Cargo(char type, int pd, int ph, int id, int dist, int LT, int cost)
@@ -103,7 +103,7 @@ int Cargo::getCargoID() const
 	return CargoID;
 }
 
-void Cargo::getCargoDeliveryTime(int& hours, int& days)
+void Cargo::getCargoDeliveryTime(int& hours, int& days)//FOR LAST CARGO ONLY
 {
 	int movetimeh, movetimed;
 	TruckLoadedOn->getTruckMoveTime(movetimeh, movetimed);
@@ -116,6 +116,22 @@ void Cargo::getCargoDeliveryTime(int& hours, int& days)
 	hours = CargoDeliveryTimeHours;
 	days = CargoDeliveryTimeDays+ movetimed;
 }
+
+void Cargo::calcCargoDeliveryTime(int Truckspeed)
+{
+	CargoDeliveryTimeHours = DeliveringDistance / Truckspeed;
+	while (CargoDeliveryTimeHours > 23)
+	{
+		CargoDeliveryTimeHours = CargoDeliveryTimeHours - 23;
+		CargoDeliveryTimeDays++;
+	}
+}
+
+/*void Cargo::getCargoDeliveryTime(int& hours, int& days)
+{
+	hours = CargoDeliveryTimeHours;
+	days = CargoDeliveryTimeDays;
+}*/
 
 Cargo Cargo::getCID(int CID)
 {
