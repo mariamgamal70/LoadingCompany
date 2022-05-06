@@ -60,6 +60,7 @@ public:
 	void getTimeToComeBack(int &hour , int &day);
 
 	void LoadCargos(Cargo* c);
+	void UnloadCargo(PriQNode<Cargo*> delivered);
 	void getDeliveredCargosByTruck();
 	void incrementTruckTotalActiveTime();
 	void AddJourney();

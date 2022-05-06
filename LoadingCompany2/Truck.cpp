@@ -156,6 +156,11 @@ void Truck::LoadCargos(Cargo* c)
 	//c->setTruckLoadedOn(this); //OPTION1
 }
 
+void Truck::UnloadCargo(PriQNode<Cargo*> delivered)
+{
+	LoadingCargos.dequeue(delivered);
+}
+
 PriQ<Cargo*> Truck::getLoadedCargosInTruck() const
 {
 	return LoadingCargos;
