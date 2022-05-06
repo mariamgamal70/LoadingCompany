@@ -60,7 +60,7 @@ public:
 	void getTimeToComeBack(int &hour , int &day);
 
 	void LoadCargos(Cargo* c);
-	void incrementDeliveredCargosByTruck();
+	void getDeliveredCargosByTruck();
 	void incrementTruckTotalActiveTime();
 	void AddJourney();
 	double CalculateTruckUtilization();

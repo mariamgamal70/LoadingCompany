@@ -57,9 +57,9 @@ void Truck::SetTruckID(int id)
 {
 	TruckID = id;
 }
-void Truck::incrementDeliveredCargosByTruck()
+void Truck::getDeliveredCargosByTruck()
 {
-	DeliveredCargosByTruck++;
+	DeliveredCargosByTruck= TruckCapacity* TruckNoOfJourneys;
 }
 
 void Truck::incrementTruckTotalActiveTime()
