@@ -364,6 +364,55 @@ void CompanyClass::AddTruckToCheckup(Truck* T) //->MARIAM
 	}
 }
 
+void CompanyClass::AssignCargoToTruck(Cargo* C)
+{
+
+}
+
+void CompanyClass::AddToDeliveredCargos()
+{
+	PriQ<Cargo*> Calternative;
+	PriQNode<Truck*> NodeT;
+	PriQNode<Truck*> currT;
+	PriQNode<Cargo*> NodeC;
+	PriQNode<Cargo*> DeliveredCargoNode;
+	Cargo* CargoDelivered;
+	Truck* T;
+	bool unloadmorecargo = true;
+	int CDTH, CDTD;
+	while(!MovingTrucks.isEmpty())
+	{
+		MovingTrucks.peek(NodeT);
+		T = NodeT.getItem();
+		Calternative = T->getLoadedCargosInTruck();
+		while (!Calternative.isEmpty() && !unloadmorecargo)
+		{
+			Calternative.peek(NodeC);
+			NodeC.getItem()->getCargoDeliveryTime(CDTH, CDTD);
+			if (CDTH == Hour && CDTD == Day)
+			{
+				T->UnloadCargo(DeliveredCargoNode);
+				CargoDelivered = DeliveredCargoNode.getItem();
+				if (CargoDelivered->getCargoType() == 'N')
+				{
+					NormalDeliveredCargos.enqueue(CargoDelivered);
+				}
+				else if (CargoDelivered->getCargoType() == 'S')
+				{
+					SpecialDeliveredCargos.enqueue(CargoDelivered);
+				}
+				else if (CargoDelivered->getCargoType() == 'V')
+				{
+					VIPDeliveredCargos.enqueue(CargoDelivered);
+				}
+				Calternative.dequeue(NodeC);
+			}
+			unloadmorecargo = false;
+		}
+		//MovingTrucks.
+	}
+}
+
 //-------------------------------------------GETTERS----------------------------------------//
 double CompanyClass::getCargoAvgTime()
 {
