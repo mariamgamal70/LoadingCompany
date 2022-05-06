@@ -77,7 +77,7 @@ void Truck::AddJourney()
 	TruckNoOfJourneys++;
 }
 
-double Truck::CalculateTruckUtilization()
+double Truck::CalculateTruckUtilization() //NEEDED TO BE FIXED ,(CALLED  AT THE END OF SIMULATION)
 {
 	TruckUtilization = getNoDeliveredCargosByTruck() / (DeliveredCargosByTruck * TruckNoOfJourneys) * TruckTotalActiveTimeH + (TruckTotalActiveTimeD * 24);
 	return 0;
@@ -151,8 +151,9 @@ void Truck::getTruckMoveTime(int& h, int& d)
 }
 void Truck::LoadCargos(Cargo* c)
 {
+	c->setCargoDeliveryTime(TruckMoveTimeHour, TruckMoveTimeDay, TruckSpeed);//OPTION2
 	LoadingCargos.enqueueDescending(c, c->getDeliveringDistance());//---->check descending or ascending
-	c->setTruckLoadedOn(this);
+	//c->setTruckLoadedOn(this); //OPTION1
 }
 
 PriQ<Cargo*> Truck::getLoadedCargosInTruck() const

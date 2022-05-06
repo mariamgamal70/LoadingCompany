@@ -63,10 +63,10 @@ void Cargo::SetCargoID(int id)
 {
 	CargoID = id;
 }
-void Cargo::setTruckLoadedOn(Truck* T)
+/*void Cargo::setTruckLoadedOn(Truck* T)
 {
 	TruckLoadedOn =T ;
-}
+}*/
 
 char Cargo::getPreparationTimeDay() const
 {
@@ -103,35 +103,37 @@ int Cargo::getCargoID() const
 	return CargoID;
 }
 
-void Cargo::getCargoDeliveryTime(int& hours, int& days)//FOR LAST CARGO ONLY
+/*void Cargo::setCargoDeliveryTime(int& hours, int& days)//----------------->OPTION1
 {
 	int movetimeh, movetimed;
 	TruckLoadedOn->getTruckMoveTime(movetimeh, movetimed);
-	CargoDeliveryTimeHours = movetimeh + DeliveringDistance / TruckLoadedOn->getTruckSpeed() + PreparationTimeHour; //--------------------->NEEDS MOVE TIME AND TRUCKSPEED
-	while (CargoDeliveryTimeHours > 24)
-	{
-		CargoDeliveryTimeHours = CargoDeliveryTimeHours - 24;
-		CargoDeliveryTimeDays = PreparationTimeHour + 1;
-	}
-	hours = CargoDeliveryTimeHours;
-	days = CargoDeliveryTimeDays+ movetimed;
-}
-
-void Cargo::calcCargoDeliveryTime(int Truckspeed)
-{
-	CargoDeliveryTimeHours = DeliveringDistance / Truckspeed;
+	CargoDeliveryTimeHours = movetimeh + DeliveringDistance / TruckLoadedOn->getTruckSpeed() + PreparationTimeHour; //--->NEEDS MOVE TIME AND TRUCKSPEED , replace preparationtimehour with loadtime
 	while (CargoDeliveryTimeHours > 23)
 	{
 		CargoDeliveryTimeHours = CargoDeliveryTimeHours - 23;
-		CargoDeliveryTimeDays++;
+		CargoDeliveryTimeDays = PreparationTimeHour + 1;//--> increment cargo delivery time alone without the need of preparationtimeHour
 	}
+	hours = CargoDeliveryTimeHours;
+	days = CargoDeliveryTimeDays+ movetimed;
+}*/
+
+void Cargo::setCargoDeliveryTime(int TruckMoveTimeHour,int TruckMoveTimeDay,int Truckspeed)//-------------->OPTION2
+{
+	int movetimeh, movetimed;
+	CargoDeliveryTimeHours = TruckMoveTimeHour + DeliveringDistance / Truckspeed + LoadTime;
+	while (CargoDeliveryTimeHours > 23)
+	{
+		CargoDeliveryTimeHours = CargoDeliveryTimeHours - 23;
+		CargoDeliveryTimeDays ++;
+	}
+	CargoDeliveryTimeDays = CargoDeliveryTimeDays + TruckMoveTimeDay;
 }
 
-/*void Cargo::getCargoDeliveryTime(int& hours, int& days)
+int Cargo::getCargoDeliveryTime(int& CDTh, int& CDTd)
 {
-	hours = CargoDeliveryTimeHours;
-	days = CargoDeliveryTimeDays;
-}*/
+	CDTh = CargoDeliveryTimeHours;
+	CDTd = CargoDeliveryTimeDays;
+}
 
 Cargo Cargo::getCID(int CID)
 {

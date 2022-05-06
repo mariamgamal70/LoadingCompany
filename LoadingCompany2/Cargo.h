@@ -11,7 +11,7 @@
 //#include "Truck.h"
 using std::ifstream;
 using namespace std;
-class Truck; //----------------------
+//class Truck; //---------------------->OPTION1
 class Cargo
 {
 private:
@@ -38,7 +38,9 @@ public:
 	void setDeliveringDistance(int distance);
 	void setCargoType(char type);
 	void SetCargoID(int id);
-	void setTruckLoadedOn(Truck* T);
+	//void setTruckLoadedOn(Truck* T);//OPTION1
+	//void setCargoDeliveryTime(int& hours, int& days);//-------->get movetime and truckspeed //OPTION1
+	void setCargoDeliveryTime(int TruckMoveTimeHour, int TruckMoveTimeDay, int Truckspeed);//OPTION2
 
 	char getPreparationTimeDay() const;
 	int getPreparationTimeHour()const;
@@ -47,9 +49,8 @@ public:
 	char getCargoType() const;
 	int getLoadTime()const;
 	int getCargoID() const;
+	int getCargoDeliveryTime(int& CDTh, int& CDTd);
 
-	void getCargoDeliveryTime(int& hours, int& days);//-------->get movetime and truckspeed
-	void calcCargoDeliveryTime(int Truckspeed);
 	friend ostream& operator<<(ostream&output,Cargo*c);
 	Cargo getCID(int CargoID);
 	~Cargo();
