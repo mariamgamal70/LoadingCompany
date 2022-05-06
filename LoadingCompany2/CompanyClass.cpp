@@ -366,7 +366,86 @@ void CompanyClass::AddTruckToCheckup(Truck* T) //->MARIAM
 
 void CompanyClass::AssignCargoToTruck(Cargo* C)
 {
-
+	Cargo* specialcargo;
+	Node<Cargo*> normalcargonode;
+	Cargo* normalcargo;
+	Cargo* vipcargo;
+	Truck* specialtruck;
+	Truck* normaltruck;
+	Truck* viptruck;
+	//LOADING SPECIAL CARGO
+	if (SpecialCargos.getCount() >= specialtruck->getTruckCapacity())
+	{
+		if (SpecialTruckQueue.peek(specialtruck))
+		{
+			for (int i = 0; i < specialtruck->getTruckCapacity(); i++)
+			{
+				SpecialCargos.dequeue(specialcargo);
+				specialtruck->LoadCargos(specialcargo);
+			}
+		}
+	}
+	//LOADING NORMAL CARGO (FIRST NORMAL TRUCK THEN VIP TRUCK)
+	if (NormalCargos.getCount() >= normaltruck->getTruckCapacity())
+	{
+		if(NormalTruckQueue.peek(normaltruck))
+		{ 
+			for (int i = 0; i < normaltruck->getTruckCapacity(); i++)
+			{
+				NormalCargos.peek(normalcargonode);
+				NormalCargos.DeleteBeg();
+				normalcargo = normalcargonode.getItem();
+				normaltruck->LoadCargos(normalcargo);
+			}
+		}
+	}
+	else if (NormalCargos.getCount() >= viptruck->getTruckCapacity())
+	{
+		if (VIPTruckQueue.peek(viptruck))
+		{
+			for (int i = 0; i < normaltruck->getTruckCapacity(); i++)
+			{
+				NormalCargos.peek(normalcargonode);
+				NormalCargos.DeleteBeg();
+				normalcargo = normalcargonode.getItem();
+				viptruck->LoadCargos(normalcargo);
+			}
+		}
+	}
+	//LOADING VIP CARGO
+	if (VIPCargoPriQueue.getCount() >= viptruck->getTruckCapacity())
+	{
+		if (VIPTruckQueue.peek(viptruck))
+		{
+			for (int i = 0; i < viptruck->getTruckCapacity(); i++)
+			{
+				VIPCargoPriQueue.dequeue(vipcargo);
+				viptruck->LoadCargos(vipcargo);
+			}
+		}
+	}
+	else if (VIPCargoPriQueue.getCount() >= specialtruck->getTruckCapacity())
+	{
+		if (SpecialTruckQueue.peek(specialtruck))
+		{
+			for (int i = 0; i < specialtruck->getTruckCapacity(); i++)
+			{
+				VIPCargoPriQueue.dequeue(vipcargo);
+				specialtruck->LoadCargos(vipcargo);
+			}
+		}
+	}
+	else if (VIPCargoPriQueue.getCount() >= normaltruck->getTruckCapacity())
+	{
+		if (NormalTruckQueue.peek(normaltruck))
+		{
+			for (int i = 0; i < normaltruck->getTruckCapacity(); i++)
+			{
+					SpecialCargos.dequeue(vipcargo);
+					normaltruck->LoadCargos(vipcargo);
+			}
+		}
+	}
 }
 
 void CompanyClass::AddToDeliveredCargos()

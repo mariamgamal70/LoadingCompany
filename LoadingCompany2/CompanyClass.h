@@ -88,7 +88,7 @@ public:
 	void AddToAppropriateList(Cargo* C);
 	void AddTruckToCheckup(Truck* T);
 	void AssignCargoToTruck(Cargo* C);//ADD IMPLEMENTATION
-	void AddToDeliveredCargos();//ADD IMPLEMENTATION
+	void AddToDeliveredCargos();
 	/*void MoveTruckFromEmptyToLoading(Truck* T);
 	void MoveTruckFromLoadingToMoving(Truck* T);*/
 	
