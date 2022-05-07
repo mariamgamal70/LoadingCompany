@@ -364,7 +364,7 @@ void CompanyClass::AddTruckToCheckup(Truck* T) //->MARIAM
 	}
 }
 
-void CompanyClass::AssignCargoToTruck(Cargo* C)
+/*void CompanyClass::AssignCargoToTruck(Cargo* C)
 {
 	Cargo* specialcargo;
 	Node<Cargo*> normalcargonode;
@@ -446,7 +446,7 @@ void CompanyClass::AssignCargoToTruck(Cargo* C)
 			}
 		}
 	}
-}
+}*/
 
 void CompanyClass::AddToDeliveredCargos()
 {
