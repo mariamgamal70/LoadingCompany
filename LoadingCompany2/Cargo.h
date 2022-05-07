@@ -25,7 +25,7 @@ private:
 	int CargoID;
 	int CargoDeliveryTimeHours;
 	int CargoDeliveryTimeDays;
-	Truck* TruckLoadedOn;
+	//Truck* TruckLoadedOn; //OPTION1
 
 public:
 
@@ -49,7 +49,7 @@ public:
 	char getCargoType() const;
 	int getLoadTime()const;
 	int getCargoID() const;
-	int getCargoDeliveryTime(int& CDTh, int& CDTd);
+	void getCargoDeliveryTime(int& CDTh, int& CDTd);
 
 	friend ostream& operator<<(ostream&output,Cargo*c);
 	Cargo getCID(int CargoID);

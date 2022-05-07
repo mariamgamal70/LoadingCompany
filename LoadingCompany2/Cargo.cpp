@@ -129,7 +129,7 @@ void Cargo::setCargoDeliveryTime(int TruckMoveTimeHour,int TruckMoveTimeDay,int 
 	CargoDeliveryTimeDays = CargoDeliveryTimeDays + TruckMoveTimeDay;
 }
 
-int Cargo::getCargoDeliveryTime(int& CDTh, int& CDTd)
+void Cargo::getCargoDeliveryTime(int& CDTh, int& CDTd)
 {
 	CDTh = CargoDeliveryTimeHours;
 	CDTd = CargoDeliveryTimeDays;
