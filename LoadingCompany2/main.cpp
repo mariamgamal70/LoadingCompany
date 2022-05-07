@@ -5,4 +5,5 @@ int main()
 {
 	CompanyClass Maestro;
 	Maestro.SimulatorFunction();
+	cout << "SUIIIIIIIIIII";
 }
