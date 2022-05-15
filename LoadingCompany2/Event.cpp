@@ -31,7 +31,7 @@ void Event::SetID(int id)
 	SelectedId = id;
 }
 
-void Event::SetComapnyptr(CompanyClass* c)
+void Event::SetCompanyptr(CompanyClass* c)
 {
 	EventExecuted = c;
 }
