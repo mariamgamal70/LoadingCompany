@@ -22,12 +22,18 @@ PromoteEvent::PromoteEvent(int EventTimeHours, int EventTimeDays, int CargoID, i
 	CargoExtraCost = CargoExtraMoney;
 }
 
-void PromoteEvent::Execute()
+void PromoteEvent::Execute(CompanyClass*Event_Executed)
 {
-	EventExecuted->PromoteCargo(SelectedId);
+	Event_Executed->PromoteCargo(SelectedId);
 }
 
 void PromoteEvent::SetExtraMoney(int extra)
 {
 	CargoExtraCost = extra;
+}
+
+
+int PromoteEvent::GetExtraMoney() const
+{
+	return CargoExtraCost;
 }

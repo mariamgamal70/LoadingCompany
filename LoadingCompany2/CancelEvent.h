@@ -5,7 +5,7 @@ class CancelEvent : public Event
 public:
 
     CancelEvent(int EventTimeHours = 1, int EventTimeDays = 1, int CargoID = 0);
-    void Execute();
+    void Execute(CompanyClass*Event_Executed);
     ~CancelEvent();
 
     // CancelEvent();

@@ -12,10 +12,10 @@ CancelEvent::CancelEvent(int EventTimeHours, int EventTimeDays, int CargoID)
 	SelectedId = CargoID;
 }
 
-void CancelEvent::Execute() 
+void CancelEvent::Execute(CompanyClass*Event_Executed) 
 {
 
-	EventExecuted->RemoveCargo(SelectedId);
+	Event_Executed->RemoveCargo(SelectedId);
 }
 
 CancelEvent::~CancelEvent()

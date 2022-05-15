@@ -8,23 +8,22 @@ protected:
 	int Hours ;
 	int Days ;
 	int SelectedId ;
-	CompanyClass* EventExecuted;
 
 public:
 	Event();
 
-	Event(int EventTimeHours, int EventTimeDays, int sid,CompanyClass*c);
+	Event(int EventTimeHours, int EventTimeDays, int sid);  //removed Companyptr from Event class Data members
 
 	void SetHours(int h);
 	void SetDays(int d);
 	void SetID(int id);
-	void SetCompanyptr(CompanyClass*c);
+	//void SetCompanyptr(CompanyClass*c);
 
 	int GetHours() const;
 	int GetDays() const;
 	int GetSelectedId() const;
 
-	virtual void Execute() = 0;
+	virtual void Execute(CompanyClass*Event_Executed) = 0;
 
 	~Event();
 };

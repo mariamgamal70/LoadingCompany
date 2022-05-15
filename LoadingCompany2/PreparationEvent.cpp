@@ -64,7 +64,7 @@ void PreparationEvent::SetCargotype(char t)
 	CargoType = t;
 }
 
-void PreparationEvent::Execute()
+void PreparationEvent::Execute(CompanyClass*Event_Executed)
 {
 	char Type = GetCargoType();
 	int PrepD = GetDays();
@@ -74,7 +74,7 @@ void PreparationEvent::Execute()
 	int LoadT = GetLoadTime();
 	int cost = GetCargoCost();
 	CargoReady=new Cargo(Type, PrepD,PrepH, id, dist, LoadT, cost);
-	EventExecuted->AddToAppropriateList(CargoReady);
+	Event_Executed->AddToAppropriateList(CargoReady);
 }
 
 PreparationEvent::~PreparationEvent()

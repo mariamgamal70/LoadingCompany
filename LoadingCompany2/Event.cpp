@@ -8,12 +8,12 @@ Event::Event()
 	//EventExecuted = nullptr;
 }
 
-Event::Event(int EventTimeHours, int EventTimeDays, int sid,CompanyClass*c)
+Event::Event(int EventTimeHours, int EventTimeDays, int sid)
 {
 	Hours = EventTimeHours;
 	Days = EventTimeDays;
 	SelectedId = sid;
-	EventExecuted = c;
+	//EventExecuted = c;
 }
 
 void Event::SetHours(int h)
@@ -31,10 +31,11 @@ void Event::SetID(int id)
 	SelectedId = id;
 }
 
-void Event::SetCompanyptr(CompanyClass* c)
+/*void Event::SetCompanyptr(CompanyClass* c)
 {
 	EventExecuted = c;
 }
+*/
 
 int Event::GetHours() const
 {

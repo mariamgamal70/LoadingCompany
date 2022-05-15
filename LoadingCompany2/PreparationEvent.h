@@ -13,7 +13,7 @@ public:
     PreparationEvent();
     PreparationEvent(char CargoT, int EventTimeHours, int EventTimeDays, int CargoID, int CargoDist, int LoadTimeHours, int Cost);
 
-    void Execute();
+    void Execute(CompanyClass*Event_Executed);
 //void Execute(LinkedQueue<Cargo> Lspecial, LinkedQueue<Cargo> Lnormal, LinkedQueue<Cargo> Lvip, char type, int lt, int dc, int dd, int td, int th); //missing add to "appropriate list"
     int GetCargoCost() const;
     int GetLoadTime() const;

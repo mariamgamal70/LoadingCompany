@@ -737,7 +737,7 @@ void CompanyClass::SimulatorFunction()
 				if (EventToBeExecuted->GetHours() == Hour && EventToBeExecuted->GetDays() == Day)//pointer and hours and days are incorrect
 				{
 					Eventlist.dequeue(EventToBeExecuted);
-					EventToBeExecuted->Execute();
+					EventToBeExecuted->Execute(this);
 				}
 				if (TimeStepCount % 5 == 0 && TimeStepCount != 0)
 				{
