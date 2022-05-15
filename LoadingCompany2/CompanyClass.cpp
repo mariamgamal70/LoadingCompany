@@ -84,44 +84,42 @@ void CompanyClass::FileLoading()
 
 			if (EventType)
 			{
-			if('R')//<<<<<---------------CALL PREPARATION EVENT--------------
-			{
-				inFile >> CargoType;
-				inFile >> EventTimeDays;
-				inFile >> dummy;
-				inFile >> EventTimeHours;
-				inFile >> CargoID;
-				inFile>> CargoDist >> CargoLoadTime >> CargoCost;
-				E=new PreparationEvent(CargoType, EventTimeHours, EventTimeDays, CargoID, CargoDist, CargoLoadTime, CargoCost);
-				Eventlist.enqueue(E);
-				count++;
-				//break;
-			}
-			else if('X')//<<<---------------CALL CANCELLATION EVENT----------------
-			{
-				inFile >> EventTimeDays;
-				inFile >> dummy;
-				inFile >> EventTimeHours;
-				inFile >> CargoID;
-				E=new CancelEvent(EventTimeHours, EventTimeDays, CargoID);
-				Eventlist.enqueue(E);
-				count++;
-				//break;
-			}
-			else if('P')//<<-----------------CALL PROMOTION EVENT-------------------
-			{
-				inFile >> EventTimeDays;
-				inFile >> dummy;
-				inFile >> EventTimeHours;
-				inFile >> CargoID;
-				inFile >> CargoExtraMoney;
-				E=new PromoteEvent (EventTimeHours, EventTimeDays, CargoID, CargoExtraMoney);
-				Eventlist.enqueue(E);
-				count++;
-				//break;
-			}
-			
-			
+				if('R')//<<<<<---------------CALL PREPARATION EVENT--------------
+				{
+					inFile >> CargoType;
+					inFile >> EventTimeDays;
+					inFile >> dummy;
+					inFile >> EventTimeHours;
+					inFile >> CargoID;
+					inFile>> CargoDist >> CargoLoadTime >> CargoCost;
+					E=new PreparationEvent(CargoType, EventTimeHours, EventTimeDays, CargoID, CargoDist, CargoLoadTime, CargoCost);
+					Eventlist.enqueue(E);
+					count++;
+					//break;
+				}
+				else if('X')//<<<---------------CALL CANCELLATION EVENT----------------
+				{
+					inFile >> EventTimeDays;
+					inFile >> dummy;
+					inFile >> EventTimeHours;
+					inFile >> CargoID;
+					E=new CancelEvent(EventTimeHours, EventTimeDays, CargoID);
+					Eventlist.enqueue(E);
+					count++;
+					//break;
+				}
+				else if('P')//<<-----------------CALL PROMOTION EVENT-------------------
+				{
+					inFile >> EventTimeDays;
+					inFile >> dummy;
+					inFile >> EventTimeHours;
+					inFile >> CargoID;
+					inFile >> CargoExtraMoney;
+					E=new PromoteEvent (EventTimeHours, EventTimeDays, CargoID, CargoExtraMoney);
+					Eventlist.enqueue(E);
+					count++;
+					//break;
+				}
 			}
 		}
 		inFile.close(); //close the file object.
@@ -367,9 +365,8 @@ void CompanyClass::AddTruckToCheckup(Truck* T) //->MARIAM
 
 void CompanyClass::AssignCargoToTruck()
 {
-	//max wait rule if available truck to a cargo that has been waiting for a max wait time 
-	Node<Cargo*> normalcargonode;
-	PriQNode<Cargo*> vipcargonode;
+	//Node<Cargo*> normalcargonode;
+	//PriQNode<Cargo*> vipcargonode;
 	Truck* specialtruck;
 	Truck* normaltruck;
 	Truck* viptruck;
@@ -381,12 +378,19 @@ void CompanyClass::AssignCargoToTruck()
 		if (!SpecialTruckQueue.isEmpty())
 		{
 			SpecialTruckQueue.peek(specialtruck);
+
 			if (SpecialCargos.getCount() >= specialtruck->getTruckCapacity())
 			{
+				MoveTruckFromEmptyToLoading(specialtruck);
+
 				for (int i = 0; i < specialtruck->getTruckCapacity(); i++)
 				{
-					SpecialCargos.dequeue(specialcargo);//add check max wait (if condition)
+					SpecialCargos.dequeue(specialcargo);
 					specialtruck->LoadCargos(specialcargo);
+					if (getCurrentTimeHour()+(getCurrentTimeDay()*24)>=MaxWaitHours)//add check max wait (if condition)
+					{
+						break;
+					}
 				}
 			}
 		}
@@ -402,11 +406,17 @@ void CompanyClass::AssignCargoToTruck()
 
 			if (NormalCargos.getCount() >= normaltruck->getTruckCapacity())
 			{ 
+				MoveTruckFromEmptyToLoading(normaltruck);
+
 				for (int i = 0; i < normaltruck->getTruckCapacity(); i++)
 				{	
 					normalcargo = NormalCargos.getHead();
-					NormalCargos.DeleteBeg();//add check max wait (if condition)
+					NormalCargos.DeleteBeg();
 					normaltruck->LoadCargos(normalcargo);
+					if (getCurrentTimeHour() + (getCurrentTimeDay() * 24) >= MaxWaitHours)//add check max wait (if condition)
+					{
+						break;
+					}
 				}
 			}
 		}
@@ -416,17 +426,22 @@ void CompanyClass::AssignCargoToTruck()
 
 			if (NormalCargos.getCount() >= viptruck->getTruckCapacity())
 			{
+				MoveTruckFromEmptyToLoading(viptruck);
+
 				for (int i = 0; i < viptruck->getTruckCapacity(); i++)
 				{
 					normalcargo=NormalCargos.getHead();
-					NormalCargos.DeleteBeg();//add check max wait (if condition)
+					NormalCargos.DeleteBeg();
 					viptruck->LoadCargos(normalcargo);
+					if (getCurrentTimeHour() + (getCurrentTimeDay() * 24) >= MaxWaitHours)//add check max wait (if condition)
+					{
+						break;
+					}
 				}
 			}
 		}
 	}
 	//LOADING VIP CARGO
-	
 	if(!VIPCargoPriQueue.isEmpty())
 	{ 
 		Cargo* vipcargo=nullptr;
@@ -434,8 +449,11 @@ void CompanyClass::AssignCargoToTruck()
 		if (!VIPTruckQueue.isEmpty())
 		{
 			VIPTruckQueue.peek(viptruck);
+
 			if (VIPCargoPriQueue.getCount() >= viptruck->getTruckCapacity())
 			{
+				MoveTruckFromEmptyToLoading(viptruck);
+
 				for (int i = 0; i < viptruck->getTruckCapacity(); i++)
 				{
 					VIPCargoPriQueue.dequeue(vipcargo);
@@ -446,8 +464,11 @@ void CompanyClass::AssignCargoToTruck()
 		else if  (!SpecialTruckQueue.isEmpty())
 		{
 			SpecialTruckQueue.peek(specialtruck);
+
 			if(VIPCargoPriQueue.getCount() >= specialtruck->getTruckCapacity())
 			{
+				MoveTruckFromEmptyToLoading(specialtruck);
+
 				for (int i = 0; i < specialtruck->getTruckCapacity(); i++)
 				{
 					VIPCargoPriQueue.dequeue(vipcargo);
@@ -461,10 +482,12 @@ void CompanyClass::AssignCargoToTruck()
 
 			if (VIPCargoPriQueue.getCount() >= normaltruck->getTruckCapacity())
 			{
+				MoveTruckFromEmptyToLoading(normaltruck);
+
 				for (int i = 0; i < normaltruck->getTruckCapacity(); i++)
 				{
-						SpecialCargos.dequeue(vipcargo);
-						normaltruck->LoadCargos(vipcargo);
+					SpecialCargos.dequeue(vipcargo);
+					normaltruck->LoadCargos(vipcargo);
 				}
 			}
 		}
