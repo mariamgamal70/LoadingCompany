@@ -105,12 +105,6 @@ public:
 		return true;
 	}
 
-
-
-
-
-
-
 	//Function the checks the first element.and copies the front of this queue to the passed param.
 	bool peek(PriQNode<T>& temp)
 	{

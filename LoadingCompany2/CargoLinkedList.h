@@ -86,11 +86,15 @@ public:
 	}*/
 
      void InsertBegC(Cargo* C)  
-	{
+	 {
 		Node<Cargo*>* R = new Node<Cargo*>(C);
 		R->setNext(Head);
 		Head = R;
 		count++;
-	}
+	 }
+	 Cargo* getHead()
+	 {
+		 return Head->getItem();
+	 }
 
 };

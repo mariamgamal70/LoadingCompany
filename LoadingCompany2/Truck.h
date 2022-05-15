@@ -58,9 +58,11 @@ public:
 	void getTruckMoveTime(int& h, int& d);
 	PriQ<Cargo*> getLoadedCargosInTruck() const;
 	void getTimeToComeBack(int &hour , int &day);
+	Cargo* getLoadedCargosTop();
 
 	void LoadCargos(Cargo* c);
 	void UnloadCargo(PriQNode<Cargo*> delivered);
+	bool LoadedCargosFull();
 	void getDeliveredCargosByTruck();
 	void incrementTruckTotalActiveTime();
 	void AddJourney();

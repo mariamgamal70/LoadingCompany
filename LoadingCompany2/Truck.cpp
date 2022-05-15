@@ -161,6 +161,14 @@ void Truck::UnloadCargo(PriQNode<Cargo*> delivered)
 	LoadingCargos.dequeue(delivered);
 }
 
+bool Truck::LoadedCargosFull()
+{
+	if (LoadingCargos.getCount() == TruckCapacity)
+		return true;
+	else
+		return false;
+}
+
 PriQ<Cargo*> Truck::getLoadedCargosInTruck() const
 {
 	return LoadingCargos;
@@ -175,6 +183,14 @@ void Truck::getTimeToComeBack(int &hour, int &day)
 		TimeToComeBackH = TimeToComeBackH - 24;
 		TimeToComeBackD++;
 	}
+}
+Cargo* Truck::getLoadedCargosTop()
+{
+	Cargo* top=nullptr;
+	PriQNode<Cargo*> node;
+	LoadingCargos.peek(node);
+	top=node.getItem();
+	return top ;
 }
 Truck::~Truck()
 {
