@@ -66,14 +66,14 @@ class CompanyClass
 	int NoOfJourneys, NCheckupTime, VCheckupTime, SCheckupTime;
 	int AutoPDays, MaxWaitHours;
 	int NoOfEvents;
-	int count = 0;
+	int count;
 	char EventType;
 	char CargoType;
 	int EventTimeHours, EventTimeDays;
 	int CargoID, CargoDist, CargoLoadTime, CargoCost;
 	int CargoExtraMoney;
 	UIclass* ui;
-
+	//Event* EventTobeExceuted;
 public:
 	CompanyClass();
 	CompanyClass(UIclass* uii);
@@ -87,8 +87,9 @@ public:
 	void AddToVIPCargos(Cargo* C, double priority);
 	void AddToAppropriateList(Cargo* C);
 	void AddTruckToCheckup(Truck* T);
-	void AssignCargoToTruck(Cargo* C);//ADD IMPLEMENTATION
+	void AssignCargoToTruck();//ADD IMPLEMENTATION
 	void AddToDeliveredCargos();
+	void LoadingToMovingTrucks();
 	/*void MoveTruckFromEmptyToLoading(Truck* T);
 	void MoveTruckFromLoadingToMoving(Truck* T);*/
 	

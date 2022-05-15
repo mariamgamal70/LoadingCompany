@@ -15,7 +15,7 @@
 #include "Event.h"
 #include "PreparationEvent.h"
 #include "CancelEvent.h"
-#include"PromoteEvent.h"
+#include "PromoteEvent.h"
 //------------------------//
 #include "CompanyClass.h"
 using namespace std;
@@ -28,6 +28,7 @@ CompanyClass::CompanyClass()
 	SumSpecialCargos = 0;
 	SumVIPCargos = 0;
 	SumCargos = 0;
+	count = 0;
 }
 CompanyClass::CompanyClass(UIclass* uii)
 {
@@ -364,91 +365,112 @@ void CompanyClass::AddTruckToCheckup(Truck* T) //->MARIAM
 	}
 }
 
-/*void CompanyClass::AssignCargoToTruck(Cargo* C)
+void CompanyClass::AssignCargoToTruck()
 {
-	Cargo* specialcargo;
 	Node<Cargo*> normalcargonode;
-	Cargo* normalcargo;
-	Cargo* vipcargo;
+	PriQNode<Cargo*> vipcargonode;
 	Truck* specialtruck;
 	Truck* normaltruck;
 	Truck* viptruck;
 	//LOADING SPECIAL CARGO
-	if (SpecialCargos.getCount() >= specialtruck->getTruckCapacity())
-	{
-		if (SpecialTruckQueue.peek(specialtruck))
+	if(!SpecialCargos.isEmpty())
+	{ 
+		Cargo* specialcargo=nullptr;
+
+		if (SpecialTruckQueue.isEmpty())
 		{
-			for (int i = 0; i < specialtruck->getTruckCapacity(); i++)
+			SpecialTruckQueue.peek(specialtruck);
+			if (SpecialCargos.getCount() >= specialtruck->getTruckCapacity())
 			{
-				SpecialCargos.dequeue(specialcargo);
-				specialtruck->LoadCargos(specialcargo);
+				for (int i = 0; i < specialtruck->getTruckCapacity(); i++)
+				{
+					SpecialCargos.dequeue(specialcargo);
+					specialtruck->LoadCargos(specialcargo);
+				}
 			}
 		}
 	}
 	//LOADING NORMAL CARGO (FIRST NORMAL TRUCK THEN VIP TRUCK)
-	if (NormalCargos.getCount() >= normaltruck->getTruckCapacity())
-	{
-		if(NormalTruckQueue.peek(normaltruck))
-		{ 
-			for (int i = 0; i < normaltruck->getTruckCapacity(); i++)
-			{
-				NormalCargos.peek(normalcargonode);
-				NormalCargos.DeleteBeg();
-				normalcargo = normalcargonode.getItem();
-				normaltruck->LoadCargos(normalcargo);
+	if(!NormalCargos.isEmpty())
+	{ 
+		Cargo* normalcargo=nullptr;
+
+		if(!NormalTruckQueue.isEmpty())
+		{
+			NormalTruckQueue.peek(normaltruck);
+
+			if (NormalCargos.getCount() >= normaltruck->getTruckCapacity())
+			{ 
+				for (int i = 0; i < normaltruck->getTruckCapacity(); i++)
+				{	
+					normalcargo = NormalCargos.getHead();
+					NormalCargos.DeleteBeg();
+					normaltruck->LoadCargos(normalcargo);
+				}
 			}
 		}
-	}
-	else if (NormalCargos.getCount() >= viptruck->getTruckCapacity())
-	{
-		if (VIPTruckQueue.peek(viptruck))
+		else if (!VIPTruckQueue.isEmpty())
 		{
-			for (int i = 0; i < normaltruck->getTruckCapacity(); i++)
+			VIPTruckQueue.peek(viptruck);
+
+			if (NormalCargos.getCount() >= viptruck->getTruckCapacity())
 			{
-				NormalCargos.peek(normalcargonode);
-				NormalCargos.DeleteBeg();
-				normalcargo = normalcargonode.getItem();
-				viptruck->LoadCargos(normalcargo);
+				for (int i = 0; i < viptruck->getTruckCapacity(); i++)
+				{
+					normalcargo=NormalCargos.getHead();
+					NormalCargos.DeleteBeg();
+					viptruck->LoadCargos(normalcargo);
+				}
 			}
 		}
 	}
 	//LOADING VIP CARGO
-	if (VIPCargoPriQueue.getCount() >= viptruck->getTruckCapacity())
-	{
-		if (VIPTruckQueue.peek(viptruck))
-		{
-			for (int i = 0; i < viptruck->getTruckCapacity(); i++)
-			{
-				VIPCargoPriQueue.dequeue(vipcargo);
-				viptruck->LoadCargos(vipcargo);
-			}
-		}
-	}
-	else if (VIPCargoPriQueue.getCount() >= specialtruck->getTruckCapacity())
-	{
-		if (SpecialTruckQueue.peek(specialtruck))
-		{
-			for (int i = 0; i < specialtruck->getTruckCapacity(); i++)
-			{
-				VIPCargoPriQueue.dequeue(vipcargo);
-				specialtruck->LoadCargos(vipcargo);
-			}
-		}
-	}
-	else if (VIPCargoPriQueue.getCount() >= normaltruck->getTruckCapacity())
-	{
-		if (NormalTruckQueue.peek(normaltruck))
-		{
-			for (int i = 0; i < normaltruck->getTruckCapacity(); i++)
-			{
-					SpecialCargos.dequeue(vipcargo);
-					normaltruck->LoadCargos(vipcargo);
-			}
-		}
-	}
-}*/
+	
+	if(!VIPCargoPriQueue.isEmpty())
+	{ 
+		Cargo* vipcargo=nullptr;
 
-void CompanyClass::AddToDeliveredCargos()
+		if (!VIPTruckQueue.isEmpty())
+		{
+			VIPTruckQueue.peek(viptruck);
+			if (VIPCargoPriQueue.getCount() >= viptruck->getTruckCapacity())
+			{
+				for (int i = 0; i < viptruck->getTruckCapacity(); i++)
+				{
+					VIPCargoPriQueue.dequeue(vipcargo);
+					viptruck->LoadCargos(vipcargo);
+				}
+			}
+		}
+		else if  (!SpecialTruckQueue.isEmpty())
+		{
+			SpecialTruckQueue.peek(specialtruck);
+			if(VIPCargoPriQueue.getCount() >= specialtruck->getTruckCapacity())
+			{
+				for (int i = 0; i < specialtruck->getTruckCapacity(); i++)
+				{
+					VIPCargoPriQueue.dequeue(vipcargo);
+					specialtruck->LoadCargos(vipcargo);
+				}
+			}
+		}
+		else if (!NormalTruckQueue.isEmpty())
+		{
+			NormalTruckQueue.peek(normaltruck);
+
+			if (VIPCargoPriQueue.getCount() >= normaltruck->getTruckCapacity())
+			{
+				for (int i = 0; i < normaltruck->getTruckCapacity(); i++)
+				{
+						SpecialCargos.dequeue(vipcargo);
+						normaltruck->LoadCargos(vipcargo);
+				}
+			}
+		}
+	}
+}
+
+/*void CompanyClass::AddToDeliveredCargos()
 {
 	PriQ<Cargo*> Calternative;
 	PriQNode<Truck*> NodeT;
@@ -490,6 +512,36 @@ void CompanyClass::AddToDeliveredCargos()
 		}
 		//MovingTrucks.
 	}
+}*/
+void CompanyClass::AddToDeliveredCargos() //trial2
+{
+	while (!MovingTrucks.isEmpty())
+	{
+		Truck* truck;
+		PriQ<Truck*> ExtraMovingTruck;
+		MovingTrucks.dequeue(truck);
+
+		
+	}
+}
+
+void CompanyClass::LoadingToMovingTrucks()
+{
+	PriQNode<Truck*> vipnode;
+	Truck* viptruck;
+	if (!VIPTruckQueue.isEmpty())
+	{
+		if (VIPTruckQueue.peek(vipnode))
+		{
+			viptruck=vipnode.getItem();
+			if (viptruck->LoadedCargosFull())
+			{
+				VIPTruckQueue.dequeue(viptruck);
+				MovingTrucks.enqueueAscending(viptruck,viptruck->getTruckDeliveryIntervalHours());
+			}
+		}
+	}
+
 }
 
 //-------------------------------------------GETTERS----------------------------------------//
