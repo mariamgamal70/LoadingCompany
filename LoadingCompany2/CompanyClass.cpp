@@ -519,7 +519,7 @@ void CompanyClass::AddToDeliveredCargos() //trial2
 	{
 		Truck* truck;
 		PriQ<Truck*> ExtraMovingTruck;
-		MovingTrucks.dequeue(truck);
+		//MovingTrucks.dequeue(truck); -----------------------------------------------------------------------------
 
 		
 	}
@@ -531,7 +531,7 @@ void CompanyClass::LoadingToMovingTrucks()
 	Truck* viptruck;
 	if (!VIPTruckQueue.isEmpty())
 	{
-		if (VIPTruckQueue.peek(vipnode))
+		//if (VIPTruckQueue.peek(vipnode))
 		{
 			viptruck=vipnode.getItem();
 			if (viptruck->LoadedCargosFull())
