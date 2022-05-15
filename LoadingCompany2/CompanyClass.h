@@ -44,9 +44,9 @@ class CompanyClass
 	LinkedQueue<Truck*> VIPTrucksUnderCheckup;
 
 	//available but loading (NO LOADING TRUCKS , ONLY INITIAL TRUCKS)
-	/*LinkedQueue<Truck*> LoadingNormalTrucks;
+	LinkedQueue<Truck*> LoadingNormalTrucks;
 	LinkedQueue<Truck*> LoadingSpecialTrucks;
-	LinkedQueue<Truck*> LoadingVIPTrucks;*/
+	LinkedQueue<Truck*> LoadingVIPTrucks;
 	//----------------------------initial cargo list------------------------------------
 		//waiting to be loaded 
 	CargoLinkedList NormalCargos; // to apply cancellation and promotion on it easier
@@ -90,8 +90,8 @@ public:
 	void AssignCargoToTruck();//ADD IMPLEMENTATION
 	void AddToDeliveredCargos();
 	void LoadingToMovingTrucks();
-	/*void MoveTruckFromEmptyToLoading(Truck* T);
-	void MoveTruckFromLoadingToMoving(Truck* T);*/
+	void MoveTruckFromEmptyToLoading(Truck* T);
+	void MoveTruckFromLoadingToMoving(Truck* T);
 	
 	//-----------------GETTERS----------------------//	
 	

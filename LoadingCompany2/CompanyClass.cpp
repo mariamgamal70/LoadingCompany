@@ -367,6 +367,7 @@ void CompanyClass::AddTruckToCheckup(Truck* T) //->MARIAM
 
 void CompanyClass::AssignCargoToTruck()
 {
+	//max wait rule if available truck to a cargo that has been waiting for a max wait time 
 	Node<Cargo*> normalcargonode;
 	PriQNode<Cargo*> vipcargonode;
 	Truck* specialtruck;
@@ -377,14 +378,14 @@ void CompanyClass::AssignCargoToTruck()
 	{ 
 		Cargo* specialcargo=nullptr;
 
-		if (SpecialTruckQueue.isEmpty())
+		if (!SpecialTruckQueue.isEmpty())
 		{
 			SpecialTruckQueue.peek(specialtruck);
 			if (SpecialCargos.getCount() >= specialtruck->getTruckCapacity())
 			{
 				for (int i = 0; i < specialtruck->getTruckCapacity(); i++)
 				{
-					SpecialCargos.dequeue(specialcargo);
+					SpecialCargos.dequeue(specialcargo);//add check max wait (if condition)
 					specialtruck->LoadCargos(specialcargo);
 				}
 			}
@@ -404,7 +405,7 @@ void CompanyClass::AssignCargoToTruck()
 				for (int i = 0; i < normaltruck->getTruckCapacity(); i++)
 				{	
 					normalcargo = NormalCargos.getHead();
-					NormalCargos.DeleteBeg();
+					NormalCargos.DeleteBeg();//add check max wait (if condition)
 					normaltruck->LoadCargos(normalcargo);
 				}
 			}
@@ -418,7 +419,7 @@ void CompanyClass::AssignCargoToTruck()
 				for (int i = 0; i < viptruck->getTruckCapacity(); i++)
 				{
 					normalcargo=NormalCargos.getHead();
-					NormalCargos.DeleteBeg();
+					NormalCargos.DeleteBeg();//add check max wait (if condition)
 					viptruck->LoadCargos(normalcargo);
 				}
 			}
