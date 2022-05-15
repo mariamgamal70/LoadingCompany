@@ -11,7 +11,12 @@
 #include "Cargo.h"
 #include <iostream>
 
-
+enum mode
+{
+	Interactive,
+	StepByStep,
+	Silent
+};
 using namespace std;
 class CompanyClass;
 
@@ -20,6 +25,7 @@ class UIclass
 private:
 	ofstream fout;
 	ifstream fin;
+	mode modee;
 	CompanyClass* comp;
 public:
 	UIclass(CompanyClass* company);
@@ -35,6 +41,7 @@ public:
 	void printinCheckuptrucks();
 	void printdeliveredcargo();
 	*/
+	
 	void printInteractive();	//Print Output in interactive
 	//void getinput();	//Open the inputs.txt file and read the data
 	void coutinteger(int m);
@@ -45,5 +52,8 @@ public:
 	string cinfilename();
 	void printline();
     ~UIclass();
-	
+	mode choosethemode();
+		void printSilent();
+		void printOutput();
+		void Write();
 };
