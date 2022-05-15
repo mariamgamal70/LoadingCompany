@@ -152,7 +152,7 @@ void Truck::getTruckMoveTime(int& h, int& d)
 void Truck::LoadCargos(Cargo* c)
 {
 	c->setCargoDeliveryTime(TruckMoveTimeHour, TruckMoveTimeDay, TruckSpeed);//OPTION2
-	LoadingCargos.enqueueDescending(c, c->getDeliveringDistance());//---->check descending or ascending
+	LoadingCargos.enqueueAscending(c, c->getDeliveringDistance());//---->check descending or ascending
 	//c->setTruckLoadedOn(this); //OPTION1
 }
 
