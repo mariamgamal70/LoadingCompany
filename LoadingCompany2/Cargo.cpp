@@ -19,7 +19,6 @@ Cargo::Cargo()
 
 Cargo::Cargo(char type, int pd, int ph, int id, int dist, int LT, int cost)
 {
-
 	setCargoType(type);
 	setPreparationTimeDay(pd);
 	setPreparationTimeHour(ph);
@@ -27,7 +26,6 @@ Cargo::Cargo(char type, int pd, int ph, int id, int dist, int LT, int cost)
 	setDeliveringDistance(dist);
 	setCargoLoadTime(LT);
 	setCargoDeliveringCost(cost);
-
 }
 void Cargo::setCargoLoadTime(int time)
 {
