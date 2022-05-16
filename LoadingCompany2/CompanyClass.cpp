@@ -410,7 +410,7 @@ void CompanyClass::AssignCargoToTruck()
 
 				for (int i = 0; i < normaltruck->getTruckCapacity(); i++)
 				{	
-					normalcargo = NormalCargos.getHead();
+					normalcargo = NormalCargos.peek();//peek
 					NormalCargos.DeleteBeg();
 					normaltruck->LoadCargos(normalcargo);
 					if (getCurrentTimeHour() + (getCurrentTimeDay() * 24) >= MaxWaitHours)//add check max wait (if condition)
@@ -430,7 +430,7 @@ void CompanyClass::AssignCargoToTruck()
 
 				for (int i = 0; i < viptruck->getTruckCapacity(); i++)
 				{
-					normalcargo=NormalCargos.getHead();
+					normalcargo=NormalCargos.peek();
 					NormalCargos.DeleteBeg();
 					viptruck->LoadCargos(normalcargo);
 					if (getCurrentTimeHour() + (getCurrentTimeDay() * 24) >= MaxWaitHours)//add check max wait (if condition)
@@ -739,7 +739,7 @@ void CompanyClass::SimulatorFunction()
 					Eventlist.dequeue(EventToBeExecuted);
 					EventToBeExecuted->Execute(this);
 				}
-				if (TimeStepCount % 5 == 0 && TimeStepCount != 0)
+				/*if (TimeStepCount % 5 == 0 && TimeStepCount != 0) //PHASE1
 				{
 					Cargo* specialcargo;
 					Node<Cargo*> normalcargo;
@@ -759,7 +759,7 @@ void CompanyClass::SimulatorFunction()
 						VIPCargoPriQueue.dequeue(vipcargo.getItem());
 						VIPDeliveredCargos.enqueue(vipcargo.getItem());
 					}
-				}
+				}*/
 				/*Truck* Normal;
 				Truck* Special;
 				Truck* VIP;

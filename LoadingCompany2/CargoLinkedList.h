@@ -93,7 +93,7 @@ public:
 		Head = R;
 		count++;
 	 }
-	 Cargo* getHead()
+	 Cargo* peek()
 	 {
 		 return Head->getItem();
 	 }
