@@ -24,7 +24,6 @@ PreparationEvent::PreparationEvent(char CargoT, int EventTimeHours, int EventTim
 	SetHours(EventTimeHours);
 	SetDays(EventTimeDays);
 	SetID(CargoID);
-	EventExecuted = new CompanyClass;
 }
 
 int PreparationEvent::GetCargoCost() const
