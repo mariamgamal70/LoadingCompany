@@ -23,6 +23,7 @@ public:
 				delete temp;
 				temp = NULL;
 				Head = NULL;
+				count--;
 			}
 		}
 		else
