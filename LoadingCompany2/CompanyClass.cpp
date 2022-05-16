@@ -84,7 +84,7 @@ void CompanyClass::FileLoading()
 
 			if (EventType)
 			{
-				if('R')//<<<<<---------------CALL PREPARATION EVENT--------------
+				if(EventType=='R')//<<<<<---------------CALL PREPARATION EVENT--------------
 				{
 					inFile >> CargoType;
 					inFile >> EventTimeDays;
@@ -97,7 +97,7 @@ void CompanyClass::FileLoading()
 					count++;
 					//break;
 				}
-				else if('X')//<<<---------------CALL CANCELLATION EVENT----------------
+				else if(EventType=='X')//<<<---------------CALL CANCELLATION EVENT----------------
 				{
 					inFile >> EventTimeDays;
 					inFile >> dummy;
@@ -108,7 +108,7 @@ void CompanyClass::FileLoading()
 					count++;
 					//break;
 				}
-				else if('P')//<<-----------------CALL PROMOTION EVENT-------------------
+				else if(EventType=='P')//<<-----------------CALL PROMOTION EVENT-------------------
 				{
 					inFile >> EventTimeDays;
 					inFile >> dummy;
@@ -381,7 +381,7 @@ void CompanyClass::AssignCargoToTruck()
 
 			if (SpecialCargos.getCount() >= specialtruck->getTruckCapacity())
 			{
-				MoveTruckFromEmptyToLoading(specialtruck);
+				//MoveTruckFromEmptyToLoading(specialtruck);
 
 				for (int i = 0; i < specialtruck->getTruckCapacity(); i++)
 				{
@@ -406,7 +406,7 @@ void CompanyClass::AssignCargoToTruck()
 
 			if (NormalCargos.getCount() >= normaltruck->getTruckCapacity())
 			{ 
-				MoveTruckFromEmptyToLoading(normaltruck);
+				//MoveTruckFromEmptyToLoading(normaltruck);
 
 				for (int i = 0; i < normaltruck->getTruckCapacity(); i++)
 				{	
@@ -426,7 +426,7 @@ void CompanyClass::AssignCargoToTruck()
 
 			if (NormalCargos.getCount() >= viptruck->getTruckCapacity())
 			{
-				MoveTruckFromEmptyToLoading(viptruck);
+				//MoveTruckFromEmptyToLoading(viptruck);
 
 				for (int i = 0; i < viptruck->getTruckCapacity(); i++)
 				{
@@ -452,7 +452,7 @@ void CompanyClass::AssignCargoToTruck()
 
 			if (VIPCargoPriQueue.getCount() >= viptruck->getTruckCapacity())
 			{
-				MoveTruckFromEmptyToLoading(viptruck);
+				//MoveTruckFromEmptyToLoading(viptruck);
 
 				for (int i = 0; i < viptruck->getTruckCapacity(); i++)
 				{
@@ -467,7 +467,7 @@ void CompanyClass::AssignCargoToTruck()
 
 			if(VIPCargoPriQueue.getCount() >= specialtruck->getTruckCapacity())
 			{
-				MoveTruckFromEmptyToLoading(specialtruck);
+				//MoveTruckFromEmptyToLoading(specialtruck);
 
 				for (int i = 0; i < specialtruck->getTruckCapacity(); i++)
 				{
@@ -482,7 +482,7 @@ void CompanyClass::AssignCargoToTruck()
 
 			if (VIPCargoPriQueue.getCount() >= normaltruck->getTruckCapacity())
 			{
-				MoveTruckFromEmptyToLoading(normaltruck);
+				//MoveTruckFromEmptyToLoading(normaltruck);
 
 				for (int i = 0; i < normaltruck->getTruckCapacity(); i++)
 				{
