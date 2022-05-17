@@ -77,10 +77,10 @@ void Truck::AddJourney()
 	TruckNoOfJourneys++;
 }
 
-double Truck::CalculateTruckUtilization() //NEEDED TO BE FIXED ,(CALLED  AT THE END OF SIMULATION)
+double Truck::CalculateTruckUtilization() //NEEDED TO BE FIXED ,(CALLED  AT THE END OF SIMULATION)// needs total simulation time
 {
 	TruckUtilization = getNoDeliveredCargosByTruck() / (DeliveredCargosByTruck * TruckNoOfJourneys) * TruckTotalActiveTimeH + (TruckTotalActiveTimeD * 24);
-	return 0;
+	return TruckUtilization;
 }
 
 void Truck::setTruckMoveTime(int h, int d)
@@ -109,28 +109,29 @@ int Truck::getTruckSpeed() const
 	return TruckSpeed;
 }
 
-int Truck::getTruckDeliveryIntervalHours() //------------------->NEEDS CONTINUTATION
+void Truck::getTruckDeliveryIntervalHours(int& hours, int& days) //------------------->NEEDS CONTINUTATION
 {
-	Cargo* c;
-	PriQ <Cargo*> LoadingCargos = getLoadedCargosInTruck();
-	c=LoadingCargos.getLastNode();
+	//Cargo* c;
+	//c=LoadingCargos.getLastNode();
+
 	int comeD;
 	int comeH;
+	int FurthestCargoDeliveryDistance = getLoadedCargoFurthestDistance();
 	getTimeToComeBack(comeH, comeD);
-	int FurthestCargoDeliveryDistance=c->getDeliveringDistance();
-	TruckDeliveryIntervalH = FurthestCargoDeliveryDistance / getTruckSpeed() + getNoDeliveredCargosByTruck() +comeH;//+ time to come back;
+	//int FurthestCargoDeliveryDistance=c->getDeliveringDistance();
+	TruckDeliveryIntervalH = FurthestCargoDeliveryDistance / getTruckSpeed() + getSumUnloadTimeCargos() +comeH;//+ time to come back;
 	while (TruckDeliveryIntervalH > 23)
 	{
 		TruckDeliveryIntervalH = TruckDeliveryIntervalH - 23;
 		TruckDeliveryIntervalD++;
 	}
-	return TruckDeliveryIntervalH;
+	//return TruckDeliveryIntervalH;
 }
 
-int Truck::getTruckDeliveryIntervalDays()
+/*int Truck::getTruckDeliveryIntervalDays()
 {
 	return TruckDeliveryIntervalD;
-}
+}*/
 
 int Truck::getNoOfJourneys() const
 {
@@ -175,12 +176,13 @@ PriQ<Cargo*> Truck::getLoadedCargosInTruck() const
 }
 void Truck::getTimeToComeBack(int &hour, int &day)
 {
-	Cargo* lastnode = LoadingCargos.getLastNode();
-	int furthestdistance =lastnode->getDeliveringDistance();
+	//Cargo* lastnode = LoadingCargos.getLastNode();
+	//int furthestdistance =lastnode->getDeliveringDistance();
+	int furthestdistance = getLoadedCargoFurthestDistance();
 	TimeToComeBackH = furthestdistance / TruckSpeed;
-	while (TimeToComeBackH > 24)
+	while (TimeToComeBackH > 23)
 	{
-		TimeToComeBackH = TimeToComeBackH - 24;
+		TimeToComeBackH = TimeToComeBackH - 23;
 		TimeToComeBackD++;
 	}
 }
@@ -191,6 +193,33 @@ Cargo* Truck::getLoadedCargosTop()
 	LoadingCargos.peek(node);
 	top=node.getItem();
 	return top ;
+}
+int Truck::getLoadedCargoFurthestDistance()
+{
+	PriQ <Cargo*> Extra = getLoadedCargosInTruck();
+	PriQNode<Cargo*>* node;
+	Extra.peek(*node);
+	while (!Extra.isEmpty() && node->getNext() != nullptr)
+	{
+		Extra.dequeue(*node);
+		node = node->getNext();
+	}
+	LoadedCargoFurthestDistance= node->getItem()->getDeliveringDistance();
+	return LoadedCargoFurthestDistance;
+}
+int Truck::getSumUnloadTimeCargos()
+{
+	int sum=0;
+	PriQ <Cargo*> Extra = getLoadedCargosInTruck();
+	PriQNode<Cargo*>* node;
+	Extra.peek(*node);
+	while (!Extra.isEmpty() && node!= nullptr)
+	{
+		sum = sum + node->getItem()->getLoadTime();
+		Extra.dequeue(*node);
+		node = node->getNext();
+	}
+	return sum;
 }
 Truck::~Truck()
 {
