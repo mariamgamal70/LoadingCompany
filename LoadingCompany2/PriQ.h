@@ -137,23 +137,18 @@ public:
 		PriQNode<T>* curr = Head;
 		while (curr != nullptr)
 		{
-
 		if(curr->getNext()==NULL)
 		{
 			cout << curr->getItem();
-
 		}
 		else
 		{
 		cout << curr->getItem() << ","<<" ";
-
-
 		}
 			curr = curr->getNext();
 		}
-		//cout << endl;
 	}
-	T getLastNode()
+	/*T getLastNode()
 	{
 		PriQNode<T>* prev = NULL;
 		PriQNode<T>* curr = Head;
@@ -164,7 +159,7 @@ public:
 		}
 		T LastNode = curr->getItem();
 		return LastNode;
-	}
+	}*/
 	bool dequeue(PriQNode<T>& temp)   
 	{
 		if (isEmpty())
