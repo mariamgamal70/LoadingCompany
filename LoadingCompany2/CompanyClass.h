@@ -21,11 +21,9 @@ class CompanyClass
 	int Hour;
 	int Day;
 	int TotalNumberOfTrucks;
-	int SumNormalCargos;
-	int SumSpecialCargos;
-	int SumVIPCargos;
+	int SumNormalCargos,SumSpecialCargos,SumVIPCargos;
 	int SumCargos;
-	int CargoAvgTime;
+	//int CargoAvgTime;
 	int SumAllloadTime;
 	double VIPCargoPriority;
 	//------------------------event list----------------------------------------------
@@ -73,8 +71,11 @@ class CompanyClass
 	int CargoID, CargoDist, CargoLoadTime, CargoCost;
 	int CargoExtraMoney;
 	UIclass* ui;
-	int noOfPromotedCargos;
-	int noOfAutoPCargos;
+	int noOfPromotedCargos,noOfAutoPCargos;
+	int SumTruckActiveTimeH,SumTruckActiveTimeD;
+	int SumWaitTimeH, SumWaitTimeD;
+	int SumTrucks;
+	int SumUtilizationH, SumUtilizationD;
 
 public:
 	CompanyClass();
@@ -97,7 +98,7 @@ public:
 	
 	//-----------------GETTERS----------------------//	
 	
-	double getCargoAvgTime();
+	//double getCargoAvgTime();
 	int getTotalNumberOfCargos();
 	int getTotalNumberOfTrucks();
 	int getCurrentTimeHour();
@@ -133,5 +134,11 @@ public:
 	void printmovingcargos();
 	void printavailtrucks();
 	void printdeliveredcargo();
+	//-------------------OUTPUT FILE CALCULATIONS----------------//
+	void calcCargoAvgWaitTime(int& h, int& d);
+	int calcAutoPromotedCargos();
+	void calcAvgActiveTime(int& avgh, int& avgd);
+	void calcAvgUtilization(int& AUh, int& AUd);
+
 	~CompanyClass();
 };

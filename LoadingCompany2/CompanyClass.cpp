@@ -29,6 +29,12 @@ CompanyClass::CompanyClass()
 	SumVIPCargos = 0;
 	SumCargos = 0;
 	count = 0;
+	noOfPromotedCargos=0;
+	noOfAutoPCargos=0;
+	SumTruckActiveTimeH=0;
+	SumTruckActiveTimeD=0;
+	SumUtilizationH = 0; 
+	SumUtilizationD=0;
 }
 CompanyClass::CompanyClass(UIclass* uii)
 {
@@ -73,6 +79,7 @@ void CompanyClass::FileLoading()
 			T1 = new Truck('V', Vs, Vc, Vj, VCheckupTime, TruckID);
 			VIPTruckQueue.enqueue(T1);
 		}
+		SumTrucks = NormalTruckQueue.getCount() + SpecialTruckQueue.getCount() + VIPTruckQueue.getCount();
 		inFile >> AutoPDays >> MaxWaitHours;
 		inFile >> NoOfEvents;
 
@@ -323,19 +330,21 @@ void CompanyClass::AddTruckToCheckup(Truck* T) //->MARIAM
 {
 	PriQNode<Truck*> qnode;
 	PriQ <Truck*> q;
+	int TDIh, TDId;
 	while (MovingTrucks.peek(qnode))//!= T)
 	{
 		if (qnode.getItem() != T)
 		{
 			MovingTrucks.dequeue(qnode);
-			q.enqueueAscending(qnode.getItem(), qnode.getItem()->getTruckDeliveryIntervalDays());
+			qnode.getItem()->getTruckDeliveryInterval(TDIh, TDId);
+			q.enqueueAscending(qnode.getItem(),(TDIh)+(TDId * 24));
 		}
 		else
 		{
 			break;
 		}
 	}
-	MovingTrucks.dequeue(qnode);//<------------------- someone fix this pls
+	MovingTrucks.dequeue(qnode);
 	switch (T->getTruckType())
 	{
 	case('N'):
@@ -359,7 +368,8 @@ void CompanyClass::AddTruckToCheckup(Truck* T) //->MARIAM
 	while (!q.isEmpty())
 	{
 		q.dequeue(qnode);
-		MovingTrucks.enqueueAscending(qnode.getItem(), qnode.getItem()->getTruckDeliveryIntervalDays());
+		qnode.getItem()->getTruckDeliveryInterval(TDIh, TDId);
+		MovingTrucks.enqueueAscending(qnode.getItem(),(TDIh)+(TDId * 24));
 	}
 }
 
@@ -553,6 +563,7 @@ void CompanyClass::LoadingToMovingTrucks()
 {
 	PriQNode<Truck*> vipnode;
 	Truck* viptruck;
+	int TDIh, TDId;
 	if (!VIPTruckQueue.isEmpty())
 	{
 		//if (VIPTruckQueue.peek(vipnode))
@@ -561,7 +572,8 @@ void CompanyClass::LoadingToMovingTrucks()
 			if (viptruck->LoadedCargosFull())
 			{
 				VIPTruckQueue.dequeue(viptruck);
-				MovingTrucks.enqueueAscending(viptruck,((viptruck->getTruckDeliveryIntervalHours())+(viptruck->getTruckDeliveryIntervalDays()*24)));
+				viptruck->getTruckDeliveryInterval(TDIh, TDId);
+				MovingTrucks.enqueueAscending(viptruck,(TDIh)+(TDId *24));
 			}
 		}
 	}
@@ -569,11 +581,11 @@ void CompanyClass::LoadingToMovingTrucks()
 }
 
 //-------------------------------------------GETTERS----------------------------------------//
-double CompanyClass::getCargoAvgTime()
+/*double CompanyClass::getCargoAvgTime()
 {
 	CargoAvgTime = SumAllloadTime / SumCargos;
 	return CargoAvgTime;
-}
+}*/
 int CompanyClass::getTotalNumberOfCargos()
 {
 	SumCargos = SumNormalCargos + SumSpecialCargos + SumVIPCargos;
@@ -760,6 +772,7 @@ void CompanyClass::SimulatorFunction()
 						VIPDeliveredCargos.enqueue(vipcargo.getItem());
 					}
 				}*/
+				//MALAK SHOULD ADD DELIVERCARGOS
 				/*Truck* Normal;
 				Truck* Special;
 				Truck* VIP;
@@ -891,6 +904,29 @@ void CompanyClass::printdeliveredcargo()
 	ui->coutendl();
 }
 
+void CompanyClass::calcCargoAvgWaitTime(int& h, int& d)
+{
+	h = SumWaitTimeH / SumCargos;
+	d = SumWaitTimeD / SumCargos;
+}
+
+int CompanyClass::calcAutoPromotedCargos()
+{
+	int percentage= noOfAutoPCargos / noOfPromotedCargos * 100;
+	return percentage;
+}
+
+void CompanyClass::calcAvgActiveTime(int& avgh,int& avgd)
+{
+	avgh = SumTruckActiveTimeH / SumTrucks;
+	avgd = SumTruckActiveTimeD / SumTrucks;
+}
+
+void CompanyClass::calcAvgUtilization(int&AUh,int&AUd)
+{
+	AUh = SumUtilizationH / SumTrucks;
+	AUd = SumUtilizationD / SumTrucks;
+}
 CompanyClass::~CompanyClass()
 {
 }
