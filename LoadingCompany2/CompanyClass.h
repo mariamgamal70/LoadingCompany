@@ -43,7 +43,7 @@ class CompanyClass
 	LinkedQueue<Truck*> SpecialTrucksUnderCheckup;
 	LinkedQueue<Truck*> VIPTrucksUnderCheckup;
 
-	//available but loading (NO LOADING TRUCKS , ONLY INITIAL TRUCKS)
+	//available but loading (to set calculations in it)
 	LinkedQueue<Truck*> LoadingNormalTrucks;
 	LinkedQueue<Truck*> LoadingSpecialTrucks;
 	LinkedQueue<Truck*> LoadingVIPTrucks;
@@ -73,7 +73,9 @@ class CompanyClass
 	int CargoID, CargoDist, CargoLoadTime, CargoCost;
 	int CargoExtraMoney;
 	UIclass* ui;
-	//Event* EventTobeExceuted;
+	int noOfPromotedCargos;
+	int noOfAutoPCargos;
+
 public:
 	CompanyClass();
 	CompanyClass(UIclass* uii);
@@ -87,7 +89,7 @@ public:
 	void AddToVIPCargos(Cargo* C, double priority);
 	void AddToAppropriateList(Cargo* C);
 	void AddTruckToCheckup(Truck* T);
-	void AssignCargoToTruck();//ADD IMPLEMENTATION
+	void AssignCargoToTruck();
 	void AddToDeliveredCargos();
 	void LoadingToMovingTrucks();
 	void MoveTruckFromEmptyToLoading(Truck* T);
