@@ -40,7 +40,7 @@ public:
 
 				}
 				temp = curr;
-				curr = curr->getNext(); //FY warning hena ya sherif
+				curr = curr->getNext(); 
 			}
 		}
 	}
@@ -67,24 +67,6 @@ public:
 			}
 		}
 	}
-	/*void InsertEndC(Cargo* data)
-	{
-		if (count==0) //emptylist
-		{
-			InsertBegC(data);
-		}
-		else
-		{
-			Node<Cargo*>* P = Head;
-			while (P->getNext() != nullptr)
-			{
-				P = P->getNext();
-			}
-			Node<Cargo*>* R = new Node<Cargo*>(data);
-			R->setNext(nullptr);
-			P->setNext(R);
-		}
-	}*/
 
      void InsertBegC(Cargo* C)  
 	 {
