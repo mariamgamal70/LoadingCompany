@@ -15,6 +15,8 @@ Cargo::Cargo()
 	SetCargoID(0);
 	CargoDeliveryTimeHours = 1;
 	CargoDeliveryTimeDays = 1;
+	WaitTimeHour=1;
+	WaitTimeDay=1;
 }
 
 Cargo::Cargo(char type, int pd, int ph, int id, int dist, int LT, int cost)
@@ -127,10 +129,26 @@ void Cargo::setCargoDeliveryTime(int TruckMoveTimeHour,int TruckMoveTimeDay,int 
 	CargoDeliveryTimeDays = CargoDeliveryTimeDays + TruckMoveTimeDay;
 }
 
+void Cargo::setCargoWaitTime(int movetimeh, int movetimed)
+{
+	WaitTimeHour = (movetimeh+(movetimed*24)) - (PreparationTimeHour+ (PreparationTimeDays*24));
+	while (WaitTimeHour > 23)
+	{
+		WaitTimeHour = WaitTimeHour - 23;
+		WaitTimeDay++;
+	}
+}
+
 void Cargo::getCargoDeliveryTime(int& CDTh, int& CDTd)
 {
 	CDTh = CargoDeliveryTimeHours;
 	CDTd = CargoDeliveryTimeDays;
+}
+
+void Cargo::getCargoWaitTime(int& waittimeh, int& waittimed)
+{
+	waittimeh = WaitTimeHour;
+	waittimed = WaitTimeDay;
 }
 
 Cargo Cargo::getCID(int CID)
