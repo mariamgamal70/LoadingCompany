@@ -3,15 +3,12 @@
 #include "LinkedList.h"
 class CargoLinkedList :public LinkedList<Cargo*>
 {
-	//Node<Cargo*>* Head;
-	//int countc;
 public:
 	CargoLinkedList()
 	{
-		Head = nullptr;
-		count = 0;
+		
 	}
-	void DeleteSpecificNode(int& value)
+	/*void DeleteSpecificNode(int& value) //correct except for ID=1 //SHERIF DID
 	{
 		Node<Cargo*>* temp = Head;
 		if (temp == nullptr)
@@ -36,11 +33,44 @@ public:
 					temp->setNext(curr->getNext());
 					delete curr;
 					curr = nullptr;
+					count--;
 					break;
 
 				}
 				temp = curr;
 				curr = curr->getNext(); 
+			}
+		}
+	}*/
+	void DeleteSpecificNode(int& value) // MARIAM DID
+	{
+		Node<Cargo*>* temp = nullptr;
+		Node<Cargo*>* curr = Head;
+		if (curr == nullptr)
+			return;
+		if (curr->getItem()->getCargoID() == value)
+		{
+			Head = curr->getNext();
+			curr = nullptr;
+			delete curr;
+			count--;
+		}
+		else
+		{
+			temp = curr;
+			curr = curr->getNext();
+			while (curr && curr->getNext() != nullptr)
+			{
+				if (curr->getItem()->getCargoID() == value)
+				{
+					temp->setNext(curr->getNext());
+					delete curr;
+					curr = nullptr;
+					count--;
+					break;
+				}
+				temp = curr;
+				curr = curr->getNext();
 			}
 		}
 	}
