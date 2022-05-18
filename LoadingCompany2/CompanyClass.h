@@ -74,8 +74,7 @@ class CompanyClass
 	int noOfPromotedCargos,noOfAutoPCargos;
 	int SumTruckActiveTimeH,SumTruckActiveTimeD;
 	int SumWaitTimeH, SumWaitTimeD;
-	int SumTrucks;
-	int SumUtilizationH, SumUtilizationD;
+	int SumUtilization;
 
 public:
 	CompanyClass();
@@ -90,7 +89,7 @@ public:
 	void AddToVIPCargos(Cargo* C, double priority);
 	void AddToAppropriateList(Cargo* C);
 	void AddTruckToCheckup(Truck* T);
-	void AssignCargoToTruck();
+	void AssignCargoToTruck(); // uncomment stuff if MoveTruckFromEmptyToLoading is finished
 	void AddToDeliveredCargos();
 	void LoadingToMovingTrucks();
 	void MoveTruckFromEmptyToLoading(Truck* T);
@@ -99,10 +98,13 @@ public:
 	//-----------------GETTERS----------------------//	
 	
 	//double getCargoAvgTime();
-	int getTotalNumberOfCargos();
-	int getTotalNumberOfTrucks();
+	int getTotalNumberOfCargos();			//called at the end of simulation 
+	int getTotalNumberOfTrucks();			//called at the end of simulation 
 	int getCurrentTimeHour();
 	int getCurrentTimeDay();
+	int getNumberOfNormalTrucks();			//called at the end of simulation 
+	int getNumberOfspecialTrucks();			//called at the end of simulation 
+	int getNumberOfVipTrucks();				//called at the end of simulation 
 
 	//----------------PRINTS------------------------//
 	void printWNormalCargos();
@@ -135,10 +137,10 @@ public:
 	void printavailtrucks();
 	void printdeliveredcargo();
 	//-------------------OUTPUT FILE CALCULATIONS----------------//
-	void calcCargoAvgWaitTime(int& h, int& d);
-	int calcAutoPromotedCargos();
-	void calcAvgActiveTime(int& avgh, int& avgd);
-	void calcAvgUtilization(int& AUh, int& AUd);
+	void calcCargoAvgWaitTime(int& h, int& d);	//called at the end of simulation 
+	int calcAutoPromotedCargos();				//called at the end of simulation 
+	double calcAvgActiveTime();					//called at the end of simulation 
+	double calcAvgUtilization();				//called at the end of simulation 
 
 	~CompanyClass();
 };

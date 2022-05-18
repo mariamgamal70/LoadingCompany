@@ -33,8 +33,7 @@ CompanyClass::CompanyClass()
 	noOfAutoPCargos=0;
 	SumTruckActiveTimeH=0;
 	SumTruckActiveTimeD=0;
-	SumUtilizationH = 0; 
-	SumUtilizationD=0;
+	SumUtilization = 0; 
 }
 CompanyClass::CompanyClass(UIclass* uii)
 {
@@ -79,7 +78,6 @@ void CompanyClass::FileLoading()
 			T1 = new Truck('V', Vs, Vc, Vj, VCheckupTime, TruckID);
 			VIPTruckQueue.enqueue(T1);
 		}
-		SumTrucks = NormalTruckQueue.getCount() + SpecialTruckQueue.getCount() + VIPTruckQueue.getCount();
 		inFile >> AutoPDays >> MaxWaitHours;
 		inFile >> NoOfEvents;
 
@@ -194,20 +192,17 @@ void CompanyClass::AddToAppropriateList(Cargo* Cl)
 	{
 		NormalCargos.InsertEnd(Cl);
 		SumNormalCargos++;
-		//break;
 	}
 	else if(Cl->getCargoType() == 'S')
 	{
 		SpecialCargos.enqueue(Cl);
 		SumSpecialCargos++;
-		//break;
 	}
 	else if(Cl->getCargoType() == 'V')
 	{
 		VIPCargoPriority = (2 * (PrepH + PrepD) + 1 * dist) / CargoCost;
 		VIPCargoPriQueue.enqueueAscending(Cl, VIPCargoPriority);
 		SumVIPCargos++;
-		//break;
 	}
 }
 /*void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T)
@@ -391,7 +386,7 @@ void CompanyClass::AssignCargoToTruck()
 
 				if (SpecialCargos.getCount() >= specialtruck->getTruckCapacity())
 				{
-					MoveTruckFromEmptyToLoading(specialtruck);
+					//MoveTruckFromEmptyToLoading(specialtruck); //COMMENTED TILL FUNCTION IS COMPLETE
 
 					for (int i = 0; i < specialtruck->getTruckCapacity(); i++)
 					{
@@ -416,7 +411,7 @@ void CompanyClass::AssignCargoToTruck()
 
 				if (NormalCargos.getCount() >= normaltruck->getTruckCapacity())
 				{
-					MoveTruckFromEmptyToLoading(normaltruck);
+					//MoveTruckFromEmptyToLoading(normaltruck);//COMMENTED TILL FUNCTION IS COMPLETE
 
 					for (int i = 0; i < normaltruck->getTruckCapacity(); i++)
 					{
@@ -436,7 +431,7 @@ void CompanyClass::AssignCargoToTruck()
 
 				if (NormalCargos.getCount() >= viptruck->getTruckCapacity())
 				{
-					MoveTruckFromEmptyToLoading(viptruck);
+					//MoveTruckFromEmptyToLoading(viptruck);//COMMENTED TILL FUNCTION IS COMPLETE
 
 					for (int i = 0; i < viptruck->getTruckCapacity(); i++)
 					{
@@ -462,7 +457,7 @@ void CompanyClass::AssignCargoToTruck()
 
 				if (VIPCargoPriQueue.getCount() >= viptruck->getTruckCapacity())
 				{
-					//MoveTruckFromEmptyToLoading(viptruck);
+					//MoveTruckFromEmptyToLoading(viptruck);//COMMENTED TILL FUNCTION IS COMPLETE
 
 					for (int i = 0; i < viptruck->getTruckCapacity(); i++)
 					{
@@ -477,7 +472,7 @@ void CompanyClass::AssignCargoToTruck()
 
 				if (VIPCargoPriQueue.getCount() >= specialtruck->getTruckCapacity())
 				{
-					MoveTruckFromEmptyToLoading(specialtruck);
+					//MoveTruckFromEmptyToLoading(specialtruck);//COMMENTED TILL FUNCTION IS COMPLETE
 
 					for (int i = 0; i < specialtruck->getTruckCapacity(); i++)
 					{
@@ -492,7 +487,7 @@ void CompanyClass::AssignCargoToTruck()
 
 				if (VIPCargoPriQueue.getCount() >= normaltruck->getTruckCapacity())
 				{
-					MoveTruckFromEmptyToLoading(normaltruck);
+					//MoveTruckFromEmptyToLoading(normaltruck);//COMMENTED TILL FUNCTION IS COMPLETE
 
 					for (int i = 0; i < normaltruck->getTruckCapacity(); i++)
 					{
@@ -604,6 +599,18 @@ int CompanyClass::getCurrentTimeHour()
 int CompanyClass::getCurrentTimeDay()
 {
 	return Day;
+}
+int CompanyClass::getNumberOfNormalTrucks()
+{
+	return nN;
+}
+int CompanyClass::getNumberOfspecialTrucks()
+{
+	return nS;
+}
+int CompanyClass::getNumberOfVipTrucks()
+{
+	return nV;
 }
 /*LinkedList<Cargo*> CompanyClass::getNormalCargos()//to call in UI class
 {
@@ -916,16 +923,17 @@ int CompanyClass::calcAutoPromotedCargos()
 	return percentage;
 }
 
-void CompanyClass::calcAvgActiveTime(int& avgh,int& avgd)
+double CompanyClass::calcAvgActiveTime()
 {
-	avgh = SumTruckActiveTimeH / SumTrucks;
-	avgd = SumTruckActiveTimeD / SumTrucks;
+	int activetime = SumTruckActiveTimeH + (SumTruckActiveTimeD * 24);
+	double avgactivetime = activetime / TotalNumberOfTrucks * 100;
+	return avgactivetime;
 }
 
-void CompanyClass::calcAvgUtilization(int&AUh,int&AUd)
+double CompanyClass::calcAvgUtilization()
 {
-	AUh = SumUtilizationH / SumTrucks;
-	AUd = SumUtilizationD / SumTrucks;
+	double avgUt = SumUtilization / TotalNumberOfTrucks *100;
+	return avgUt;
 }
 CompanyClass::~CompanyClass()
 {
