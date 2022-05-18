@@ -77,10 +77,10 @@ void Truck::AddJourney()
 	TruckNoOfJourneys++;
 }
 
-double Truck::CalculateTruckUtilization() //NEEDED TO BE FIXED ,(CALLED  AT THE END OF SIMULATION)// needs total simulation time
+void Truck::CalculateTruckUtilization(int simh,int simd) //NEEDED TO BE FIXED ,(CALLED  AT THE END OF SIMULATION)// needs total simulation time
 {
-	TruckUtilization = getNoDeliveredCargosByTruck() / (DeliveredCargosByTruck * TruckNoOfJourneys) * TruckTotalActiveTimeH + (TruckTotalActiveTimeD * 24);
-	return TruckUtilization;
+	int totalsimulationtime = simh + (simd * 24);
+	TruckUtilization = getNoDeliveredCargosByTruck() / (DeliveredCargosByTruck * TruckNoOfJourneys) * ((TruckTotalActiveTimeH + (TruckTotalActiveTimeD * 24))/totalsimulationtime);
 }
 
 void Truck::setTruckMoveTime(int h, int d)
@@ -109,7 +109,7 @@ int Truck::getTruckSpeed() const
 	return TruckSpeed;
 }
 
-void Truck::getTruckDeliveryIntervalHours(int& hours, int& days) //------------------->NEEDS CONTINUTATION
+void Truck::getTruckDeliveryInterval(int& hours, int& days) //------------------->NEEDS CONTINUTATION
 {
 	//Cargo* c;
 	//c=LoadingCargos.getLastNode();
@@ -197,7 +197,7 @@ Cargo* Truck::getLoadedCargosTop()
 int Truck::getLoadedCargoFurthestDistance()
 {
 	PriQ <Cargo*> Extra = getLoadedCargosInTruck();
-	PriQNode<Cargo*>* node;
+	PriQNode<Cargo*>* node=nullptr;
 	Extra.peek(*node);
 	while (!Extra.isEmpty() && node->getNext() != nullptr)
 	{
@@ -211,7 +211,7 @@ int Truck::getSumUnloadTimeCargos()
 {
 	int sum=0;
 	PriQ <Cargo*> Extra = getLoadedCargosInTruck();
-	PriQNode<Cargo*>* node;
+	PriQNode<Cargo*>* node=NULL;
 	Extra.peek(*node);
 	while (!Extra.isEmpty() && node!= nullptr)
 	{
@@ -220,6 +220,10 @@ int Truck::getSumUnloadTimeCargos()
 		node = node->getNext();
 	}
 	return sum;
+}
+double Truck::getTruckUtilization()
+{
+	return TruckUtilization;
 }
 Truck::~Truck()
 {
