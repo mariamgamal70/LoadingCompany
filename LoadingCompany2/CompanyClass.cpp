@@ -156,7 +156,7 @@ void CompanyClass::PromoteCargo(int id)// change cost of cargo , increment no of
 		CargoToPromote->setCargoType('V');
 	}
 }
-void CompanyClass::AutoPromote(int id)
+/*void CompanyClass::AutoPromote(int id)
 {
 	Cargo* c=NormalCargos.findSpecificNode(id);
 	if (c)
@@ -168,7 +168,7 @@ void CompanyClass::AutoPromote(int id)
 			PromoteCargo(id);
 		}
 	}
-}
+}*/
 /*double CompanyClass::setpriorityequation(int pH, int pD, int DD, int CC)
 {
 	VIPCargoPriority = (2 * (pH + pD) + 1 * DD) / CC;
@@ -234,19 +234,15 @@ void CompanyClass::AddToAppropriateList(Cargo* Cl)
 }
 void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T)
 {
-	Truck* deq;
 	if (T->getTruckType() == 'N')
 	{
 		NormalTruckQueue.dequeue(T); //dequeue T and add it to loading truck
 		LoadingNormalTrucks.enqueue(T);
-
 	}
 	else if (T->getTruckType() == 'V')
 	{
-		
 		VIPTruckQueue.dequeue(T);
 		LoadingVIPTrucks.enqueue(T);
-		
 	}
 	else
 	{
@@ -388,9 +384,7 @@ void CompanyClass::AssignCargoToTruck()
 		Truck* specialtruck;
 		Truck* normaltruck;
 		Truck* viptruck;
-		   //int sumspecialloadtime=0;
-		   //int sumnormalloadtime = 0;
-		   //int sumviploadtime = 0;
+		
 		//LOADING SPECIAL CARGO
 		if (!SpecialCargos.isEmpty())
 		{
@@ -681,6 +675,13 @@ void CompanyClass::printWNormalCargos()
 	NormalCargos.printList();
 }
 
+Cargo* CompanyClass::dequeueDeliveredCargo()
+{
+	Cargo* deq;
+	DeliveredCargos.dequeue(deq);
+	return deq;
+}
+
 void CompanyClass::printWspecialCargos()
 {
 	SpecialCargos.PrintQueue();
@@ -739,24 +740,6 @@ void CompanyClass::printEmptyVIPTrucks()
 }
 
 
-void CompanyClass::printNormalDeliveredCargos()
-{
-	NormalDeliveredCargos.PrintQueue();
-}
-
-
-void CompanyClass::printSpecialDeliveredCargos()
-{
-	SpecialDeliveredCargos.PrintQueue();
-}
-
-
-
-void CompanyClass::printVIPDeliveredCargos()
-{
-	VIPDeliveredCargos.PrintQueue();
-}
-
 void CompanyClass::SimulatorFunction()
 {
 	FileLoading();
@@ -801,16 +784,11 @@ void CompanyClass::SimulatorFunction()
 				}
 				}*/
 
-				if (!NormalCargos.isEmpty())
+				/*if (!NormalCargos.isEmpty())
 				{
 					NormalCargos.AutoPromoteCargo(this,Day,AutoPDays)
 
-				}
-
-
-
-
-
+				}*/
 			printwaitingcargos();
 			printloadingtrucks();
 			printavailtrucks();
@@ -821,7 +799,6 @@ void CompanyClass::SimulatorFunction()
 			Hour++;
 			TimeStepCount++;
 			ui->waitforenter(); 
-			
 		}
 		//produce output file <<<----------OUTPUTFILE---------------------*/
 }
@@ -907,21 +884,38 @@ void CompanyClass::printavailtrucks()
 }
 void CompanyClass::printdeliveredcargo()
 {
-	int numdelivcargo = NormalDeliveredCargos.getCount() + SpecialDeliveredCargos.getCount() + VIPDeliveredCargos.getCount();
-	ui->coutinteger(numdelivcargo);
+	LinkedQueue<Cargo*> extra;
+	Cargo* car;
+	ui->coutinteger(DeliveredCargos.getCount());
 	ui->coutstring(" Delivered Cargos: ");
-	ui->coutchar('[');
-	NormalDeliveredCargos.PrintQueue();
-	ui->coutchar(']');
-	ui->coutchar(' ');
-	ui->coutchar('(');
-	SpecialDeliveredCargos.PrintQueue();
-	ui->coutchar(')');
-	ui->coutchar(' ');
-	ui->coutchar('{');
-	VIPDeliveredCargos.PrintQueue();
-	ui->coutchar('}');
-	ui->coutendl();
+	while (!DeliveredCargos.isEmpty())
+	{
+		DeliveredCargos.dequeue(car);
+		if (car->getCargoType() == 'N')
+		{
+			ui->coutchar('[');
+			ui->coutinteger(car->getCargoID());
+			ui->coutchar('] ');
+		}
+		if (car->getCargoType() == 'S')
+		{
+			ui->coutchar('(');
+			ui->coutinteger(car->getCargoID());
+			ui->coutchar(') ');
+		}
+		if (car->getCargoType() == 'V')
+		{
+			ui->coutchar('{');
+			ui->coutinteger(car->getCargoID());
+			ui->coutchar('} ');
+		}
+		extra.enqueue(car);
+	}
+	while (!extra.isEmpty())
+	{
+		extra.dequeue(car);
+		DeliveredCargos.enqueue(car);
+	}
 }
 
 void CompanyClass::calcCargoAvgWaitTime(int& h, int& d)

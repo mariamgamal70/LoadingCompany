@@ -111,51 +111,13 @@ void UIclass::printOutput()
 		break;
 	}
 }
-/*void UIclass::Write()
+void UIclass::Write()
 {
-	fout.open(outputFile);
-	fout << "CD	" << "ID	" << "FD	" << "WD	" << "ED	";
+	fout.open(output);
+	fout << "CDT	" << "ID	" << "PT	" << "WT	" << "TID	";
 	fout << endl;
 	float Wait = 0, Exec = 0;
-	PriorityQueue<Mission*>* CompletedMission = new PriorityQueue<Mission*>(*station->getCompletedMissions());
-	int completedNumber = station->getCompletedMissions()->getSize();
-	Mission* temp;
-
-	for (int i = 0; i < completedNumber; i++)
-	{
-		CompletedMission->pop(temp);
-		fout << temp->getCompletionDay() << "	";
-		fout << temp->getID() << "	";
-		fout << temp->getEventDay() << "	";
-		fout << temp->getWaitingDay() << "	";
-		fout << temp->getExcutionDay() << "	";
-		fout << endl;
-		Wait = Wait + temp->getWaitingDay();
-		Exec = Exec + temp->getExcutionDay();
-	}
-	fout << "\n …………………………………………………………………………………………………………………………………………… \n";
-	fout << "\n …………………………………………………………………………………………………………………………………………… \n";
-
-	fout << "Missions:" << station->getNumOfTotalMissions() << "  ";
-	fout << "[M: " << station->getNumOfMounM() << ", P: " << station->getNumOfPolM() << ", E: " << station->getNumOfEmrM() << "]" << endl;
-
-	fout << "Rovers:" << station->getNumOfTotalRovers() << "  ";
-	fout << "[M: " << station->getNumOfMounR() << ", P: " << station->getNumOfPolR() << ", E: " << station->getNumOfEmrR() << "]" << endl;
-
-	fout << "Avg Wait= ";
-	fout << Wait / station->getNumOfTotalMissions() << ", ";
-	fout << "Avg Exec= ";
-	fout << Exec / station->getNumOfTotalMissions() << endl;
-
-	fout << "Auto-promoted: ";
-	if (station->getnumberofautoPromotedMissions() == 0)
-		fout << "0";
-	else
-		fout << (float)station->getnumberofautoPromotedMissions() / (station->getNumOfMounM() + station->getnumberofautoPromotedMissions()) * 100;
-	fout << "%" << endl;
-
-	fout.close();
 }
-*/
+
 
 
