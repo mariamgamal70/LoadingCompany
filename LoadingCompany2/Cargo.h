@@ -56,6 +56,7 @@ public:
 	int getCargoID() const;
 	void getCargoDeliveryTime(int& CDTh, int& CDTd);
 	void getCargoWaitTime(int& waittimeh, int& waittimed);
+	int getTruckLoadedOn();
 
 	friend ostream& operator<<(ostream&output,Cargo*c);
 	Cargo getCID(int CargoID);

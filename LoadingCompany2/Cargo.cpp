@@ -156,6 +156,11 @@ void Cargo::getCargoWaitTime(int& waittimeh, int& waittimed)
 	waittimed = WaitTimeDay;
 }
 
+int Cargo::getTruckLoadedOn()
+{
+	return TID;
+}
+
 Cargo Cargo::getCID(int CID)
 {
 	return *this;
