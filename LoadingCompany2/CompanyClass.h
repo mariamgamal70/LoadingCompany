@@ -118,7 +118,7 @@ public:
 	int getautopromnum();
 	Cargo* dequeueDeliveredCargo();
 	//----------------PRINTS------------------------//
-	void printHeadLine();
+	//void printHeadLine();
 	void printWNormalCargos();
 	void printWspecialCargos();
 	void printWvipCargos();
