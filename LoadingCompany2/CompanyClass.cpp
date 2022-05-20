@@ -373,9 +373,7 @@ void CompanyClass::AssignCargoToTruck()
 		Truck* specialtruck;
 		Truck* normaltruck;
 		Truck* viptruck;
-		   //int sumspecialloadtime=0;
-		   //int sumnormalloadtime = 0;
-		   //int sumviploadtime = 0;
+		
 		//LOADING SPECIAL CARGO
 		if (!SpecialCargos.isEmpty())
 		{
@@ -666,6 +664,13 @@ void CompanyClass::printWNormalCargos()
 	NormalCargos.printList();
 }
 
+Cargo* CompanyClass::dequeueDeliveredCargo()
+{
+	Cargo* deq;
+	DeliveredCargos.dequeue(deq);
+	return deq;
+}
+
 void CompanyClass::printWspecialCargos()
 {
 	SpecialCargos.PrintQueue();
@@ -724,26 +729,6 @@ void CompanyClass::printEmptyVIPTrucks()
 }
 
 
-/*void CompanyClass::printNormalDeliveredCargos()
-{
-	NormalDeliveredCargos.PrintQueue();
-}
-
-
-void CompanyClass::printSpecialDeliveredCargos()
-{
-	SpecialDeliveredCargos.PrintQueue();
-}
-
-
-
-void CompanyClass::printVIPDeliveredCargos()
-{
-	VIPDeliveredCargos.PrintQueue();
-}*/
-/*void CompanyClass::printDeliveredCargos()
-{}*/
-
 void CompanyClass::SimulatorFunction()
 {
 	FileLoading();
@@ -767,27 +752,6 @@ void CompanyClass::SimulatorFunction()
 					Eventlist.dequeue(EventToBeExecuted);
 					EventToBeExecuted->Execute(this);
 				}
-				/*if (TimeStepCount % 5 == 0 && TimeStepCount != 0) //PHASE1
-				{
-					Cargo* specialcargo;
-					Node<Cargo*> normalcargo;
-					PriQNode<Cargo*> vipcargo;
-					if (NormalCargos.peek(normalcargo))//<---CHECK
-					{
-						NormalDeliveredCargos.enqueue(normalcargo.getItem());
-						NormalCargos.DeleteBeg();
-					}
-					if (SpecialCargos.peek(specialcargo))
-					{
-						SpecialCargos.dequeue(specialcargo);
-						SpecialDeliveredCargos.enqueue(specialcargo);
-					}
-					if (!VIPCargoPriQueue.isEmpty())
-					{
-						VIPCargoPriQueue.dequeue(vipcargo.getItem());
-						VIPDeliveredCargos.enqueue(vipcargo.getItem());
-					}
-				}*/
 				//MALAK SHOULD ADD DELIVERCARGOS
 				/*Truck* Normal;
 				Truck* Special;
@@ -813,11 +777,6 @@ void CompanyClass::SimulatorFunction()
 					NormalCargos.AutoPromoteCargo(this,Day,AutoPDays)
 
 				}*/
-
-
-
-
-
 			printwaitingcargos();
 			printloadingtrucks();
 			printavailtrucks();
@@ -828,7 +787,6 @@ void CompanyClass::SimulatorFunction()
 			Hour++;
 			TimeStepCount++;
 			ui->waitforenter(); 
-			
 		}
 		//produce output file <<<----------OUTPUTFILE---------------------*/
 }

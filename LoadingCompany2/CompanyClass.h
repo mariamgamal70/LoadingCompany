@@ -110,6 +110,7 @@ public:
 	int getNumberOfNormalTrucks();			//called at the end of simulation 
 	int getNumberOfspecialTrucks();			//called at the end of simulation 
 	int getNumberOfVipTrucks();				//called at the end of simulation 
+	Cargo* dequeueDeliveredCargo();
 
 	//----------------PRINTS------------------------//
 	void printWNormalCargos();
@@ -127,11 +128,6 @@ public:
 	void printEmptyNormalTrucks();
 	void printEmptySpecialTrucks();
 	void printEmptyVIPTrucks();
-
-	/*void printNormalDeliveredCargos();
-	void printSpecialDeliveredCargos();
-	void printVIPDeliveredCargos();*/
-	//void printDeliveredCargos();
 
 	//void printE
 	void printcheckuptruck();
