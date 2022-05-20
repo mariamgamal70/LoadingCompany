@@ -724,7 +724,7 @@ void CompanyClass::printEmptyVIPTrucks()
 }
 
 
-void CompanyClass::printNormalDeliveredCargos()
+/*void CompanyClass::printNormalDeliveredCargos()
 {
 	NormalDeliveredCargos.PrintQueue();
 }
@@ -740,7 +740,9 @@ void CompanyClass::printSpecialDeliveredCargos()
 void CompanyClass::printVIPDeliveredCargos()
 {
 	VIPDeliveredCargos.PrintQueue();
-}
+}*/
+/*void CompanyClass::printDeliveredCargos()
+{}*/
 
 void CompanyClass::SimulatorFunction()
 {
@@ -912,21 +914,38 @@ void CompanyClass::printavailtrucks()
 }
 void CompanyClass::printdeliveredcargo()
 {
-	int numdelivcargo = NormalDeliveredCargos.getCount() + SpecialDeliveredCargos.getCount() + VIPDeliveredCargos.getCount();
-	ui->coutinteger(numdelivcargo);
+	LinkedQueue<Cargo*> extra;
+	Cargo* car;
+	ui->coutinteger(DeliveredCargos.getCount());
 	ui->coutstring(" Delivered Cargos: ");
-	ui->coutchar('[');
-	NormalDeliveredCargos.PrintQueue();
-	ui->coutchar(']');
-	ui->coutchar(' ');
-	ui->coutchar('(');
-	SpecialDeliveredCargos.PrintQueue();
-	ui->coutchar(')');
-	ui->coutchar(' ');
-	ui->coutchar('{');
-	VIPDeliveredCargos.PrintQueue();
-	ui->coutchar('}');
-	ui->coutendl();
+	while (!DeliveredCargos.isEmpty())
+	{
+		DeliveredCargos.dequeue(car);
+		if (car->getCargoType() == 'N')
+		{
+			ui->coutchar('[');
+			ui->coutinteger(car->getCargoID());
+			ui->coutchar('] ');
+		}
+		if (car->getCargoType() == 'S')
+		{
+			ui->coutchar('(');
+			ui->coutinteger(car->getCargoID());
+			ui->coutchar(') ');
+		}
+		if (car->getCargoType() == 'V')
+		{
+			ui->coutchar('{');
+			ui->coutinteger(car->getCargoID());
+			ui->coutchar('} ');
+		}
+		extra.enqueue(car);
+	}
+	while (!extra.isEmpty())
+	{
+		extra.dequeue(car);
+		DeliveredCargos.enqueue(car);
+	}
 }
 
 void CompanyClass::calcCargoAvgWaitTime(int& h, int& d)

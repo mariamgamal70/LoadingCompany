@@ -52,9 +52,10 @@ class CompanyClass
 	PriQ<Cargo*> VIPCargoPriQueue;
 	//----------------------------cargo related lists-----------------------------------
 			//PriQ<Cargo*> MovingCargos;//priority to the least delivery time
-	LinkedQueue <Cargo*> NormalDeliveredCargos;
-	LinkedQueue <Cargo*> SpecialDeliveredCargos;
-	LinkedQueue <Cargo*> VIPDeliveredCargos;
+	//LinkedQueue <Cargo*> NormalDeliveredCargos;
+	//LinkedQueue <Cargo*> SpecialDeliveredCargos;
+	//LinkedQueue <Cargo*> VIPDeliveredCargos;
+	LinkedQueue <Cargo*> DeliveredCargos;
 	//---------------------------for file loading function------------------------------
 	int nN, nS, nV;
 	int Ns, Ss, Vs;
@@ -127,10 +128,10 @@ public:
 	void printEmptySpecialTrucks();
 	void printEmptyVIPTrucks();
 
-
-	void printNormalDeliveredCargos();
+	/*void printNormalDeliveredCargos();
 	void printSpecialDeliveredCargos();
-	void printVIPDeliveredCargos();
+	void printVIPDeliveredCargos();*/
+	//void printDeliveredCargos();
 
 	//void printE
 	void printcheckuptruck();
