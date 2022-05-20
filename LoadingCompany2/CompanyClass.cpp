@@ -24,9 +24,9 @@ CompanyClass::CompanyClass()
 	Hour = 1;
 	Day = 1;
 	TotalNumberOfTrucks = 0;
-	SumNormalCargos = 0;
-	SumSpecialCargos = 0;
-	SumVIPCargos = 0;
+	sumfinalnorm = 0;
+	sumfinalspec = 0;
+	sumfinalvip = 0;
 	SumCargos = 0;
 	count = 0;
 	//noOfPromotedCargos=0;
@@ -140,7 +140,7 @@ void CompanyClass::RemoveCargo(int id)
 {
 	NormalCargos.DeleteSpecificNode(id);
 
-	SumNormalCargos--;
+	sumfinalnorm--;
 }
 
 void CompanyClass::PromoteCargo(int id)// change cost of cargo , increment no of promoted cargos
@@ -157,9 +157,9 @@ void CompanyClass::PromoteCargo(int id)// change cost of cargo , increment no of
 
 		CargoToPromote->setCargoType('V');
 
-		SumNormalCargos--;
+		sumfinalnorm--;
 
-		SumVIPCargos++;
+		sumfinalvip++;
 
 	}
 }
@@ -199,19 +199,19 @@ void CompanyClass::ExecuteEvents()
 void CompanyClass::AddToNormalCargos(Cargo* C)
 {
 	NormalCargos.InsertEnd(C);
-	SumNormalCargos++;
+	sumfinalnorm++;
 }
 
 void CompanyClass::AddToSpecialCargos(Cargo* C)
 {
 	SpecialCargos.enqueue(C);
-	SumSpecialCargos++;
+	sumfinalspec++;
 }
 
 void CompanyClass::AddToVIPCargos(Cargo* C ,double priority)
 {
 	VIPCargoPriQueue.enqueueAscending(C, priority);
-	SumVIPCargos++;
+	sumfinalvip++;
 }
 
 void CompanyClass::AddToAppropriateList(Cargo* Cl)
@@ -227,18 +227,18 @@ void CompanyClass::AddToAppropriateList(Cargo* Cl)
 	if(Cl->getCargoType() == 'N')
 	{
 		NormalCargos.InsertEnd(Cl);
-		SumNormalCargos++;
+		sumfinalnorm++;
 	}
 	else if(Cl->getCargoType() == 'S')
 	{
 		SpecialCargos.enqueue(Cl);
-		SumSpecialCargos++;
+		sumfinalspec++;
 	}
 	else if(Cl->getCargoType() == 'V')
 	{
 		VIPCargoPriority = (2 * (PrepH + PrepD) + 1 * dist) / CargoCost;
 		VIPCargoPriQueue.enqueueAscending(Cl, VIPCargoPriority);
-		SumVIPCargos++;
+		sumfinalvip++;
 	}
 }
 void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T)
@@ -629,7 +629,7 @@ void CompanyClass::MoveTruckFromLoadingToMoving()
 }*/
 int CompanyClass::getTotalNumberOfCargos()
 {
-	SumCargos = SumNormalCargos + SumSpecialCargos + SumVIPCargos;
+	SumCargos = sumfinalnorm + sumfinalspec + sumfinalvip;
 	return SumCargos;
 }
 
@@ -795,14 +795,16 @@ void CompanyClass::printEmptyVIPTrucks()
 }
 
 void CompanyClass::SimulatorFunction()
-{
-	FileLoading();
-	ExecuteEvents();
+{//while total no of cargos!= delivered 
 	while (Hour > 23) //24hour will be 00H:00MIN AM
 	{
 		Hour = Hour - 23;
 		Day++;
 	}
+	FileLoading();
+	ExecuteEvents();
+	
+
 	printHeadLine();
 				//MALAK SHOULD ADD DELIVERCARGOS
 				/*Truck* Normal;
@@ -967,7 +969,7 @@ void CompanyClass::calcCargoAvgWaitTime(int& h, int& d)
 
 int CompanyClass::calcAutoPromotedCargos()
 {
-	int percentage= noOfAutoPCargos / SumNormalCargos * 100; //divided by sumnormalcargos or nopromotedcargos?
+	int percentage= noOfAutoPCargos / sumfinalnorm * 100; //divided by sumfinalnorm or nopromotedcargos?
 	return percentage;
 }
 
