@@ -156,7 +156,7 @@ void CompanyClass::PromoteCargo(int id)// change cost of cargo , increment no of
 		CargoToPromote->setCargoType('V');
 	}
 }
-void CompanyClass::AutoPromote(int id)
+/*void CompanyClass::AutoPromote(int id)
 {
 	Cargo* c=NormalCargos.findSpecificNode(id);
 	if (c)
@@ -168,7 +168,7 @@ void CompanyClass::AutoPromote(int id)
 			PromoteCargo(id);
 		}
 	}
-}
+}*/
 /*double CompanyClass::setpriorityequation(int pH, int pD, int DD, int CC)
 {
 	VIPCargoPriority = (2 * (pH + pD) + 1 * DD) / CC;
@@ -806,11 +806,11 @@ void CompanyClass::SimulatorFunction()
 					AddTruckToCheckup(VIP);
 				}*/
 
-				if (!NormalCargos.isEmpty())
+				/*if (!NormalCargos.isEmpty())
 				{
 					NormalCargos.AutoPromoteCargo(this,Day,AutoPDays)
 
-				}
+				}*/
 
 
 
