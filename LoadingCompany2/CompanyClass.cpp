@@ -805,6 +805,8 @@ void CompanyClass::printEmptyVIPTrucks()
 void CompanyClass::SimulatorFunction()
 {
 	FileLoading();
+
+	ui = UIclass Ui(this);
 	ui->choosethemode();
 	//while total no of cargos!= delivered  ,at first 0=0 quit?
 
@@ -840,6 +842,7 @@ void CompanyClass::SimulatorFunction()
 	AssignCargoToTruck();
 	MoveTruckFromLoadingToMoving();
 	//MoveTruckFromMovingToCheckup();
+
 	ui->printOutput();
 	Hour++;
 	while (Hour > 23) //24hour will be 00H:00MIN AM
