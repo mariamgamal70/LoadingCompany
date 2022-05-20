@@ -82,6 +82,7 @@ public:
 	void FileLoading();
 	void RemoveCargo(int id);
 	void PromoteCargo(int id);
+	void AutoPromote(int id);
 	//double setpriorityequation(int pH, int pD, int DD, int CC);
 
 	void AddToNormalCargos(Cargo* C);

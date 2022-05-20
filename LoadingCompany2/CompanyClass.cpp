@@ -153,7 +153,19 @@ void CompanyClass::PromoteCargo(int id)// change cost of cargo , increment no of
 		CargoToPromote->setCargoType('V');
 	}
 }
-
+void CompanyClass::AutoPromote(int id)
+{
+	Cargo* c;
+	if (NormalCargos.findSpecificNode(id))
+	{
+		int hours = (c->getCID(id).getPreparationTimeDay()) * 24;
+		hours = hours + c->getCID(id).getPreparationTimeHour();
+		if (hours >= (AutoPDays * 24))
+		{
+			PromoteCargo(id);
+		}
+	}
+}
 /*double CompanyClass::setpriorityequation(int pH, int pD, int DD, int CC)
 {
 	VIPCargoPriority = (2 * (pH + pD) + 1 * DD) / CC;
@@ -230,43 +242,45 @@ void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T)
 
 void  CompanyClass::MoveTruckFromLoadingToMoving(Truck* T)
 {
-	if (Hour >= 5 && Hour <= 23)
+	if (T->LoadedCargosFull())
 	{
-		Truck* deq;
-	
-		if (T->getTruckType() == 'N')
-		{
-		
-
-			LoadingNormalTrucks.dequeue(T); //dequeue T and add it to MOVING truck
-			int hours;
-			int days;
-			T->getTruckDeliveryInterval(hours, days);
-			hours = hours + days * 24;
-			MovingTrucks.enqueueAscending(T, hours);
-
-			
-		}
-		else if (T->getTruckType() == 'V')
+		if (Hour >= 5 && Hour <= 23)
 		{
 
-			LoadingVIPTrucks.dequeue(T);
-			int hours;
-			int days;
-			T->getTruckDeliveryInterval(hours, days);
-			hours = hours + days * 24;
-			MovingTrucks.enqueueAscending(T, hours);
+			if (T->getTruckType() == 'N')
+			{
 
-		}
-		else
-		{
-			LoadingSpecialTrucks.dequeue(T);
-			int hours;
-			int days;
-			T->getTruckDeliveryInterval(hours, days);
-			hours = hours + days * 24;
-			MovingTrucks.enqueueAscending(T, hours);
 
+				LoadingNormalTrucks.dequeue(T); //dequeue T and add it to MOVING truck
+				int hours;
+				int days;
+				T->getTruckDeliveryInterval(hours, days);
+				hours = hours + days * 24;
+				MovingTrucks.enqueueAscending(T, hours);
+
+
+			}
+			else if (T->getTruckType() == 'V')
+			{
+
+				LoadingVIPTrucks.dequeue(T);
+				int hours;
+				int days;
+				T->getTruckDeliveryInterval(hours, days);
+				hours = hours + days * 24;
+				MovingTrucks.enqueueAscending(T, hours);
+
+			}
+			else
+			{
+				LoadingSpecialTrucks.dequeue(T);
+				int hours;
+				int days;
+				T->getTruckDeliveryInterval(hours, days);
+				hours = hours + days * 24;
+				MovingTrucks.enqueueAscending(T, hours);
+
+			}
 		}
 	}
 }
