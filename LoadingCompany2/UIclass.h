@@ -27,6 +27,7 @@ private:
 	ifstream fin;
 	mode modee;
 	CompanyClass* comp;
+	string output;
 public:
 	UIclass(CompanyClass* company);
 	
