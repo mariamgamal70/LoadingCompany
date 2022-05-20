@@ -21,7 +21,7 @@ class CompanyClass
 	int Hour;
 	int Day;
 	int TotalNumberOfTrucks;
-	int SumNormalCargos,SumSpecialCargos,SumVIPCargos;
+	int sumfinalnorm,sumfinalspec,sumfinalvip;
 	int SumCargos;
 	//int CargoAvgTime;
 	int SumAllloadTime;
@@ -110,8 +110,11 @@ public:
 	int getNumberOfNormalTrucks();			//called at the end of simulation 
 	int getNumberOfspecialTrucks();			//called at the end of simulation 
 	int getNumberOfVipTrucks();				//called at the end of simulation 
+	int getnumfinalnorm();
+	int getnumfinalspec();
+	int getnumfinalvip();
+	int getautopromnum();
 	Cargo* dequeueDeliveredCargo();
-
 	//----------------PRINTS------------------------//
 	void printWNormalCargos();
 	void printWspecialCargos();

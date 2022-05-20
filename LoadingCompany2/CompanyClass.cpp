@@ -617,6 +617,22 @@ int CompanyClass::getNumberOfVipTrucks()
 {
 	return nV;
 }
+int CompanyClass::getnumfinalnorm()
+{
+	return sumfinalnorm;
+}
+int CompanyClass::getnumfinalspec()
+{
+	return sumfinalspec;
+}
+int CompanyClass::getnumfinalvip()
+{
+	return sumfinalvip;
+}
+int CompanyClass::getautopromnum()
+{
+	return noOfAutoPCargos;
+}
 /*LinkedList<Cargo*> CompanyClass::getNormalCargos()//to call in UI class
 {
 	return NormalCargos;
@@ -830,7 +846,7 @@ void CompanyClass::printcheckuptruck()
 	ui->coutendl();
 }
 
-void CompanyClass::printloadingtrucks()
+void CompanyClass::printloadingtrucks() //----------------------------------------------------------------- in checkup also
 {
 	int z = 0;
 	ui->coutinteger(z);
@@ -841,7 +857,7 @@ void CompanyClass::printloadingtrucks()
 	ui->coutendl();
 }
 
-void CompanyClass::printmovingcargos()
+void CompanyClass::printmovingcargos() //-----------------------------------------------------------------------
 {
 	int z = 0;
 	ui->coutinteger(z);
