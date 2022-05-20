@@ -89,6 +89,7 @@ public:
 	void RemoveCargo(int id);
 	void PromoteCargo(int id);
 	void ExecuteEvents();
+	bool checkfunction();
 	//void AutoPromote(int id);  Class responsibility?
 	//double setpriorityequation(int pH, int pD, int DD, int CC);
 

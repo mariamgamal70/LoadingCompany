@@ -807,7 +807,7 @@ void CompanyClass::SimulatorFunction()
 	FileLoading();
 	ui->choosethemode();
 	//while total no of cargos!= delivered  ,at first 0=0 quit?
-	while()
+
 	ExecuteEvents();
 	//printHeadLine();
 	
