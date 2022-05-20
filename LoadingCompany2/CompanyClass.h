@@ -94,7 +94,7 @@ public:
 	void LoadingToMovingTrucks();
 	void MoveTruckFromEmptyToLoading(Truck* T);
 	void MoveTruckFromLoadingToMoving(Truck* T);
-	
+	void MoveTruckFromCheckupToAvailable(Truck* T);
 	//-----------------GETTERS----------------------//	
 	
 	//double getCargoAvgTime();

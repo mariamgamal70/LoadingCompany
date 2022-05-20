@@ -208,137 +208,103 @@ void CompanyClass::AddToAppropriateList(Cargo* Cl)
 void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T)
 {
 	Truck* deq;
-	LinkedQueue<Truck*>* extra = NULL;
 	if (T->getTruckType() == 'N')
 	{
-		//NormalTruckQueue.peek(deq);
-		//while (deq != T) //find T in queue
-		//{
-		//	NormalTruckQueue.dequeue(deq);
-		//	extra->enqueue(deq);
-		//}
 		NormalTruckQueue.dequeue(T); //dequeue T and add it to loading truck
 		LoadingNormalTrucks.enqueue(T);
 
-		//while (!(extra->isEmpty())) // return emptytrucksnormal queue to its original form
-		//{
-		//	extra->dequeue(deq);
-		//	NormalTruckQueue.enqueue(deq);
-		//}
 	}
 	else if (T->getTruckType() == 'V')
 	{
-		/*VIPTruckQueue.peek(deq);
-		while (deq != T)
-		{
-			VIPTruckQueue.dequeue(deq);
-			extra->enqueue(deq);
-
-		}*/
+		
 		VIPTruckQueue.dequeue(T);
 		LoadingVIPTrucks.enqueue(T);
-		/*while (!extra->isEmpty())
-		{
-			extra->dequeue(deq);
-			VIPTruckQueue.enqueue(deq);
-		}*/
+		
 	}
 	else
 	{
-		/*NormalTruckQueue.peek(deq);
-		while (deq != T)
-		{
-			SpecialTruckQueue.dequeue(deq);
-			extra->enqueue(deq);
-		}*/
 		SpecialTruckQueue.dequeue(T);
 		LoadingSpecialTrucks.enqueue(T);
-
-		//while (!(extra->isEmpty()))
-		//{
-		//	extra->dequeue(deq);
-		//	SpecialTruckQueue.enqueue(deq);
-		//}
 	}
 }
 
 void  CompanyClass::MoveTruckFromLoadingToMoving(Truck* T)
 {
-	Truck* deq;
-	LinkedQueue<Truck*>* extra = nullptr; //for all trucks??? all conditions? or could be initialized for each condition?---ANSWER: each type is separated and all trucks in the list are loading so it doesnt matter since it's only used by one type'------------------------------>
-	//if u do = nullptr it says dereferencing nullptr ,if left this way it says uninitialized local variable
-	if (T->getTruckType() == 'N')
+	if (Hour >= 5 && Hour <= 23)
 	{
-		//LoadingNormalTrucks.peek(deq);
-		//while (deq != T) //find T in queue
-		//{
-		//	LoadingNormalTrucks.dequeue(deq);
-		//	extra->enqueue(deq);
-		//}
-		//
-
-		LoadingNormalTrucks.dequeue(T); //dequeue T and add it to MOVING truck
-		int hours;
-		int days;
-		T->getTruckDeliveryInterval(hours, days);
-		hours = hours + days * 24;
-		MovingTrucks.enqueueAscending(T, hours);
-
-		//while (!extra->isEmpty()) // return emptytrucksnormal queue to its original form
-		//{
-		//	extra->dequeue(deq);
-		//	LoadingNormalTrucks.enqueue(deq);
-		//}
-	}
-	else if (T->getTruckType() == 'V')
-	{
-		/*LoadingVIPTrucks.peek(deq);
-		while (deq != T)
+		Truck* deq;
+	
+		if (T->getTruckType() == 'N')
 		{
-			LoadingVIPTrucks.dequeue(deq);
-			extra->enqueue(deq);
-		}*/
+		
 
-		LoadingVIPTrucks.dequeue(T);
-		int hours;
-		int days;
-		T->getTruckDeliveryInterval(hours, days);
-		hours = hours + days * 24;
-		MovingTrucks.enqueueAscending(T, hours);
+			LoadingNormalTrucks.dequeue(T); //dequeue T and add it to MOVING truck
+			int hours;
+			int days;
+			T->getTruckDeliveryInterval(hours, days);
+			hours = hours + days * 24;
+			MovingTrucks.enqueueAscending(T, hours);
 
-	/*	while (!extra->isEmpty())
+			
+		}
+		else if (T->getTruckType() == 'V')
 		{
-			extra->dequeue(deq);
-			LoadingVIPTrucks.enqueue(deq);
-		}*/
-	}
-	else
-	{/*
-		LoadingSpecialTrucks.peek(deq);
-		while (deq != T)
-		{
-			LoadingSpecialTrucks.dequeue(deq);
-			extra->enqueue(deq);
 
-		}*/
-		LoadingSpecialTrucks.dequeue(T);
-		int hours;
-		int days;
-		T->getTruckDeliveryInterval(hours, days);
-		hours = hours + days * 24;
-		MovingTrucks.enqueueAscending(T, hours);
+			LoadingVIPTrucks.dequeue(T);
+			int hours;
+			int days;
+			T->getTruckDeliveryInterval(hours, days);
+			hours = hours + days * 24;
+			MovingTrucks.enqueueAscending(T, hours);
 
-		/*while (!extra->isEmpty())
+		}
+		else
 		{
-			extra->dequeue(deq);
-			LoadingSpecialTrucks.enqueue(deq);
-		}*/
+			LoadingSpecialTrucks.dequeue(T);
+			int hours;
+			int days;
+			T->getTruckDeliveryInterval(hours, days);
+			hours = hours + days * 24;
+			MovingTrucks.enqueueAscending(T, hours);
+
+		}
 	}
 }
-//void CompanyClass::MoveTruckFromCheckupToAvailable(	Truck T)
-//{
-//
-//}
+void CompanyClass::MoveTruckFromCheckupToAvailable(	Truck* T)
+{
+	if (T->getTruckType() == 'N')
+	{
+		if (T->getTruckMaintenanceTime() == NULL)
+		{
+			NormalTrucksUnderCheckup.dequeue(T);
+
+
+			NormalTruckQueue.enqueue(T);
+		}
+	}
+		else if (T->getTruckType() == 'V')
+		{
+
+		if (T->getTruckMaintenanceTime() == NULL)
+		{
+			VIPTrucksUnderCheckup.dequeue(T);
+
+
+			VIPTruckQueue.enqueue(T);
+		}
+		}
+		else
+		{
+		if (T->getTruckMaintenanceTime() == NULL)
+		{
+			SpecialTrucksUnderCheckup.dequeue(T);
+
+
+			SpecialTruckQueue.enqueue(T);
+		}
+			
+		}
+}
 
 void CompanyClass::AddTruckToCheckup(Truck* T) //->MARIAM
 {
