@@ -193,6 +193,10 @@ void CompanyClass::ExecuteEvents()
 			Eventlist.dequeue(EventToBeExecuted);
 			EventToBeExecuted->Execute(this);
 		}
+		else
+		{
+			break;
+		}
 	}
 }
 
