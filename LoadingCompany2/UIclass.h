@@ -13,9 +13,9 @@
 
 enum mode
 {
-	Interactive,
-	StepByStep,
-	Silent
+	Interactive=1,
+	StepByStep=2,
+	Silent=3
 };
 using namespace std;
 class CompanyClass;
@@ -29,6 +29,7 @@ private:
 	CompanyClass* comp;
 	string output;
 public:
+	UIclass();
 	UIclass(CompanyClass* company);
 	
 	/*string getidslinQcargo(LinkedQueue<Cargo*>* q);

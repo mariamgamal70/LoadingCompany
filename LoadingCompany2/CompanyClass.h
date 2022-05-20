@@ -85,6 +85,7 @@ public:
 	CompanyClass();
 	CompanyClass(UIclass* uii);
 	void FileLoading();
+	//void OutputFile();
 	void RemoveCargo(int id);
 	void PromoteCargo(int id);
 	void ExecuteEvents();
