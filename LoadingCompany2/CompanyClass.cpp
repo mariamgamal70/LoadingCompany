@@ -382,7 +382,7 @@ void CompanyClass::AssignCargoToTruck()
 					for (int i = 0; i < specialtruck->getTruckCapacity(); i++)
 					{
 						SpecialCargos.dequeue(specialcargo);
-						sumspecialloadtime= sumspecialloadtime+ specialcargo->getLoadTime();
+						sumspecialloadtime= sumspecialloadtime+ specialcargo->getLoadTime();//save currenttime in variable,keep checking in if condition if currenttime+cargoloadtime is currenttime
 						specialtruck->LoadCargos(specialcargo);
 						if (getCurrentTimeHour() + (getCurrentTimeDay() * 24) >= MaxWaitHours)//add check max wait (if condition)
 						{
