@@ -72,7 +72,8 @@ class CompanyClass
 	int CargoID, CargoDist, CargoLoadTime, CargoCost;
 	int CargoExtraMoney;
 	UIclass* ui;
-	int noOfPromotedCargos,noOfAutoPCargos;
+	int noOfAutoPCargos;
+	//int noOfPromotedCargos;
 	int SumTruckActiveTimeH,SumTruckActiveTimeD;
 	int SumWaitTimeH, SumWaitTimeD;
 	int SumUtilization;
@@ -86,6 +87,7 @@ public:
 	void FileLoading();
 	void RemoveCargo(int id);
 	void PromoteCargo(int id);
+	void ExecuteEvents();
 	//void AutoPromote(int id);  Class responsibility?
 	//double setpriorityequation(int pH, int pD, int DD, int CC);
 
@@ -93,12 +95,12 @@ public:
 	void AddToSpecialCargos(Cargo* C);
 	void AddToVIPCargos(Cargo* C, double priority);
 	void AddToAppropriateList(Cargo* C);
-	void AddTruckToCheckup(Truck* T);
+	void MoveTruckFromMovingToCheckup(Truck* T);
 	void AssignCargoToTruck(); // uncomment stuff if MoveTruckFromEmptyToLoading is finished
 	void AddToDeliveredCargos();
-	void LoadingToMovingTrucks();
+	void MoveTruckFromLoadingToMoving();//MINE
 	void MoveTruckFromEmptyToLoading(Truck* T);
-	void MoveTruckFromLoadingToMoving(Truck* T);
+	void MoveTruckFromLoadingToMoving(Truck* T);//YARA
 	void MoveTruckFromCheckupToAvailable(Truck* T);
 	//-----------------GETTERS----------------------//	
 	
@@ -116,6 +118,7 @@ public:
 	int getautopromnum();
 	Cargo* dequeueDeliveredCargo();
 	//----------------PRINTS------------------------//
+	void printHeadLine();
 	void printWNormalCargos();
 	void printWspecialCargos();
 	void printWvipCargos();

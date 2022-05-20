@@ -29,7 +29,7 @@ CompanyClass::CompanyClass()
 	SumVIPCargos = 0;
 	SumCargos = 0;
 	count = 0;
-	noOfPromotedCargos=0;
+	//noOfPromotedCargos=0;
 	noOfAutoPCargos=0;
 	SumTruckActiveTimeH=0;
 	SumTruckActiveTimeD=0;
@@ -139,6 +139,8 @@ void CompanyClass::FileLoading()
 void CompanyClass::RemoveCargo(int id)
 {
 	NormalCargos.DeleteSpecificNode(id);
+
+	SumNormalCargos--;
 }
 
 void CompanyClass::PromoteCargo(int id)// change cost of cargo , increment no of promoted cargos
@@ -154,6 +156,11 @@ void CompanyClass::PromoteCargo(int id)// change cost of cargo , increment no of
 		VIPCargoPriQueue.enqueueAscending(CargoToPromote, VIPCargoPriority);
 
 		CargoToPromote->setCargoType('V');
+
+		SumNormalCargos--;
+
+		SumVIPCargos++;
+
 	}
 }
 /*void CompanyClass::AutoPromote(int id)
@@ -174,6 +181,20 @@ void CompanyClass::PromoteCargo(int id)// change cost of cargo , increment no of
 	VIPCargoPriority = (2 * (pH + pD) + 1 * DD) / CC;
 	return VIPCargoPriority;
 }*/
+
+void CompanyClass::ExecuteEvents()
+{
+	Event* EventToBeExecuted;
+	while (!Eventlist.isEmpty())
+	{
+		Eventlist.peek(EventToBeExecuted);
+		if (EventToBeExecuted->GetHours() == Hour && EventToBeExecuted->GetDays() == Day)//pointer and hours and days are incorrect
+		{
+			Eventlist.dequeue(EventToBeExecuted);
+			EventToBeExecuted->Execute(this);
+		}
+	}
+}
 
 void CompanyClass::AddToNormalCargos(Cargo* C)
 {
@@ -248,27 +269,21 @@ void  CompanyClass::MoveTruckFromLoadingToMoving(Truck* T)
 
 			if (T->getTruckType() == 'N')
 			{
-
-
 				LoadingNormalTrucks.dequeue(T); //dequeue T and add it to MOVING truck
 				int hours;
 				int days;
 				T->getTruckDeliveryInterval(hours, days);
 				hours = hours + days * 24;
 				MovingTrucks.enqueueAscending(T, hours);
-
-
 			}
 			else if (T->getTruckType() == 'V')
 			{
-
 				LoadingVIPTrucks.dequeue(T);
 				int hours;
 				int days;
 				T->getTruckDeliveryInterval(hours, days);
 				hours = hours + days * 24;
 				MovingTrucks.enqueueAscending(T, hours);
-
 			}
 			else
 			{
@@ -319,7 +334,7 @@ void CompanyClass::MoveTruckFromCheckupToAvailable(	Truck* T)
 		}
 }
 
-void CompanyClass::AddTruckToCheckup(Truck* T) //->MARIAM
+void CompanyClass::MoveTruckFromMovingToCheckup(Truck* T) //->MARIAM
 {
 	PriQNode<Truck*> qnode;
 	PriQ <Truck*> q;
@@ -368,7 +383,7 @@ void CompanyClass::AddTruckToCheckup(Truck* T) //->MARIAM
 
 void CompanyClass::AssignCargoToTruck()
 {
-	if (Hour >= 5 && Hour <= 23)
+	while (Hour >= 5 && Hour <= 23)
 	{
 		Truck* specialtruck;
 		Truck* normaltruck;
@@ -559,7 +574,7 @@ void CompanyClass::AddToDeliveredCargos() //trial2
 	}
 }
 
-void CompanyClass::LoadingToMovingTrucks()
+void CompanyClass::MoveTruckFromLoadingToMoving()
 {
 	PriQNode<Truck*> vipnode;
 	Truck* viptruck;
@@ -697,6 +712,15 @@ void CompanyClass::printWvipCargos()
 	VIPCargoPriQueue.printList();
 }
 
+void CompanyClass::printHeadLine()
+{
+	ui->coutstring("Current Time (Day:Hour)");//<----- trace el code keda
+	ui->coutinteger(Day);
+	ui->coutchar(':');
+	ui->coutinteger(Hour);
+	ui->coutendl();
+}
+
 /*void CompanyClass::printLnormalTrucks()
 {
 	LoadingNormalTrucks.PrintQueue();
@@ -744,30 +768,16 @@ void CompanyClass::printEmptyVIPTrucks()
 	VIPTruckQueue.PrintQueue();
 }
 
-
 void CompanyClass::SimulatorFunction()
 {
 	FileLoading();
-	int TimeStepCount = 0;
-		while (!Eventlist.isEmpty())
-		{			
-			while (Hour > 23) //24hour will be 00H:00MIN AM
-			{
-				Hour = Hour - 23;
-				Day++;
-			}
-			ui->coutstring("Current Time (Day:Hour)");//<----- trace el code keda
-			ui->coutinteger(Day);
-			ui->coutchar(':');
-			ui->coutinteger(Hour);
- 			ui->coutendl(); 
-			Event* EventToBeExecuted;
-			Eventlist.peek(EventToBeExecuted);
-				if (EventToBeExecuted->GetHours() == Hour && EventToBeExecuted->GetDays() == Day)//pointer and hours and days are incorrect
-				{	
-					Eventlist.dequeue(EventToBeExecuted);
-					EventToBeExecuted->Execute(this);
-				}
+	ExecuteEvents();
+	while (Hour > 23) //24hour will be 00H:00MIN AM
+	{
+		Hour = Hour - 23;
+		Day++;
+	}
+	printHeadLine();
 				//MALAK SHOULD ADD DELIVERCARGOS
 				/*Truck* Normal;
 				Truck* Special;
@@ -793,17 +803,17 @@ void CompanyClass::SimulatorFunction()
 					NormalCargos.AutoPromoteCargo(this,Day,AutoPDays)
 
 				}*/
-			printwaitingcargos();
-			printloadingtrucks();
-			printavailtrucks();
-			printmovingcargos();
-			printcheckuptruck();
-			printdeliveredcargo();
+	AssignCargoToTruck();
+	MoveTruckFromLoadingToMoving();
+	printwaitingcargos();
+	printloadingtrucks();
+	printavailtrucks();
+	printmovingcargos();
+	printcheckuptruck();
+	printdeliveredcargo();
 			//ui->printInteractive();
-			Hour++;
-			TimeStepCount++;
-			ui->waitforenter(); 
-		}
+	Hour++;
+	ui->waitforenter(); 
 		//produce output file <<<----------OUTPUTFILE---------------------*/
 }
 				
@@ -930,7 +940,7 @@ void CompanyClass::calcCargoAvgWaitTime(int& h, int& d)
 
 int CompanyClass::calcAutoPromotedCargos()
 {
-	int percentage= noOfAutoPCargos / noOfPromotedCargos * 100;
+	int percentage= noOfAutoPCargos / SumNormalCargos * 100; //divided by sumnormalcargos or nopromotedcargos?
 	return percentage;
 }
 
