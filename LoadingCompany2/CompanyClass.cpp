@@ -158,11 +158,11 @@ void CompanyClass::PromoteCargo(int id)// change cost of cargo , increment no of
 }
 void CompanyClass::AutoPromote(int id)
 {
-	Cargo* c;
-	if (NormalCargos.findSpecificNode(id))
+	Cargo* c=NormalCargos.findSpecificNode(id);
+	if (c)
 	{
-		int hours = (c->getCID(id).getPreparationTimeDay()) * 24;
-		hours = hours + c->getCID(id).getPreparationTimeHour();
+		int hours = (c->getPreparationTimeDay()) * 24;
+		hours = hours + c->getPreparationTimeHour();
 		if (hours >= (AutoPDays * 24))
 		{
 			PromoteCargo(id);
