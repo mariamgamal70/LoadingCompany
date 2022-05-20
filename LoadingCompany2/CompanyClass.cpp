@@ -407,9 +407,17 @@ void CompanyClass::AssignCargoToTruck()
 						SpecialCargos.dequeue(specialcargo);
 						sumspecialloadtime= sumspecialloadtime+ specialcargo->getLoadTime();//save currenttime in variable,keep checking in if condition if currenttime+cargoloadtime is currenttime
 						specialtruck->LoadCargos(specialcargo);
-						if (getCurrentTimeHour() + (getCurrentTimeDay() * 24) >= MaxWaitHours)//add check max wait (if condition)
+					}
+				}
+				else if (SpecialCargos.getCount() > 0 && SpecialCargos.getCount() < specialtruck->getTruckCapacity())
+				{
+					if (getCurrentTimeHour() + (getCurrentTimeDay() * 24) >= MaxWaitHours)//add check max wait (if condition)
+					{
+						for (int i = 0; i < normaltruck->getTruckCapacity(); i++)
 						{
-							break;
+							SpecialCargos.dequeue(specialcargo);
+							sumspecialloadtime = sumspecialloadtime + specialcargo->getLoadTime();//save currenttime in variable,keep checking in if condition if currenttime+cargoloadtime is currenttime
+							specialtruck->LoadCargos(specialcargo);
 						}
 					}
 				}
@@ -434,9 +442,18 @@ void CompanyClass::AssignCargoToTruck()
 						sumnormalloadtime = sumnormalloadtime + normalcargo->getLoadTime();
 						NormalCargos.DeleteBeg();
 						normaltruck->LoadCargos(normalcargo);
-						if (getCurrentTimeHour() + (getCurrentTimeDay() * 24) >= MaxWaitHours)//add check max wait (if condition)
+					}
+				}
+				else if (NormalCargos.getCount() > 0 && NormalCargos.getCount() < normaltruck->getTruckCapacity())
+				{
+					if (getCurrentTimeHour() + (getCurrentTimeDay() * 24) >= MaxWaitHours)//add check max wait (if condition)
+					{
+						for (int i = 0; i < normaltruck->getTruckCapacity(); i++)
 						{
-							break;
+							normalcargo = NormalCargos.peek();//peek
+							sumnormalloadtime = sumnormalloadtime + normalcargo->getLoadTime();
+							NormalCargos.DeleteBeg();
+							normaltruck->LoadCargos(normalcargo);
 						}
 					}
 				}
@@ -455,9 +472,18 @@ void CompanyClass::AssignCargoToTruck()
 						sumnormalloadtime = sumnormalloadtime + normalcargo->getLoadTime();
 						NormalCargos.DeleteBeg();
 						viptruck->LoadCargos(normalcargo);
-						if (getCurrentTimeHour() + (getCurrentTimeDay() * 24) >= MaxWaitHours)//add check max wait (if condition)
+					}
+				}
+				else if (NormalCargos.getCount() > 0 && NormalCargos.getCount() < viptruck->getTruckCapacity())
+				{
+					if (getCurrentTimeHour() + (getCurrentTimeDay() * 24) >= MaxWaitHours)//add check max wait (if condition)
+					{
+						for (int i = 0; i < normaltruck->getTruckCapacity(); i++)
 						{
-							break;
+							normalcargo = NormalCargos.peek();//peek
+							sumnormalloadtime = sumnormalloadtime + normalcargo->getLoadTime();
+							NormalCargos.DeleteBeg();
+							viptruck->LoadCargos(normalcargo);
 						}
 					}
 				}
@@ -750,6 +776,7 @@ void CompanyClass::SimulatorFunction()
 				}*/
 	AssignCargoToTruck();
 	MoveTruckFromLoadingToMoving();
+	//MoveTruckFromMovingToCheckup();
 	printwaitingcargos();
 	printloadingtrucks();
 	printavailtrucks();
