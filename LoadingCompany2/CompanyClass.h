@@ -75,6 +75,9 @@ class CompanyClass
 	int SumTruckActiveTimeH,SumTruckActiveTimeD;
 	int SumWaitTimeH, SumWaitTimeD;
 	int SumUtilization;
+	int sumspecialloadtime;
+	int sumnormalloadtime;
+	int sumviploadtime;
 
 public:
 	CompanyClass();

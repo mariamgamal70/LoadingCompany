@@ -34,6 +34,9 @@ CompanyClass::CompanyClass()
 	SumTruckActiveTimeH=0;
 	SumTruckActiveTimeD=0;
 	SumUtilization = 0; 
+	sumspecialloadtime = 0;
+	sumnormalloadtime = 0;
+	sumviploadtime = 0;
 }
 CompanyClass::CompanyClass(UIclass* uii)
 {
@@ -360,6 +363,9 @@ void CompanyClass::AssignCargoToTruck()
 		Truck* specialtruck;
 		Truck* normaltruck;
 		Truck* viptruck;
+		   //int sumspecialloadtime=0;
+		   //int sumnormalloadtime = 0;
+		   //int sumviploadtime = 0;
 		//LOADING SPECIAL CARGO
 		if (!SpecialCargos.isEmpty())
 		{
@@ -376,6 +382,7 @@ void CompanyClass::AssignCargoToTruck()
 					for (int i = 0; i < specialtruck->getTruckCapacity(); i++)
 					{
 						SpecialCargos.dequeue(specialcargo);
+						sumspecialloadtime= sumspecialloadtime+ specialcargo->getLoadTime();
 						specialtruck->LoadCargos(specialcargo);
 						if (getCurrentTimeHour() + (getCurrentTimeDay() * 24) >= MaxWaitHours)//add check max wait (if condition)
 						{
@@ -396,11 +403,12 @@ void CompanyClass::AssignCargoToTruck()
 
 				if (NormalCargos.getCount() >= normaltruck->getTruckCapacity())
 				{
-					//MoveTruckFromEmptyToLoading(normaltruck);//COMMENTED TILL FUNCTION IS COMPLETE
+					MoveTruckFromEmptyToLoading(normaltruck);//COMMENTED TILL FUNCTION IS COMPLETE
 
 					for (int i = 0; i < normaltruck->getTruckCapacity(); i++)
 					{
 						normalcargo = NormalCargos.peek();//peek
+						sumnormalloadtime = sumnormalloadtime + normalcargo->getLoadTime();
 						NormalCargos.DeleteBeg();
 						normaltruck->LoadCargos(normalcargo);
 						if (getCurrentTimeHour() + (getCurrentTimeDay() * 24) >= MaxWaitHours)//add check max wait (if condition)
@@ -416,11 +424,12 @@ void CompanyClass::AssignCargoToTruck()
 
 				if (NormalCargos.getCount() >= viptruck->getTruckCapacity())
 				{
-					//MoveTruckFromEmptyToLoading(viptruck);//COMMENTED TILL FUNCTION IS COMPLETE
+					MoveTruckFromEmptyToLoading(viptruck);//COMMENTED TILL FUNCTION IS COMPLETE
 
 					for (int i = 0; i < viptruck->getTruckCapacity(); i++)
 					{
 						normalcargo = NormalCargos.peek();
+						sumnormalloadtime = sumnormalloadtime + normalcargo->getLoadTime();
 						NormalCargos.DeleteBeg();
 						viptruck->LoadCargos(normalcargo);
 						if (getCurrentTimeHour() + (getCurrentTimeDay() * 24) >= MaxWaitHours)//add check max wait (if condition)
@@ -442,11 +451,12 @@ void CompanyClass::AssignCargoToTruck()
 
 				if (VIPCargoPriQueue.getCount() >= viptruck->getTruckCapacity())
 				{
-					//MoveTruckFromEmptyToLoading(viptruck);//COMMENTED TILL FUNCTION IS COMPLETE
+					MoveTruckFromEmptyToLoading(viptruck);//COMMENTED TILL FUNCTION IS COMPLETE
 
 					for (int i = 0; i < viptruck->getTruckCapacity(); i++)
 					{
 						VIPCargoPriQueue.dequeue(vipcargo);
+						sumviploadtime = sumviploadtime + vipcargo->getLoadTime();
 						viptruck->LoadCargos(vipcargo);
 					}
 				}
@@ -457,11 +467,12 @@ void CompanyClass::AssignCargoToTruck()
 
 				if (VIPCargoPriQueue.getCount() >= specialtruck->getTruckCapacity())
 				{
-					//MoveTruckFromEmptyToLoading(specialtruck);//COMMENTED TILL FUNCTION IS COMPLETE
+					MoveTruckFromEmptyToLoading(specialtruck);//COMMENTED TILL FUNCTION IS COMPLETE
 
 					for (int i = 0; i < specialtruck->getTruckCapacity(); i++)
 					{
 						VIPCargoPriQueue.dequeue(vipcargo);
+						sumviploadtime = sumviploadtime + vipcargo->getLoadTime();
 						specialtruck->LoadCargos(vipcargo);
 					}
 				}
@@ -472,11 +483,12 @@ void CompanyClass::AssignCargoToTruck()
 
 				if (VIPCargoPriQueue.getCount() >= normaltruck->getTruckCapacity())
 				{
-					//MoveTruckFromEmptyToLoading(normaltruck);//COMMENTED TILL FUNCTION IS COMPLETE
+					MoveTruckFromEmptyToLoading(normaltruck);//COMMENTED TILL FUNCTION IS COMPLETE
 
 					for (int i = 0; i < normaltruck->getTruckCapacity(); i++)
 					{
 						SpecialCargos.dequeue(vipcargo);
+						sumviploadtime = sumviploadtime + vipcargo->getLoadTime();
 						normaltruck->LoadCargos(vipcargo);
 					}
 				}
