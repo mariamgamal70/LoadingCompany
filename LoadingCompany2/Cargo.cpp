@@ -139,6 +139,11 @@ void Cargo::setCargoWaitTime(int movetimeh, int movetimed)
 	}
 }
 
+void Cargo::setTruckLoadedOn(int tid)
+{
+	TID = tid;
+}
+
 void Cargo::getCargoDeliveryTime(int& CDTh, int& CDTd)
 {
 	CDTh = CargoDeliveryTimeHours;

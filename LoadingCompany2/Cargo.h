@@ -27,6 +27,7 @@ private:
 	int CargoDeliveryTimeDays;
 	int WaitTimeHour;
 	int WaitTimeDay;
+	int TID;
 	//Truck* TruckLoadedOn; //OPTION1
 
 public:
@@ -42,6 +43,7 @@ public:
 	void SetCargoID(int id);
 	void setCargoDeliveryTime(int TruckMoveTimeHour, int TruckMoveTimeDay, int Truckspeed);//OPTION2
 	void setCargoWaitTime(int movetimeh,int movetimed);
+	void setTruckLoadedOn(int tid);
 	//void setTruckLoadedOn(Truck* T);//OPTION1
 	//void setCargoDeliveryTime(int& hours, int& days);//-------->get movetime and truckspeed //OPTION1
 
