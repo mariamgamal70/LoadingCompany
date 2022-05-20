@@ -185,7 +185,7 @@ void CompanyClass::PromoteCargo(int id)// change cost of cargo , increment no of
 void CompanyClass::ExecuteEvents()
 {
 	Event* EventToBeExecuted;
-	while (!Eventlist.isEmpty())
+	while (!Eventlist.isEmpty()) //can assign and move from list to list while executing ? how?
 	{
 		Eventlist.peek(EventToBeExecuted);
 		if (EventToBeExecuted->GetHours() == Hour && EventToBeExecuted->GetDays() == Day)//pointer and hours and days are incorrect
@@ -383,7 +383,7 @@ void CompanyClass::MoveTruckFromMovingToCheckup(Truck* T) //->MARIAM
 
 void CompanyClass::AssignCargoToTruck()
 {
-	while (Hour >= 5 && Hour <= 23)
+	if (Hour >= 5 && Hour <= 23)
 	{
 		Truck* specialtruck;
 		Truck* normaltruck;
@@ -413,7 +413,7 @@ void CompanyClass::AssignCargoToTruck()
 				{
 					if (getCurrentTimeHour() + (getCurrentTimeDay() * 24) >= MaxWaitHours)//add check max wait (if condition)
 					{
-						for (int i = 0; i < normaltruck->getTruckCapacity(); i++)
+						for (int i = 0; i < SpecialCargos.getCount(); i++)
 						{
 							SpecialCargos.dequeue(specialcargo);
 							sumspecialloadtime = sumspecialloadtime + specialcargo->getLoadTime();//save currenttime in variable,keep checking in if condition if currenttime+cargoloadtime is currenttime
@@ -448,7 +448,7 @@ void CompanyClass::AssignCargoToTruck()
 				{
 					if (getCurrentTimeHour() + (getCurrentTimeDay() * 24) >= MaxWaitHours)//add check max wait (if condition)
 					{
-						for (int i = 0; i < normaltruck->getTruckCapacity(); i++)
+						for (int i = 0; i < NormalCargos.getCount(); i++)
 						{
 							normalcargo = NormalCargos.peek();//peek
 							sumnormalloadtime = sumnormalloadtime + normalcargo->getLoadTime();
@@ -478,7 +478,7 @@ void CompanyClass::AssignCargoToTruck()
 				{
 					if (getCurrentTimeHour() + (getCurrentTimeDay() * 24) >= MaxWaitHours)//add check max wait (if condition)
 					{
-						for (int i = 0; i < normaltruck->getTruckCapacity(); i++)
+						for (int i = 0; i < NormalCargos.getCount(); i++)
 						{
 							normalcargo = NormalCargos.peek();//peek
 							sumnormalloadtime = sumnormalloadtime + normalcargo->getLoadTime();
@@ -596,7 +596,6 @@ void CompanyClass::AddToDeliveredCargos() //trial2
 		PriQ<Truck*> ExtraMovingTruck;
 		//MovingTrucks.dequeue(truck); -----------------------------------------------------------------------------
 
-		
 	}
 }
 
@@ -674,46 +673,7 @@ int CompanyClass::getautopromnum()
 {
 	return noOfAutoPCargos;
 }
-/*LinkedList<Cargo*> CompanyClass::getNormalCargos()//to call in UI class
-{
-	return NormalCargos;
-}
-LinkedQueue<Cargo*> CompanyClass::getSpecialCargos()
-{
-	return SpecialCargos;
-}
-PriQ<Cargo*> CompanyClass::getVIPCargos()
-{
-	return VIPCargoPriQueue;
-}
-LinkedQueue<Truck*>  CompanyClass::getLoadingNormalTrucks()
-{
-	return LoadingNormalTrucks;
-}
-LinkedQueue<Truck*>  CompanyClass::getLoadingSpecialTrucks()
-{
-	return LoadingSpecialTrucks;
-}
-LinkedQueue<Truck*>  CompanyClass::getLoadingVIPTrucks()
-{
-	return LoadingVIPTrucks;
-}
-LinkedQueue<Truck*> CompanyClass::getNormalTrucksUnderCheckup()
-{
-	return NormalTrucksUnderCheckup;
-}
-LinkedQueue<Truck*> CompanyClass::getSpecialTrucksUnderCheckup()
-{
-	return SpecialTrucksUnderCheckup;
-}
-LinkedQueue<Truck*> CompanyClass::getVIPTrucksUnderCheckup()
-{
-	return VIPTrucksUnderCheckup;
-}
-LinkedQueue<Cargo*> CompanyClass::getDeliveredCargos()
-{
-	return DeliveredCargos;
-}*/
+
 //----------------------------------------PRINTING-------------------------------------//
 
 void CompanyClass::printWNormalCargos()
@@ -738,14 +698,14 @@ void CompanyClass::printWvipCargos()
 	VIPCargoPriQueue.printList();
 }
 
-void CompanyClass::printHeadLine()
+/*void CompanyClass::printHeadLine()
 {
 	ui->coutstring("Current Time (Day:Hour)");//<----- trace el code keda
 	ui->coutinteger(Day);
 	ui->coutchar(':');
 	ui->coutinteger(Hour);
 	ui->coutendl();
-}
+}*/
 
 /*void CompanyClass::printLnormalTrucks()
 {
@@ -778,7 +738,6 @@ void CompanyClass::printCheckupVIP()
 	VIPTrucksUnderCheckup.PrintQueue();
 }
 
-
 void CompanyClass::printEmptyNormalTrucks()
 {
 	NormalTruckQueue.PrintQueue();
@@ -795,18 +754,15 @@ void CompanyClass::printEmptyVIPTrucks()
 }
 
 void CompanyClass::SimulatorFunction()
-{//while total no of cargos!= delivered 
-	while (Hour > 23) //24hour will be 00H:00MIN AM
-	{
-		Hour = Hour - 23;
-		Day++;
-	}
+{
 	FileLoading();
+	ui->choosethemode();
+	//while total no of cargos!= delivered  ,at first 0=0 quit?
 	ExecuteEvents();
+	//printHeadLine();
 	
-
-	printHeadLine();
 				//MALAK SHOULD ADD DELIVERCARGOS
+
 				/*Truck* Normal;
 				Truck* Special;
 				Truck* VIP;
@@ -834,16 +790,18 @@ void CompanyClass::SimulatorFunction()
 	AssignCargoToTruck();
 	MoveTruckFromLoadingToMoving();
 	//MoveTruckFromMovingToCheckup();
-	printwaitingcargos();
-	printloadingtrucks();
-	printavailtrucks();
-	printmovingcargos();
-	printcheckuptruck();
-	printdeliveredcargo();
-			//ui->printInteractive();
+	ui->printOutput();
 	Hour++;
+	while (Hour > 23) //24hour will be 00H:00MIN AM
+	{
+		Hour = Hour - 23;
+		Day++;
+	}
 	ui->waitforenter(); 
-		//produce output file <<<----------OUTPUTFILE---------------------*/
+	//end while loop
+
+	//produce output file <<<----------OUTPUTFILE---------------------*/
+	
 }
 				
 
