@@ -983,6 +983,10 @@ double CompanyClass::calcAvgUtilization()
 	double avgUt = SumUtilization / TotalNumberOfTrucks *100;
 	return avgUt;
 }
+void CompanyClass::writee()
+{
+	ui->Write();
+}
 CompanyClass::~CompanyClass()
 {
 }

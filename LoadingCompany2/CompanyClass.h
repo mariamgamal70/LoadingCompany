@@ -148,6 +148,6 @@ public:
 	int calcAutoPromotedCargos();				//called at the end of simulation 
 	double calcAvgActiveTime();					//called at the end of simulation 
 	double calcAvgUtilization();				//called at the end of simulation 
-
+	void writee();
 	~CompanyClass();
 };
