@@ -211,54 +211,54 @@ void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T)
 	LinkedQueue<Truck*>* extra = NULL;
 	if (T->getTruckType() == 'N')
 	{
-		NormalTruckQueue.peek(deq);
-		while (deq != T) //find T in queue
-		{
-			NormalTruckQueue.dequeue(deq);
-			extra->enqueue(deq);
-		}
+		//NormalTruckQueue.peek(deq);
+		//while (deq != T) //find T in queue
+		//{
+		//	NormalTruckQueue.dequeue(deq);
+		//	extra->enqueue(deq);
+		//}
 		NormalTruckQueue.dequeue(T); //dequeue T and add it to loading truck
 		LoadingNormalTrucks.enqueue(T);
 
-		while (!extra->isEmpty()) // return emptytrucksnormal queue to its original form
-		{
-			extra->dequeue(deq);
-			NormalTruckQueue.enqueue(deq);
-		}
+		//while (!(extra->isEmpty())) // return emptytrucksnormal queue to its original form
+		//{
+		//	extra->dequeue(deq);
+		//	NormalTruckQueue.enqueue(deq);
+		//}
 	}
 	else if (T->getTruckType() == 'V')
 	{
-		VIPTruckQueue.peek(deq);
+		/*VIPTruckQueue.peek(deq);
 		while (deq != T)
 		{
 			VIPTruckQueue.dequeue(deq);
 			extra->enqueue(deq);
 
-		}
+		}*/
 		VIPTruckQueue.dequeue(T);
 		LoadingVIPTrucks.enqueue(T);
-		while (!extra->isEmpty())
+		/*while (!extra->isEmpty())
 		{
 			extra->dequeue(deq);
 			VIPTruckQueue.enqueue(deq);
-		}
+		}*/
 	}
 	else
 	{
-		NormalTruckQueue.peek(deq);
+		/*NormalTruckQueue.peek(deq);
 		while (deq != T)
 		{
 			SpecialTruckQueue.dequeue(deq);
 			extra->enqueue(deq);
-		}
+		}*/
 		SpecialTruckQueue.dequeue(T);
 		LoadingSpecialTrucks.enqueue(T);
 
-		while (!extra->isEmpty())
-		{
-			extra->dequeue(deq);
-			SpecialTruckQueue.enqueue(deq);
-		}
+		//while (!(extra->isEmpty()))
+		//{
+		//	extra->dequeue(deq);
+		//	SpecialTruckQueue.enqueue(deq);
+		//}
 	}
 }
 
@@ -269,13 +269,13 @@ void  CompanyClass::MoveTruckFromLoadingToMoving(Truck* T)
 	//if u do = nullptr it says dereferencing nullptr ,if left this way it says uninitialized local variable
 	if (T->getTruckType() == 'N')
 	{
-		LoadingNormalTrucks.peek(deq);
-		while (deq != T) //find T in queue
-		{
-			LoadingNormalTrucks.dequeue(deq);
-			extra->enqueue(deq);
-		}
-		
+		//LoadingNormalTrucks.peek(deq);
+		//while (deq != T) //find T in queue
+		//{
+		//	LoadingNormalTrucks.dequeue(deq);
+		//	extra->enqueue(deq);
+		//}
+		//
 
 		LoadingNormalTrucks.dequeue(T); //dequeue T and add it to MOVING truck
 		int hours;
@@ -284,20 +284,20 @@ void  CompanyClass::MoveTruckFromLoadingToMoving(Truck* T)
 		hours = hours + days * 24;
 		MovingTrucks.enqueueAscending(T, hours);
 
-		while (!extra->isEmpty()) // return emptytrucksnormal queue to its original form
-		{
-			extra->dequeue(deq);
-			LoadingNormalTrucks.enqueue(deq);
-		}
+		//while (!extra->isEmpty()) // return emptytrucksnormal queue to its original form
+		//{
+		//	extra->dequeue(deq);
+		//	LoadingNormalTrucks.enqueue(deq);
+		//}
 	}
 	else if (T->getTruckType() == 'V')
 	{
-		LoadingVIPTrucks.peek(deq);
+		/*LoadingVIPTrucks.peek(deq);
 		while (deq != T)
 		{
 			LoadingVIPTrucks.dequeue(deq);
 			extra->enqueue(deq);
-		}
+		}*/
 
 		LoadingVIPTrucks.dequeue(T);
 		int hours;
@@ -306,21 +306,21 @@ void  CompanyClass::MoveTruckFromLoadingToMoving(Truck* T)
 		hours = hours + days * 24;
 		MovingTrucks.enqueueAscending(T, hours);
 
-		while (!extra->isEmpty())
+	/*	while (!extra->isEmpty())
 		{
 			extra->dequeue(deq);
 			LoadingVIPTrucks.enqueue(deq);
-		}
+		}*/
 	}
 	else
-	{
+	{/*
 		LoadingSpecialTrucks.peek(deq);
 		while (deq != T)
 		{
 			LoadingSpecialTrucks.dequeue(deq);
 			extra->enqueue(deq);
 
-		}
+		}*/
 		LoadingSpecialTrucks.dequeue(T);
 		int hours;
 		int days;
@@ -328,13 +328,17 @@ void  CompanyClass::MoveTruckFromLoadingToMoving(Truck* T)
 		hours = hours + days * 24;
 		MovingTrucks.enqueueAscending(T, hours);
 
-		while (!extra->isEmpty())
+		/*while (!extra->isEmpty())
 		{
 			extra->dequeue(deq);
 			LoadingSpecialTrucks.enqueue(deq);
-		}
+		}*/
 	}
 }
+//void CompanyClass::MoveTruckFromCheckupToAvailable(	Truck T)
+//{
+//
+//}
 
 void CompanyClass::AddTruckToCheckup(Truck* T) //->MARIAM
 {
