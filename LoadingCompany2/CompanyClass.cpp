@@ -222,19 +222,15 @@ void CompanyClass::AddToAppropriateList(Cargo* Cl)
 }
 void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T)
 {
-	Truck* deq;
 	if (T->getTruckType() == 'N')
 	{
 		NormalTruckQueue.dequeue(T); //dequeue T and add it to loading truck
 		LoadingNormalTrucks.enqueue(T);
-
 	}
 	else if (T->getTruckType() == 'V')
 	{
-		
 		VIPTruckQueue.dequeue(T);
 		LoadingVIPTrucks.enqueue(T);
-		
 	}
 	else
 	{
