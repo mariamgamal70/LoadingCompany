@@ -205,7 +205,7 @@ void CompanyClass::AddToAppropriateList(Cargo* Cl)
 		SumVIPCargos++;
 	}
 }
-/*void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T)
+void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T)
 {
 	Truck* deq;
 	LinkedQueue<Truck*>* extra = NULL;
@@ -260,9 +260,9 @@ void CompanyClass::AddToAppropriateList(Cargo* Cl)
 			SpecialTruckQueue.enqueue(deq);
 		}
 	}
-}*/
+}
 
-/*void  CompanyClass::MoveTruckFromLoadingToMoving(Truck* T)
+void  CompanyClass::MoveTruckFromLoadingToMoving(Truck* T)
 {
 	Truck* deq;
 	LinkedQueue<Truck*>* extra = nullptr; //for all trucks??? all conditions? or could be initialized for each condition?---ANSWER: each type is separated and all trucks in the list are loading so it doesnt matter since it's only used by one type'------------------------------>
@@ -275,8 +275,14 @@ void CompanyClass::AddToAppropriateList(Cargo* Cl)
 			LoadingNormalTrucks.dequeue(deq);
 			extra->enqueue(deq);
 		}
+		
+
 		LoadingNormalTrucks.dequeue(T); //dequeue T and add it to MOVING truck
-		MovingTrucks.enqueueAscending(T, T->getTruckDeliveryIntervalDays());
+		int hours;
+		int days;
+		T->getTruckDeliveryInterval(hours, days);
+		hours = hours + days * 24;
+		MovingTrucks.enqueueAscending(T, hours);
 
 		while (!extra->isEmpty()) // return emptytrucksnormal queue to its original form
 		{
@@ -292,8 +298,13 @@ void CompanyClass::AddToAppropriateList(Cargo* Cl)
 			LoadingVIPTrucks.dequeue(deq);
 			extra->enqueue(deq);
 		}
+
 		LoadingVIPTrucks.dequeue(T);
-		MovingTrucks.enqueueAscending(T, T->getTruckDeliveryIntervalDays());
+		int hours;
+		int days;
+		T->getTruckDeliveryInterval(hours, days);
+		hours = hours + days * 24;
+		MovingTrucks.enqueueAscending(T, hours);
 
 		while (!extra->isEmpty())
 		{
@@ -311,7 +322,11 @@ void CompanyClass::AddToAppropriateList(Cargo* Cl)
 
 		}
 		LoadingSpecialTrucks.dequeue(T);
-		MovingTrucks.enqueueAscending(T, T->getTruckDeliveryIntervalDays());
+		int hours;
+		int days;
+		T->getTruckDeliveryInterval(hours, days);
+		hours = hours + days * 24;
+		MovingTrucks.enqueueAscending(T, hours);
 
 		while (!extra->isEmpty())
 		{
@@ -319,7 +334,7 @@ void CompanyClass::AddToAppropriateList(Cargo* Cl)
 			LoadingSpecialTrucks.enqueue(deq);
 		}
 	}
-}*/
+}
 
 void CompanyClass::AddTruckToCheckup(Truck* T) //->MARIAM
 {
@@ -386,7 +401,7 @@ void CompanyClass::AssignCargoToTruck()
 
 				if (SpecialCargos.getCount() >= specialtruck->getTruckCapacity())
 				{
-					//MoveTruckFromEmptyToLoading(specialtruck); //COMMENTED TILL FUNCTION IS COMPLETE
+					MoveTruckFromEmptyToLoading(specialtruck); 
 
 					for (int i = 0; i < specialtruck->getTruckCapacity(); i++)
 					{

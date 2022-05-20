@@ -125,6 +125,8 @@ void Truck::getTruckDeliveryInterval(int& hours, int& days) //------------------
 		TruckDeliveryIntervalH = TruckDeliveryIntervalH - 23;
 		TruckDeliveryIntervalD++;
 	}
+	hours=TruckDeliveryIntervalH; 
+	days=TruckDeliveryIntervalD;
 	//return TruckDeliveryIntervalH;
 }
 
