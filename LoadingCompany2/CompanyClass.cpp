@@ -806,7 +806,7 @@ void CompanyClass::SimulatorFunction()
 {
 	FileLoading();
 
-	ui = UIclass Ui(this);
+	ui = UIclass UI(this);
 	ui->choosethemode();
 	//while total no of cargos!= delivered  ,at first 0=0 quit?
 
