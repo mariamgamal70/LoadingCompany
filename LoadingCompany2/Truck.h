@@ -33,6 +33,7 @@ private:
 	int TimeToComeBackH;
 	int TimeToComeBackD;
 	int LoadedCargoFurthestDistance;
+	
 public:
 
 	Truck();
@@ -45,6 +46,8 @@ public:
 	void SetNoOfJourneys(int number);
 	void SetTruckID(int id);
 	void setTruckMoveTime(int h, int d);
+	
+
 	
 	char getTruckType()const;
 	int getTruckCapacity()const;
@@ -62,6 +65,7 @@ public:
 	int getLoadedCargoFurthestDistance();
 	int getSumUnloadTimeCargos();
 	double getTruckUtilization();
+	
 
 	void LoadCargos(Cargo* c);
 	void UnloadCargo(PriQNode<Cargo*> delivered);

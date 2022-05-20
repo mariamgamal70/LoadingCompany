@@ -161,9 +161,9 @@ void CompanyClass::AutoPromote(int id)
 	Cargo* c=NormalCargos.findSpecificNode(id);
 	if (c)
 	{
-		int hours = (c->getPreparationTimeDay()) * 24;
-		hours = hours + c->getPreparationTimeHour();
-		if (hours >= (AutoPDays * 24))
+		int prepdays = (c->getPreparationTimeDay());
+		
+		if ((Hour-prepdays) >= (AutoPDays))
 		{
 			PromoteCargo(id);
 		}
@@ -174,7 +174,19 @@ void CompanyClass::AutoPromote(int id)
 	VIPCargoPriority = (2 * (pH + pD) + 1 * DD) / CC;
 	return VIPCargoPriority;
 }*/
-
+void CompanyClass::setTruckSpeedCapacityEquation(Truck* T)
+{
+	if (T->getTruckType() == 'N')
+		TruckSpeedCapacity = (T->getTruckSpeed()) * ((SumNormalCargos) / (T->getTruckCapacity()));
+	if (T->getTruckType() == 'V')
+		TruckSpeedCapacity = (T->getTruckSpeed()) * ((SumVIPCargos) / (T->getTruckCapacity()));
+	if (T->getTruckType() == 'S')
+		TruckSpeedCapacity = (T->getTruckSpeed()) * ((SumSpecialCargos) / (T->getTruckCapacity()));
+}
+double CompanyClass::getTruckSpeedCapacityEquation()
+{
+	return TruckSpeedCapacity;
+}
 void CompanyClass::AddToNormalCargos(Cargo* C)
 {
 	NormalCargos.InsertEnd(C);
@@ -247,8 +259,7 @@ void  CompanyClass::MoveTruckFromLoadingToMoving(Truck* T)
 {
 	if (T->LoadedCargosFull())
 	{
-		if (Hour >= 5 && Hour <= 23)
-		{
+		
 
 			if (T->getTruckType() == 'N')
 			{
@@ -284,7 +295,7 @@ void  CompanyClass::MoveTruckFromLoadingToMoving(Truck* T)
 				MovingTrucks.enqueueAscending(T, hours);
 
 			}
-		}
+		
 	}
 }
 void CompanyClass::MoveTruckFromCheckupToAvailable(	Truck* T)
@@ -769,29 +780,8 @@ void CompanyClass::SimulatorFunction()
 					Eventlist.dequeue(EventToBeExecuted);
 					EventToBeExecuted->Execute(this);
 				}
-				/*if (TimeStepCount % 5 == 0 && TimeStepCount != 0) //PHASE1
-				{
-					Cargo* specialcargo;
-					Node<Cargo*> normalcargo;
-					PriQNode<Cargo*> vipcargo;
-					if (NormalCargos.peek(normalcargo))//<---CHECK
-					{
-						NormalDeliveredCargos.enqueue(normalcargo.getItem());
-						NormalCargos.DeleteBeg();
-					}
-					if (SpecialCargos.peek(specialcargo))
-					{
-						SpecialCargos.dequeue(specialcargo);
-						SpecialDeliveredCargos.enqueue(specialcargo);
-					}
-					if (!VIPCargoPriQueue.isEmpty())
-					{
-						VIPCargoPriQueue.dequeue(vipcargo.getItem());
-						VIPDeliveredCargos.enqueue(vipcargo.getItem());
-					}
-				}*/
 				//MALAK SHOULD ADD DELIVERCARGOS
-				/*Truck* Normal;
+				Truck* Normal;
 				Truck* Special;
 				Truck* VIP;
 				LoadingNormalTrucks.peek(Normal);// add while loop to check on each truck in loading? and if list is not empty?
@@ -808,7 +798,7 @@ void CompanyClass::SimulatorFunction()
 				if (VIP->getNoDeliveredCargosByTruck()%NoOfJourneys==0)
 				{
 					AddTruckToCheckup(VIP);
-				}*/
+				}
 			printwaitingcargos();
 			printloadingtrucks();
 			printavailtrucks();

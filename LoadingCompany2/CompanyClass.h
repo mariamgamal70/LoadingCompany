@@ -26,6 +26,7 @@ class CompanyClass
 	//int CargoAvgTime;
 	int SumAllloadTime;
 	double VIPCargoPriority;
+	double TruckSpeedCapacity;
 	//------------------------event list----------------------------------------------
 	LinkedQueue <Event*> Eventlist;
 	//------------------------intial Truck lists ==empty truck list-------------------
@@ -99,7 +100,11 @@ public:
 	void MoveTruckFromEmptyToLoading(Truck* T);
 	void MoveTruckFromLoadingToMoving(Truck* T);
 	void MoveTruckFromCheckupToAvailable(Truck* T);
+
+	//SETTER
+	void setTruckSpeedCapacityEquation(Truck *T);
 	//-----------------GETTERS----------------------//	
+
 	
 	//double getCargoAvgTime();
 	int getTotalNumberOfCargos();			//called at the end of simulation 
@@ -109,7 +114,7 @@ public:
 	int getNumberOfNormalTrucks();			//called at the end of simulation 
 	int getNumberOfspecialTrucks();			//called at the end of simulation 
 	int getNumberOfVipTrucks();				//called at the end of simulation 
-
+	double getTruckSpeedCapacityEquation();
 	//----------------PRINTS------------------------//
 	void printWNormalCargos();
 	void printWspecialCargos();
