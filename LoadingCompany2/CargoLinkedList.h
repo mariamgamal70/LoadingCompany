@@ -1,6 +1,9 @@
 #pragma once
 #include "Cargo.h"
 #include "LinkedList.h"
+
+class CompanyClass;
+
 class CargoLinkedList :public LinkedList<Cargo*>
 {
 public:
@@ -109,5 +112,29 @@ public:
 	 {
 		 return Head->getItem();
 	 }
+
+
+	 void AutoPromoteCargo(CompanyClass*company_ptr,int Currentday,int Autopromote_days)
+	 {
+	 
+		 Node<Cargo*>* ptr = Head;
+		 while (ptr)
+		 {
+			 if ((Currentday)-(ptr->getItem()->getPreparationTimeDay()) > Autopromote_days)
+			 {
+				 Cargo* Cargo_toAutoPromote = ptr->getItem();
+
+				 int Cargo_Idpromote = Cargo_toAutoPromote->getCargoID();
+
+				 company_ptr->PromoteCargo(Cargo_Idpromote);
+			 }
+
+
+		 }
+	 
+	 
+	 }
+
+
 
 };

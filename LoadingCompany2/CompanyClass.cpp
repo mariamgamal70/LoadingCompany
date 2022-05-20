@@ -799,6 +799,18 @@ void CompanyClass::SimulatorFunction()
 				{
 					AddTruckToCheckup(VIP);
 				}
+				}*/
+
+				if (!NormalCargos.isEmpty())
+				{
+					NormalCargos.AutoPromoteCargo(this,Day,AutoPDays)
+
+				}
+
+
+
+
+
 			printwaitingcargos();
 			printloadingtrucks();
 			printavailtrucks();
