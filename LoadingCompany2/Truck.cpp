@@ -87,6 +87,11 @@ void Truck::setTruckMoveTime(int h, int d)
 {
 	TruckMoveTimeHour = h;
 	TruckMoveTimeDay = d;
+	while (TruckMoveTimeHour > 23)
+	{
+		TruckMoveTimeHour = TruckMoveTimeHour - 23;
+		TruckMoveTimeDay++;
+	}
 }
 
 char Truck::getTruckType() const
