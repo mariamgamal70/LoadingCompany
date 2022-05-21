@@ -24,12 +24,12 @@ CompanyClass::CompanyClass()
 	Hour = 1;
 	Day = 1;
 	TotalNumberOfTrucks = 0;
-	SumNormalCargos = 0;
-	SumSpecialCargos = 0;
-	SumVIPCargos = 0;
+	sumfinalnorm = 0;
+	sumfinalspec = 0;
+	sumfinalvip = 0;
 	SumCargos = 0;
 	count = 0;
-	noOfPromotedCargos=0;
+	//noOfPromotedCargos=0;
 	noOfAutoPCargos=0;
 	SumTruckActiveTimeH=0;
 	SumTruckActiveTimeD=0;
@@ -177,11 +177,11 @@ void CompanyClass::PromoteCargo(int id)// change cost of cargo , increment no of
 void CompanyClass::setTruckSpeedCapacityEquation(Truck* T)
 {
 	if (T->getTruckType() == 'N')
-		TruckSpeedCapacity = (T->getTruckSpeed()) * ((SumNormalCargos) / (T->getTruckCapacity()));
+		TruckSpeedCapacity = (T->getTruckSpeed()) * ((sumfinalnorm) / (T->getTruckCapacity()));
 	if (T->getTruckType() == 'V')
-		TruckSpeedCapacity = (T->getTruckSpeed()) * ((SumVIPCargos) / (T->getTruckCapacity()));
+		TruckSpeedCapacity = (T->getTruckSpeed()) * ((sumfinalvip) / (T->getTruckCapacity()));
 	if (T->getTruckType() == 'S')
-		TruckSpeedCapacity = (T->getTruckSpeed()) * ((SumSpecialCargos) / (T->getTruckCapacity()));
+		TruckSpeedCapacity = (T->getTruckSpeed()) * ((sumfinalspec) / (T->getTruckCapacity()));
 }
 double CompanyClass::getTruckSpeedCapacityEquation()
 {
@@ -190,19 +190,19 @@ double CompanyClass::getTruckSpeedCapacityEquation()
 void CompanyClass::AddToNormalCargos(Cargo* C)
 {
 	NormalCargos.InsertEnd(C);
-	SumNormalCargos++;
+	sumfinalnorm++;
 }
 
 void CompanyClass::AddToSpecialCargos(Cargo* C)
 {
 	SpecialCargos.enqueue(C);
-	SumSpecialCargos++;
+	sumfinalspec++;
 }
 
 void CompanyClass::AddToVIPCargos(Cargo* C ,double priority)
 {
 	VIPCargoPriQueue.enqueueAscending(C, priority);
-	SumVIPCargos++;
+	sumfinalvip++;
 }
 
 void CompanyClass::AddToAppropriateList(Cargo* Cl)
@@ -218,18 +218,18 @@ void CompanyClass::AddToAppropriateList(Cargo* Cl)
 	if(Cl->getCargoType() == 'N')
 	{
 		NormalCargos.InsertEnd(Cl);
-		SumNormalCargos++;
+		sumfinalnorm++;
 	}
 	else if(Cl->getCargoType() == 'S')
 	{
 		SpecialCargos.enqueue(Cl);
-		SumSpecialCargos++;
+		sumfinalspec++;
 	}
 	else if(Cl->getCargoType() == 'V')
 	{
 		VIPCargoPriority = (2 * (PrepH + PrepD) + 1 * dist) / CargoCost;
 		VIPCargoPriQueue.enqueueAscending(Cl, VIPCargoPriority);
-		SumVIPCargos++;
+		sumfinalvip++;
 	}
 }
 void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T)
@@ -330,7 +330,7 @@ void CompanyClass::MoveTruckFromCheckupToAvailable(	Truck* T)
 		}
 }
 
-void CompanyClass::AddTruckToCheckup(Truck* T) //->MARIAM
+void CompanyClass::MoveTruckFromMovingToCheckup(Truck* T) //->MARIAM
 {
 	PriQNode<Truck*> qnode;
 	PriQ <Truck*> q;
@@ -599,7 +599,7 @@ void CompanyClass::LoadingToMovingTrucks()
 }*/
 int CompanyClass::getTotalNumberOfCargos()
 {
-	SumCargos = SumNormalCargos + SumSpecialCargos + SumVIPCargos;
+	SumCargos = sumfinalnorm + sumfinalspec + sumfinalvip;
 	return SumCargos;
 }
 
@@ -772,17 +772,17 @@ void CompanyClass::SimulatorFunction()
 				LoadingVIPTrucks.peek(VIP);
 				if (Normal->getNoOfJourneys()%NoOfJourneys==0)
 				{
-					AddTruckToCheckup(Normal);
+					MoveTruckFromMovingToCheckup(Normal);
 				}
 				if (Special->getNoOfJourneys()%NoOfJourneys==0)
 				{
-					AddTruckToCheckup(Special);
+					MoveTruckFromMovingToCheckup(Special);
 				}
 				if (VIP->getNoDeliveredCargosByTruck()%NoOfJourneys==0)
 				{
-					AddTruckToCheckup(VIP);
+					MoveTruckFromMovingToCheckup(VIP);
 				}
-				}*/
+				}
 
 				/*if (!NormalCargos.isEmpty())
 				{
@@ -799,7 +799,7 @@ void CompanyClass::SimulatorFunction()
 			Hour++;
 			TimeStepCount++;
 			ui->waitforenter(); 
-		}
+		
 		//produce output file <<<----------OUTPUTFILE---------------------*/
 }
 				
