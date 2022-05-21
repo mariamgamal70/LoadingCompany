@@ -921,12 +921,31 @@ void CompanyClass::printcheckuptruck()
 	ui->coutendl();
 }
 
-void CompanyClass::printloadingtrucks() //----------------------------------------------------------------- in checkup also
+/*void CompanyClass::printloadingtrucks() //----------------------------------------------------------------- in checkup also
 {
 	int numofloadingt = LoadingNormalTrucks.getCount() + LoadingSpecialTrucks.getCount() + LoadingVIPTrucks.getCount();
 	ui->coutinteger(numofloadingt);
 	ui->coutstring(" Loading Trucks: ");
+	Truck* trc;
+	LinkedQueue<Truck>* goo= new LinkedQueue<Truck>;
+	
+	for (int i = 0; i < numofloadingt; i++)
+	{
+		DequeueFromLoadingTrucks(trc);
+		if (trc->getTruckType() == N)
+		{
+			ui->coutinteger(trc->getTruckID());
+			ui->coutchar('[');
+			for (int j = 0; j < trc->getLoadedCargosInTruck()->getCount();j++)
+			{
+				ui->coutinteger
+			}
+			ui->coutchar(']');
+		}
+	}
+	delete  
 }
+*/
 
 void CompanyClass::printmovingcargos() //-----------------------------------------------------------------------
 {
