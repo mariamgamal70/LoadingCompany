@@ -875,7 +875,7 @@ void CompanyClass::SimulatorFunction()
 			Hour = Hour - 23;
 			Day++;
 		}
-		ui->waitforenter();
+		
 		//end while loop
 
 		//produce output file <<<----------OUTPUTFILE---------------------*/

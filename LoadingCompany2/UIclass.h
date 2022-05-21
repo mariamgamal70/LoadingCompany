@@ -10,6 +10,8 @@
 #include "Truck.h"
 #include "Cargo.h"
 #include <iostream>
+#ifdef _WIN32
+#include <Windows.h>
 
 enum mode
 {
@@ -58,3 +60,4 @@ public:
 		void printOutput();
 		void Write();
 };
+#endif

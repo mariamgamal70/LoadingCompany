@@ -3,6 +3,7 @@
 #include<iostream>
 #include <fstream>
 
+
 using namespace std;
 
 UIclass::UIclass(CompanyClass* company)
@@ -24,6 +25,7 @@ void UIclass::printInteractive()
 	comp->printcheckuptruck();
 	cout << "\n--------------------------------------------------------\n";
 	comp->printdeliveredcargo();
+	cout << endl << endl;
 }
 void UIclass::coutinteger(int m)
 {
@@ -102,12 +104,14 @@ void UIclass::printOutput()
 	{
 	case Interactive:
 		printInteractive();
+		waitforenter();
 		break;
 	case StepByStep:
 		printInteractive();
+		Sleep(1000);
 		break;
 	case Silent:
-		printSilent();
+		printSilent();		
 		break;
 	default:
 		break;
