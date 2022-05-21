@@ -821,10 +821,11 @@ void CompanyClass::printEmptyVIPTrucks()
 	VIPTruckQueue.PrintQueue();
 }
 //---------------------------------------------------------SIMULATION FUNCTION-------------------------------------------//
+//add new function corner case check whether trucks are empty , do not continue simulation function 
 bool CompanyClass::checkfunction()
 {
 	//bool keepchecking=true;
-	if (VIPTruckQueue.isEmpty() && NormalTruckQueue.isEmpty() && SpecialTruckQueue.isEmpty())
+	if (VIPTruckQueue.isEmpty() && NormalTruckQueue.isEmpty() && SpecialTruckQueue.isEmpty())//to be removed after adding checkuptoavailabletruck
 	{
 		if (NormalCargos.isEmpty() && SpecialCargos.isEmpty() && VIPCargoPriQueue.isEmpty())
 		{
