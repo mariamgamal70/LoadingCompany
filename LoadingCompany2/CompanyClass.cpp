@@ -295,29 +295,40 @@ void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T)
 {
 	if (T->getTruckType() == 'N')
 	{
-		NormalTruckQueue.dequeue(T); //dequeue T and add it to loading truck
-		LoadingNormalTrucks.enqueue(T);
+		NormalTruckQueue.dequeue(T);
+		T->setTruckMoveTime(Hour + sumnormalloadtime, Day);// TRAVERSE ON EACH CARGO LOADED ON IT AND SUM ALL OF ITS LOADTIME INSTEAD OF WHAT IS MADE IN ASSIGNMENT FUNCTION
+		LoadingTrucks.enqueue(T);
 	}
 	else if (T->getTruckType() == 'V')
 	{
 		VIPTruckQueue.dequeue(T);
-		LoadingVIPTrucks.enqueue(T);
+		T->setTruckMoveTime(Hour + sumnormalloadtime, Day);// TRAVERSE ON EACH CARGO LOADED ON IT AND SUM ALL OF ITS LOADTIME INSTEAD OF WHAT IS MADE IN ASSIGNMENT FUNCTION
+		LoadingTrucks.enqueue(T);
 	}
 	else
 	{
 		SpecialTruckQueue.dequeue(T);
-		LoadingSpecialTrucks.enqueue(T);
+		T->setTruckMoveTime(Hour + sumnormalloadtime, Day);// TRAVERSE ON EACH CARGO LOADED ON IT AND SUM ALL OF ITS LOADTIME INSTEAD OF WHAT IS MADE IN ASSIGNMENT FUNCTION
+		LoadingTrucks.enqueue(T);
 	}
 }
 
 void  CompanyClass::MoveTruckFromLoadingToMoving(Truck* T)
 {
-	if (T->LoadedCargosFull())
+	if (T->LoadedCargosFull())// FOR 1 LOADING LIST NEW
 	{
-		if (Hour >= 5 && Hour <= 23)
+		int mh, md;
+		T->getTruckMoveTime(mh, md);
+		if (mh == Hour && md == Day)
 		{
-
-			if (T->getTruckType() == 'N')
+			LoadingTrucks.dequeue(T);
+			int TDIhours;
+			int TDIdays;
+			T->getTruckDeliveryInterval(TDIhours, TDIdays);
+			int totaltime = TDIhours + (TDIdays * 24);
+			MovingTrucks.enqueueAscending(T, totaltime);
+		}
+			/*if (T->getTruckType() == 'N') //FOR 3 LOADING LISTS OLD
 			{
 				LoadingNormalTrucks.dequeue(T); //dequeue T and add it to MOVING truck
 				int hours;
@@ -344,8 +355,8 @@ void  CompanyClass::MoveTruckFromLoadingToMoving(Truck* T)
 				hours = hours + days * 24;
 				MovingTrucks.enqueueAscending(T, hours);
 
-			}
-		}
+			}*/
+		
 	}
 }
 void CompanyClass::MoveTruckFromCheckupToAvailable(Truck* T)
@@ -929,7 +940,7 @@ void CompanyClass::printcheckuptruck()
 
 void CompanyClass::printloadingtrucks() //----------------------------------------------------------------- in checkup also
 {
-	int z = LoadingNormalTrucks.getCount() + LoadingSpecialTrucks.getCount() + LoadingVIPTrucks.getCount();
+	int z = LoadingTrucks.getCount();/* LoadingNormalTrucks.getCount() + LoadingSpecialTrucks.getCount() + LoadingVIPTrucks.getCount();*/
 	ui->coutinteger(z);
 	ui->coutstring(" Loading Trucks: ");
 	
@@ -941,7 +952,7 @@ void CompanyClass::printloadingtrucks() //--------------------------------------
 
 void CompanyClass::printmovingcargos() //-----------------------------------------------------------------------
 {
-	int z = 0;
+	int z = MovingTrucks.getCount();
 	ui->coutinteger(z);
 	ui->coutstring(" Moving Cargos: ");
 	ui->coutstring("[] ");
