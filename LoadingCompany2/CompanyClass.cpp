@@ -164,9 +164,10 @@ void CompanyClass::PromoteCargo(int id)// change cost of cargo , increment no of
 
 	}
 }
-/*void CompanyClass::OutputFile()
+void CompanyClass::OutputFile()
 {
-		fout.open(output);
+	    ofstream fout;
+		fout.open("output.txt");
 		fout << "CDT	" << "ID	" << "PT	" << "WT	" << "TID	";
 		fout << endl;
 		LinkedQueue<Cargo*>* deliveredcarg = new LinkedQueue<Cargo*>;
@@ -207,7 +208,7 @@ void CompanyClass::PromoteCargo(int id)// change cost of cargo , increment no of
 		fout << "Avg utilization= " <<calcAvgUtilization() << endl;
 		fout.close();
 
-}*/
+}
 
 /*void CompanyClass::AutoPromote(int id)
 {
@@ -1013,6 +1014,14 @@ void CompanyClass::printdeliveredcargo()
 		extra.dequeue(car);
 		DeliveredCargos.enqueue(car);
 	}
+}
+void CompanyClass::dequeueLoadingTruck(Truck* deq)
+{
+	LoadingTrucks.dequeue(deq);
+}
+void CompanyClass::dequeueMovingTruck(Truck* deq)
+{
+	MovingTrucks.dequeue(deq);
 }
 //--------------------------------------------------OUTPUT FILE CALCULATIONS-------------------------------------------------//
 void CompanyClass::calcCargoAvgWaitTime(int& h, int& d)

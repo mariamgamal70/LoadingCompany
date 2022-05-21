@@ -94,7 +94,7 @@ mode UIclass::choosethemode()
 void UIclass::printSilent()
 {
 	cout << "Silent Mode\nSimulation Starts...\nSimulation ends, Output file created";
-	Write();
+	comp->OutputFile();
 }
 void UIclass::printOutput()
 {
@@ -113,7 +113,7 @@ void UIclass::printOutput()
 		break;
 	}
 }
-void UIclass::Write()
+/*void UIclass::Write()
 {
 
 	fout.open(output);
@@ -156,6 +156,6 @@ void UIclass::Write()
 	fout << "Avg Active time= " << comp->calcAvgActiveTime() << '%' << endl;
 	fout << "Avg utilization= " << comp->calcAvgUtilization() << endl;
 	fout.close();
-}
+}*/
 
 

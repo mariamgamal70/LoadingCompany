@@ -56,5 +56,5 @@ public:
 	mode choosethemode();
 	void printSilent();
 	void printOutput();
-	void Write();
+	//void Write();
 };

@@ -86,7 +86,7 @@ public:
 	CompanyClass();
 	CompanyClass(UIclass* uii);
 	void FileLoading();
-	//void OutputFile();
+	void OutputFile();
 	void RemoveCargo(int id);
 	void PromoteCargo(int id);
 	void ExecuteEvents();
@@ -146,6 +146,9 @@ public:
 	void printmovingcargos();
 	void printavailtrucks();
 	void printdeliveredcargo();
+
+	void dequeueLoadingTruck(Truck* deq);
+	void dequeueMovingTruck(Truck* deq);
 	//-------------------OUTPUT FILE CALCULATIONS----------------//
 	void calcCargoAvgWaitTime(int& h, int& d);	//called at the end of simulation 
 	int calcAutoPromotedCargos();				//called at the end of simulation 
