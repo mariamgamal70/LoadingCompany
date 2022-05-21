@@ -845,13 +845,9 @@ void CompanyClass::printcheckuptruck()
 
 void CompanyClass::printloadingtrucks() //----------------------------------------------------------------- in checkup also
 {
-	int z = 0;
-	ui->coutinteger(z);
+	int numofloadingt = LoadingNormalTrucks.getCount() + LoadingSpecialTrucks.getCount() + LoadingVIPTrucks.getCount();
+	ui->coutinteger(numofloadingt);
 	ui->coutstring(" Loading Trucks: ");
-	ui->coutstring("[] ");
-	ui->coutstring("() ");
-	ui->coutstring("{} ");
-	ui->coutendl();
 }
 
 void CompanyClass::printmovingcargos() //-----------------------------------------------------------------------
