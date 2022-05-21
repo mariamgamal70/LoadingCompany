@@ -463,6 +463,8 @@ void CompanyClass::AssignCargoToTruck()
 				{
 					if (getCurrentTimeHour() + (getCurrentTimeDay() * 24) >= MaxWaitHours)//add check max wait (if condition)
 					{
+						MoveTruckFromEmptyToLoading(specialtruck);
+
 						for (int i = 0; i < SpecialCargos.getCount(); i++)
 						{
 							SpecialCargos.dequeue(specialcargo);
@@ -498,6 +500,8 @@ void CompanyClass::AssignCargoToTruck()
 				{
 					if (getCurrentTimeHour() + (getCurrentTimeDay() * 24) >= MaxWaitHours)//add check max wait (if condition)
 					{
+						MoveTruckFromEmptyToLoading(normaltruck);
+
 						for (int i = 0; i < NormalCargos.getCount(); i++)
 						{
 							normalcargo = NormalCargos.peek();//peek
@@ -528,6 +532,8 @@ void CompanyClass::AssignCargoToTruck()
 				{
 					if (getCurrentTimeHour() + (getCurrentTimeDay() * 24) >= MaxWaitHours)//add check max wait (if condition)
 					{
+						MoveTruckFromEmptyToLoading(viptruck);
+
 						for (int i = 0; i < NormalCargos.getCount(); i++)
 						{
 							normalcargo = NormalCargos.peek();//peek
@@ -923,9 +929,10 @@ void CompanyClass::printcheckuptruck()
 
 void CompanyClass::printloadingtrucks() //----------------------------------------------------------------- in checkup also
 {
-	int z = 0;
+	int z = LoadingNormalTrucks.getCount() + LoadingSpecialTrucks.getCount() + LoadingVIPTrucks.getCount();
 	ui->coutinteger(z);
 	ui->coutstring(" Loading Trucks: ");
+	
 	ui->coutstring("[] ");
 	ui->coutstring("() ");
 	ui->coutstring("{} ");

@@ -228,6 +228,12 @@ double Truck::getTruckUtilization()
 {
 	return TruckUtilization;
 }
+char Truck::getCargoLoadedType()
+{
+	PriQNode<Cargo*>top;
+	LoadingCargos.peek(top);
+	return top.getItem()->getCargoType();
+}
 Truck::~Truck()
 {
 }
