@@ -827,7 +827,7 @@ bool CompanyClass::checkfunction()
 	{
 		if (NormalCargos.isEmpty() && SpecialCargos.isEmpty() && VIPCargoPriQueue.isEmpty())
 		{
-			if (LoadingNormalTrucks.isEmpty() && LoadingSpecialTrucks.isEmpty() && LoadingVIPTrucks.isEmpty())
+			if (LoadingTrucks.isEmpty())//LoadingNormalTrucks.isEmpty() && LoadingSpecialTrucks.isEmpty() && LoadingVIPTrucks.isEmpty())
 			{
 				if (MovingTrucks.isEmpty())
 				{
