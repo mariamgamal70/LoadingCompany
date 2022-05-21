@@ -115,6 +115,7 @@ void UIclass::printOutput()
 }
 void UIclass::Write()
 {
+
 	fout.open(output);
 	fout << "CDT	" << "ID	" << "PT	" << "WT	" << "TID	";
 	fout << endl;

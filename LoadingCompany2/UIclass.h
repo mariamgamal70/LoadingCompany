@@ -27,9 +27,8 @@ private:
 	ifstream fin;
 	mode modee;
 	CompanyClass* comp;
-	string output;
+	string output="OUTPUT.txt";
 public:
-	UIclass();
 	UIclass(CompanyClass* company);
 	
 	/*string getidslinQcargo(LinkedQueue<Cargo*>* q);

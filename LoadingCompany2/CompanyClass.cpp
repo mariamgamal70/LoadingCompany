@@ -37,6 +37,7 @@ CompanyClass::CompanyClass()
 	sumspecialloadtime = 0;
 	sumnormalloadtime = 0;
 	sumviploadtime = 0;
+	ui = new UIclass(this);
 }
 CompanyClass::CompanyClass(UIclass* uii)
 {
@@ -806,7 +807,8 @@ void CompanyClass::SimulatorFunction()
 {
 	FileLoading();
 
-	ui = UIclass UI(this);
+	//UIclass* UI=new UIclass(this);
+	//ui = UI;
 	ui->choosethemode();
 	//while total no of cargos!= delivered  ,at first 0=0 quit?
 
@@ -840,7 +842,7 @@ void CompanyClass::SimulatorFunction()
 
 				}*/
 	AssignCargoToTruck();
-	MoveTruckFromLoadingToMoving();
+	//MoveTruckFromLoadingToMoving();
 	//MoveTruckFromMovingToCheckup();
 
 	ui->printOutput();
