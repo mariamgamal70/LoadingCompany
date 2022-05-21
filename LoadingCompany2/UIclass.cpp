@@ -4,6 +4,7 @@
 #include <fstream>
 
 using namespace std;
+
 UIclass::UIclass(CompanyClass* company)
 {
 	this->comp = company;
@@ -11,7 +12,7 @@ UIclass::UIclass(CompanyClass* company)
 
 void UIclass::printInteractive()
 {
-	//cout << "Current Time (Day:Hour): " << comp->getCurrentTimeHour() << ":" << comp->getCurrentTimeHour() << endl;
+	cout << "Current Time (Day:Hour): " << comp->getCurrentTimeHour() << ":" << comp->getCurrentTimeHour() << endl;
 	comp->printwaitingcargos(); 
 	cout << "\n--------------------------------------------------------\n";
 	comp->printloadingtrucks();
@@ -93,6 +94,7 @@ mode UIclass::choosethemode()
 void UIclass::printSilent()
 {
 	cout << "Silent Mode\nSimulation Starts...\nSimulation ends, Output file created";
+	Write();
 }
 void UIclass::printOutput()
 {
@@ -113,6 +115,7 @@ void UIclass::printOutput()
 }
 void UIclass::Write()
 {
+
 	fout.open(output);
 	fout << "CDT	" << "ID	" << "PT	" << "WT	" << "TID	";
 	fout << endl;
@@ -124,7 +127,7 @@ void UIclass::Write()
 		int day,hour,id,dday,hhour;
 		deliveredcarg->dequeue(temp);
 		temp->getCargoDeliveryTime(day, hour);
-		temp->getCID(id);
+		id=temp->getCargoID();
 		temp->getCargoWaitTime(dday, hhour);
 		fout << day<<':'<<hour << "	";
 		fout << temp->getPreparationTimeDay()<< "	";

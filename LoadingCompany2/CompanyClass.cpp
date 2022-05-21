@@ -37,6 +37,7 @@ CompanyClass::CompanyClass()
 	sumspecialloadtime = 0;
 	sumnormalloadtime = 0;
 	sumviploadtime = 0;
+	ui = new UIclass(this);
 }
 CompanyClass::CompanyClass(UIclass* uii)
 {
@@ -163,6 +164,51 @@ void CompanyClass::PromoteCargo(int id)// change cost of cargo , increment no of
 
 	}
 }
+/*void CompanyClass::OutputFile()
+{
+		fout.open(output);
+		fout << "CDT	" << "ID	" << "PT	" << "WT	" << "TID	";
+		fout << endl;
+		LinkedQueue<Cargo*>* deliveredcarg = new LinkedQueue<Cargo*>;
+		int numcomp = deliveredcarg->getCount();
+		Cargo* temp;
+		for (int i = 0; i < numcomp; i++)
+		{
+			int day, hour, id, dday, hhour;
+			deliveredcarg->dequeue(temp);
+			temp->getCargoDeliveryTime(day, hour);
+			id = temp->getCargoID();
+			temp->getCargoWaitTime(dday, hhour);
+			fout << day << ':' << hour << "	";
+			fout << temp->getPreparationTimeDay() << "	";
+			fout << dday << ':' << hhour << "	";
+			fout << temp->getTruckLoadedOn() << "	";
+			fout << endl;
+		}
+		fout << "\n ........................................................\n";
+		fout << "\n ........................................................ \n";
+		fout << "Cargos: " << getTotalNumberOfCargos() << " ";
+		fout << "[N: " <<getnumfinalnorm() << ", S: " << getnumfinalspec() << ", V: " << getnumfinalvip() << "]" << endl;
+		int d, h;
+		calcCargoAvgWaitTime(d, h);
+		fout << "Cargo Avg Wait= " << d << ':' << h << endl;
+		fout << "Auto-promoted Cargos: ";
+		if (getautopromnum() == 0)
+		{
+			fout << "None" << endl;
+		}
+		else
+		{
+			fout << ((float)getautopromnum() / (getnumfinalnorm() + getautopromnum()) * 100) << '%' << endl;
+		}
+		fout << "Trucks:" << getTotalNumberOfTrucks() << "  ";
+		fout << "[N: " << getNumberOfNormalTrucks() << ", S: " << getNumberOfspecialTrucks() << ", V: " << getNumberOfVipTrucks() << "]" << endl;
+		fout << "Avg Active time= " <<calcAvgActiveTime() << '%' << endl;
+		fout << "Avg utilization= " <<calcAvgUtilization() << endl;
+		fout.close();
+	
+}*/
+
 /*void CompanyClass::AutoPromote(int id)
 {
 	Cargo* c=NormalCargos.findSpecificNode(id);
@@ -192,6 +238,10 @@ void CompanyClass::ExecuteEvents()
 		{
 			Eventlist.dequeue(EventToBeExecuted);
 			EventToBeExecuted->Execute(this);
+		}
+		else
+		{
+			break;
 		}
 	}
 }
@@ -756,8 +806,12 @@ void CompanyClass::printEmptyVIPTrucks()
 void CompanyClass::SimulatorFunction()
 {
 	FileLoading();
+
+	//UIclass* UI=new UIclass(this);
+	//ui = UI;
 	ui->choosethemode();
 	//while total no of cargos!= delivered  ,at first 0=0 quit?
+
 	ExecuteEvents();
 	//printHeadLine();
 	
@@ -788,8 +842,9 @@ void CompanyClass::SimulatorFunction()
 
 				}*/
 	AssignCargoToTruck();
-	MoveTruckFromLoadingToMoving();
+	//MoveTruckFromLoadingToMoving();
 	//MoveTruckFromMovingToCheckup();
+
 	ui->printOutput();
 	Hour++;
 	while (Hour > 23) //24hour will be 00H:00MIN AM

@@ -13,9 +13,9 @@
 
 enum mode
 {
-	Interactive,
-	StepByStep,
-	Silent
+	Interactive=1,
+	StepByStep=2,
+	Silent=3
 };
 using namespace std;
 class CompanyClass;
@@ -27,7 +27,7 @@ private:
 	ifstream fin;
 	mode modee;
 	CompanyClass* comp;
-	string output;
+	string output="OUTPUT.txt";
 public:
 	UIclass(CompanyClass* company);
 	
