@@ -92,12 +92,10 @@ public:
 			if(curr->getNext()==NULL)
 			{
 				cout << curr->getItem();
-
 			}
 			else
 			{
-			cout << curr->getItem() << ","<<" ";
-
+				cout << curr->getItem() << ","<<" ";
 			}
 			curr = curr->getNext();
 		}

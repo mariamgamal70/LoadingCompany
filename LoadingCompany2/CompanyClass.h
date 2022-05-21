@@ -21,7 +21,7 @@ class CompanyClass
 	int Hour;
 	int Day;
 	int TotalNumberOfTrucks;
-	int sumfinalnorm,sumfinalspec,sumfinalvip;
+	int sumfinalnorm, sumfinalspec, sumfinalvip;
 	int SumCargos;
 	//int CargoAvgTime;
 	int SumAllloadTime;
@@ -42,9 +42,10 @@ class CompanyClass
 	LinkedQueue<Truck*> VIPTrucksUnderCheckup;
 
 	//available but loading (to set calculations in it)
-	LinkedQueue<Truck*> LoadingNormalTrucks;
+	/*LinkedQueue<Truck*> LoadingNormalTrucks;
 	LinkedQueue<Truck*> LoadingSpecialTrucks;
-	LinkedQueue<Truck*> LoadingVIPTrucks;
+	LinkedQueue<Truck*> LoadingVIPTrucks;*/
+	LinkedQueue<Truck*> LoadingTrucks;
 	//----------------------------initial cargo list------------------------------------
 		//waiting to be loaded 
 	CargoLinkedList NormalCargos; // to apply cancellation and promotion on it easier
@@ -74,7 +75,7 @@ class CompanyClass
 	UIclass* ui;
 	int noOfAutoPCargos;
 	//int noOfPromotedCargos;
-	int SumTruckActiveTimeH,SumTruckActiveTimeD;
+	int SumTruckActiveTimeH, SumTruckActiveTimeD;
 	int SumWaitTimeH, SumWaitTimeD;
 	int SumUtilization;
 	int sumspecialloadtime;
@@ -85,7 +86,7 @@ public:
 	CompanyClass();
 	CompanyClass(UIclass* uii);
 	void FileLoading();
-	//void OutputFile();
+	void OutputFile();
 	void RemoveCargo(int id);
 	void PromoteCargo(int id);
 	void ExecuteEvents();
@@ -105,7 +106,7 @@ public:
 	void MoveTruckFromLoadingToMoving(Truck* T);//YARA
 	void MoveTruckFromCheckupToAvailable(Truck* T);
 	//-----------------GETTERS----------------------//	
-	
+
 	//double getCargoAvgTime();
 	int getTotalNumberOfCargos();			//called at the end of simulation 
 	int getTotalNumberOfTrucks();			//called at the end of simulation 
@@ -145,6 +146,9 @@ public:
 	void printmovingcargos();
 	void printavailtrucks();
 	void printdeliveredcargo();
+
+	void dequeueLoadingTruck(Truck* deq);
+	void dequeueMovingTruck(Truck* deq);
 	//-------------------OUTPUT FILE CALCULATIONS----------------//
 	void calcCargoAvgWaitTime(int& h, int& d);	//called at the end of simulation 
 	int calcAutoPromotedCargos();				//called at the end of simulation 

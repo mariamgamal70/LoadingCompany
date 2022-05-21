@@ -87,6 +87,11 @@ void Truck::setTruckMoveTime(int h, int d)
 {
 	TruckMoveTimeHour = h;
 	TruckMoveTimeDay = d;
+	while (TruckMoveTimeHour > 23)
+	{
+		TruckMoveTimeHour = TruckMoveTimeHour - 23;
+		TruckMoveTimeDay++;
+	}
 }
 
 char Truck::getTruckType() const
@@ -227,6 +232,12 @@ int Truck::getSumUnloadTimeCargos()
 double Truck::getTruckUtilization()
 {
 	return TruckUtilization;
+}
+char Truck::getCargoLoadedType()
+{
+	PriQNode<Cargo*>top;
+	LoadingCargos.peek(top);
+	return top.getItem()->getCargoType();
 }
 Truck::~Truck()
 {

@@ -45,23 +45,24 @@ public:
 	void SetNoOfJourneys(int number);
 	void SetTruckID(int id);
 	void setTruckMoveTime(int h, int d);
-	
+
 	char getTruckType()const;
 	int getTruckCapacity()const;
 	int getTruckMaintenanceTime()const;
 	int getTruckSpeed()const;
-	void getTruckDeliveryInterval(int&hours,int&days);
+	void getTruckDeliveryInterval(int& hours, int& days);
 	//int getTruckDeliveryIntervalDays();
 	int getNoOfJourneys()const;
 	int getTruckID()const;
 	int getNoDeliveredCargosByTruck()const;
 	void getTruckMoveTime(int& h, int& d);
 	PriQ<Cargo*> getLoadedCargosInTruck() const;
-	void getTimeToComeBack(int &hour , int &day);
+	void getTimeToComeBack(int& hour, int& day);
 	Cargo* getLoadedCargosTop();
 	int getLoadedCargoFurthestDistance();
 	int getSumUnloadTimeCargos();
 	double getTruckUtilization();
+	char getCargoLoadedType();
 
 	void LoadCargos(Cargo* c);
 	void UnloadCargo(PriQNode<Cargo*> delivered);
@@ -70,9 +71,8 @@ public:
 	void incrementTruckTotalActiveTime();
 	void AddJourney();
 	void CalculateTruckUtilization(int simh, int simd);//called at the end of simulation 
-	friend ostream& operator<<(ostream&output,Truck*t);
+	friend ostream& operator<<(ostream& output, Truck* t);
 	~Truck();
 
 };
-
 
