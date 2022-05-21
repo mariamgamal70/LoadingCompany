@@ -917,7 +917,7 @@ void CompanyClass::printwaitingcargos()
 	ui->coutchar('{');
 	VIPCargoPriQueue.printList();
 	ui->coutchar('}');
-	ui->coutendl();
+	//ui->coutendl();
 }
 
 void CompanyClass::printcheckuptruck()
@@ -936,45 +936,106 @@ void CompanyClass::printcheckuptruck()
 	ui->coutchar('{');
 	VIPTrucksUnderCheckup.PrintQueue();
 	ui->coutchar('}');
-	ui->coutendl();
+	//ui->coutendl();
 }
 
-/*void CompanyClass::printloadingtrucks() //----------------------------------------------------------------- in checkup also
+void CompanyClass::printloadingtrucks() //----------------------------------------------------------------- in checkup also
 {
-	int numofloadingt = LoadingNormalTrucks.getCount() + LoadingSpecialTrucks.getCount() + LoadingVIPTrucks.getCount();
+	int numofloadingt = LoadingTrucks.getCount();
 	ui->coutinteger(numofloadingt);
 	ui->coutstring(" Loading Trucks: ");
+	/*if (numofloadingt == 0)
+	{
+		ui->coutstring("[]  ()  {}  ");
+	}
+	*/
 	Truck* trc;
-	LinkedQueue<Truck>* goo= new LinkedQueue<Truck>;
-	
+	LinkedQueue<Truck*> goo= LoadingTrucks;
+	//goo = LoadingTrucks;
 	for (int i = 0; i < numofloadingt; i++)
 	{
-		DequeueFromLoadingTrucks(trc);
-		if (trc->getTruckType() == N)
+		goo.dequeue(trc);
+		if (trc->getCargoLoadedType() == 'N')
 		{
 			ui->coutinteger(trc->getTruckID());
 			ui->coutchar('[');
-			for (int j = 0; j < trc->getLoadedCargosInTruck()->getCount();j++)
+			for (int j = 0; j < trc->getLoadedCargosInTruck().getCount();j++)
 			{
-				ui->coutinteger
+				trc->getLoadedCargosInTruck().printList();
 			}
-			ui->coutchar(']');
+			ui->coutstring("]  ");
 		}
+		else if (trc->getCargoLoadedType() == 'S')
+		{
+			ui->coutinteger(trc->getTruckID());
+			ui->coutchar('(');
+			for (int j = 0; j < trc->getLoadedCargosInTruck().getCount(); j++)
+			{
+				trc->getLoadedCargosInTruck().printList();
+			}
+			ui->coutstring(")  ");
+		}
+		else if (trc->getCargoLoadedType() == 'V')
+		{
+			ui->coutinteger(trc->getTruckID());
+			ui->coutchar('{');
+			for (int j = 0; j < trc->getLoadedCargosInTruck().getCount(); j++)
+			{
+				trc->getLoadedCargosInTruck().printList();
+			}
+			ui->coutstring("}  ");
+		}
+		
+	} 
+}
+
+
+/*void CompanyClass::printmovingcargos()
+{
+	int numofmovc = 
+	ui->coutinteger(numofmovc);
+	ui->coutstring(" Moving Cargos: ");
+	Truck* trc;
+	LinkedQueue<Truck*> goo = LoadingTrucks;
+	//goo = LoadingTrucks;
+	for (int i = 0; i < numofmovc; i++)
+	{
+		goo.dequeue(trc);
+		if (trc->getCargoLoadedType() == 'N')
+		{
+			ui->coutinteger(trc->getTruckID());
+			ui->coutchar('[');
+			for (int j = 0; j < trc->getLoadedCargosInTruck().getCount(); j++)
+			{
+				//trc->.printList();
+			}
+			ui->coutstring("]  ");
+		}
+		else if (trc->getCargoLoadedType() == 'S')
+		{
+			ui->coutinteger(trc->getTruckID());
+			ui->coutchar('(');
+			for (int j = 0; j < trc->getLoadedCargosInTruck().getCount(); j++)
+			{
+				trc->getLoadedCargosInTruck().printList();
+			}
+			ui->coutstring(")  ");
+		}
+		else if (trc->getCargoLoadedType() == 'V')
+		{
+			ui->coutinteger(trc->getTruckID());
+			ui->coutchar('{');
+			for (int j = 0; j < trc->getLoadedCargosInTruck().getCount(); j++)
+			{
+				trc->getLoadedCargosInTruck().printList();
+			}
+			ui->coutstring("}  ");
+		}
+
 	}
-	delete  
+	//ui->coutendl();
 }
 */
-
-void CompanyClass::printmovingcargos() //-----------------------------------------------------------------------
-{
-	int z = MovingTrucks.getCount();
-	ui->coutinteger(z);
-	ui->coutstring(" Moving Cargos: ");
-	ui->coutstring("[] ");
-	ui->coutstring("() ");
-	ui->coutstring("{} ");
-	ui->coutendl();
-}
 
 void CompanyClass::printavailtrucks()
 {
@@ -992,7 +1053,7 @@ void CompanyClass::printavailtrucks()
 	ui->coutchar('{');
 	VIPTruckQueue.PrintQueue();
 	ui->coutchar('}');
-	ui->coutendl();
+	//ui->coutendl();
 }
 void CompanyClass::printdeliveredcargo()
 {
@@ -1062,10 +1123,7 @@ double CompanyClass::calcAvgUtilization()
 	double avgUt = SumUtilization / TotalNumberOfTrucks * 100;
 	return avgUt;
 }
-void CompanyClass::writee()
-{
-	ui->Write();
-}
+
 CompanyClass::~CompanyClass()
 {
 }

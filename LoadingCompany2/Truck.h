@@ -63,7 +63,6 @@ public:
 	int getSumUnloadTimeCargos();
 	double getTruckUtilization();
 	char getCargoLoadedType();
-
 	void LoadCargos(Cargo* c);
 	void UnloadCargo(PriQNode<Cargo*> delivered);
 	bool LoadedCargosFull();

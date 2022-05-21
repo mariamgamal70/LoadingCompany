@@ -60,3 +60,4 @@ public:
 	void printOutput();
 	//void Write();
 };
+#endif

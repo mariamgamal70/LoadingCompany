@@ -25,7 +25,7 @@ void UIclass::printInteractive()
 	comp->printcheckuptruck();
 	cout << "\n--------------------------------------------------------\n";
 	comp->printdeliveredcargo();
-	cout << endl << endl;
+	cout << endl << endl<<endl<<endl<<endl;
 }
 void UIclass::coutinteger(int m)
 {
