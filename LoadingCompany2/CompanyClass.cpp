@@ -245,7 +245,7 @@ void CompanyClass::ExecuteEvents()
 		}
 	}
 }
-
+//--------------------------------------------ADDING TO LISTS--------------------------------------------//
 void CompanyClass::AddToNormalCargos(Cargo* C)
 {
 	NormalCargos.InsertEnd(C);
@@ -430,7 +430,7 @@ void CompanyClass::MoveTruckFromMovingToCheckup(Truck* T) //->MARIAM
 		MovingTrucks.enqueueAscending(qnode.getItem(),(TDIh)+(TDId * 24));
 	}
 }
-
+//--------------------------------------------------------------ASSIGNMENT-----------------------------------------------------------------//
 void CompanyClass::AssignCargoToTruck()
 {
 	if (Hour >= 5 && Hour <= 23)
@@ -802,7 +802,28 @@ void CompanyClass::printEmptyVIPTrucks()
 {
 	VIPTruckQueue.PrintQueue();
 }
-
+//---------------------------------------------------------SIMULATION FUNCTION-------------------------------------------//
+bool CompanyClass::checkfunction()
+{
+	//bool keepchecking=true;
+	if (VIPTruckQueue.isEmpty() && NormalTruckQueue.isEmpty() && SpecialTruckQueue.isEmpty())
+	{
+		if (NormalCargos.isEmpty() && SpecialCargos.isEmpty() && VIPCargoPriQueue.isEmpty())
+		{
+			if (LoadingNormalTrucks.isEmpty() && LoadingSpecialTrucks.isEmpty() && LoadingVIPTrucks.isEmpty())
+			{
+				if (MovingTrucks.isEmpty())
+				{
+					if (NormalTrucksUnderCheckup.isEmpty() && SpecialTrucksUnderCheckup.isEmpty() && VIPTrucksUnderCheckup.isEmpty())
+					{
+						return false;
+					}
+				}
+			}
+		}
+	}
+	return true;
+}
 void CompanyClass::SimulatorFunction()
 {
 	FileLoading();
@@ -811,55 +832,57 @@ void CompanyClass::SimulatorFunction()
 	//ui = UI;
 	ui->choosethemode();
 	//while total no of cargos!= delivered  ,at first 0=0 quit?
-
-	ExecuteEvents();
-	//printHeadLine();
-	
-				//MALAK SHOULD ADD DELIVERCARGOS
-
-				/*Truck* Normal;
-				Truck* Special;
-				Truck* VIP;
-				LoadingNormalTrucks.peek(Normal);// add while loop to check on each truck in loading? and if list is not empty?
-				LoadingSpecialTrucks.peek(Special);
-				LoadingVIPTrucks.peek(VIP);
-				if (Normal->getNoOfJourneys()%NoOfJourneys==0)
-				{
-					AddTruckToCheckup(Normal);
-				}
-				if (Special->getNoOfJourneys()%NoOfJourneys==0)
-				{
-					AddTruckToCheckup(Special);
-				}
-				if (VIP->getNoDeliveredCargosByTruck()%NoOfJourneys==0)
-				{
-					AddTruckToCheckup(VIP);
-				}*/
-
-				/*if (!NormalCargos.isEmpty())
-				{
-					NormalCargos.AutoPromoteCargo(this,Day,AutoPDays)
-
-				}*/
-	AssignCargoToTruck();
-	//MoveTruckFromLoadingToMoving();
-	//MoveTruckFromMovingToCheckup();
-
-	ui->printOutput();
-	Hour++;
-	while (Hour > 23) //24hour will be 00H:00MIN AM
+	while (checkfunction())
 	{
-		Hour = Hour - 23;
-		Day++;
-	}
-	ui->waitforenter(); 
-	//end while loop
+		
+		ExecuteEvents();
+		//printHeadLine();
 
-	//produce output file <<<----------OUTPUTFILE---------------------*/
-	
+					//MALAK SHOULD ADD DELIVERCARGOS
+
+					/*Truck* Normal;
+					Truck* Special;
+					Truck* VIP;
+					LoadingNormalTrucks.peek(Normal);// add while loop to check on each truck in loading? and if list is not empty?
+					LoadingSpecialTrucks.peek(Special);
+					LoadingVIPTrucks.peek(VIP);
+					if (Normal->getNoOfJourneys()%NoOfJourneys==0)
+					{
+						AddTruckToCheckup(Normal);
+					}
+					if (Special->getNoOfJourneys()%NoOfJourneys==0)
+					{
+						AddTruckToCheckup(Special);
+					}
+					if (VIP->getNoDeliveredCargosByTruck()%NoOfJourneys==0)
+					{
+						AddTruckToCheckup(VIP);
+					}*/
+
+					/*if (!NormalCargos.isEmpty())
+					{
+						NormalCargos.AutoPromoteCargo(this,Day,AutoPDays)
+
+					}*/
+		AssignCargoToTruck();
+		//MoveTruckFromLoadingToMoving();
+		//MoveTruckFromMovingToCheckup();
+
+		ui->printOutput();
+		Hour++;
+		while (Hour > 23) //24hour will be 00H:00MIN AM
+		{
+			Hour = Hour - 23;
+			Day++;
+		}
+		ui->waitforenter();
+		//end while loop
+
+		//produce output file <<<----------OUTPUTFILE---------------------*/
+	}
 }
 				
-
+//---------------------------------------------------------PHASE 1 PRINT FUNCTIONS--------------------------------------------------//
 void CompanyClass::printwaitingcargos()
 {
 	int numofwait = NormalCargos.getCount() + SpecialCargos.getCount() + VIPCargoPriQueue.getCount();
@@ -969,7 +992,7 @@ void CompanyClass::printdeliveredcargo()
 		DeliveredCargos.enqueue(car);
 	}
 }
-
+//--------------------------------------------------OUTPUT FILE CALCULATIONS-------------------------------------------------//
 void CompanyClass::calcCargoAvgWaitTime(int& h, int& d)
 {
 	h = SumWaitTimeH / SumCargos;
