@@ -12,7 +12,7 @@ UIclass::UIclass(CompanyClass* company)
 
 void UIclass::printInteractive()
 {
-	cout << "Current Time (Day:Hour): " << comp->getCurrentTimeHour() << ":" << comp->getCurrentTimeHour() << endl;
+	cout << "Current Time (Day:Hour): " << comp->getCurrentTimeDay() << ":" << comp->getCurrentTimeHour() << endl;
 	comp->printwaitingcargos(); 
 	cout << "\n--------------------------------------------------------\n";
 	comp->printloadingtrucks();
