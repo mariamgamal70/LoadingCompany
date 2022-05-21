@@ -4,6 +4,7 @@
 #include <fstream>
 
 using namespace std;
+
 UIclass::UIclass(CompanyClass* company)
 {
 	this->comp = company;
@@ -11,7 +12,7 @@ UIclass::UIclass(CompanyClass* company)
 
 void UIclass::printInteractive()
 {
-	//cout << "Current Time (Day:Hour): " << comp->getCurrentTimeHour() << ":" << comp->getCurrentTimeHour() << endl;
+	cout << "Current Time (Day:Hour): " << comp->getCurrentTimeDay() << ":" << comp->getCurrentTimeHour() << endl;
 	comp->printwaitingcargos(); 
 	cout << "\n--------------------------------------------------------\n";
 	comp->printloadingtrucks();
@@ -93,6 +94,7 @@ mode UIclass::choosethemode()
 void UIclass::printSilent()
 {
 	cout << "Silent Mode\nSimulation Starts...\nSimulation ends, Output file created";
+	Write();
 }
 void UIclass::printOutput()
 {
@@ -113,10 +115,47 @@ void UIclass::printOutput()
 }
 void UIclass::Write()
 {
+
 	fout.open(output);
 	fout << "CDT	" << "ID	" << "PT	" << "WT	" << "TID	";
 	fout << endl;
-	float Wait = 0, Exec = 0;
+	LinkedQueue<Cargo*>* deliveredcarg = new LinkedQueue<Cargo*>;
+	int numcomp = deliveredcarg->getCount();
+	Cargo* temp;
+    for (int i = 0; i < numcomp; i++)
+	{
+		int day,hour,id,dday,hhour;
+		deliveredcarg->dequeue(temp);
+		temp->getCargoDeliveryTime(day, hour);
+		id=temp->getCargoID();
+		temp->getCargoWaitTime(dday, hhour);
+		fout << day<<':'<<hour << "	";
+		fout << temp->getPreparationTimeDay()<< "	";
+		fout << dday<<':'<<hhour << "	";
+		fout << temp->getTruckLoadedOn()<< "	";
+		fout << endl;
+	}
+	fout << "\n ........................................................\n";
+	fout << "\n ........................................................ \n";
+	fout << "Cargos: " << comp->getTotalNumberOfCargos() << " ";
+	fout << "[N: " << comp->getnumfinalnorm()<< ", S: " << comp->getnumfinalspec() << ", V: " << comp->getnumfinalvip() << "]" << endl;
+	int d, h;
+	comp->calcCargoAvgWaitTime(d, h);
+	fout << "Cargo Avg Wait= "<<d<<':'<<h<<endl;
+	fout << "Auto-promoted Cargos: ";
+	if (comp->getautopromnum() == 0)
+	{
+		fout << "None"<<endl;
+	}
+	else
+	{
+		fout << ((float)comp->getautopromnum() / (comp->getnumfinalnorm() + comp->getautopromnum()) * 100) << '%' << endl;
+	}
+	fout << "Trucks:" << comp->getTotalNumberOfTrucks() << "  ";
+	fout << "[N: " << comp->getNumberOfNormalTrucks() << ", S: " << comp->getNumberOfspecialTrucks() << ", V: " << comp->getNumberOfVipTrucks() << "]" << endl;
+    fout << "Avg Active time= " << comp->calcAvgActiveTime() << '%' << endl;
+	fout << "Avg utilization= " << comp->calcAvgUtilization() << endl;
+	fout.close();
 }
 
 

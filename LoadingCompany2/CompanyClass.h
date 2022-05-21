@@ -21,7 +21,7 @@ class CompanyClass
 	int Hour;
 	int Day;
 	int TotalNumberOfTrucks;
-	int SumNormalCargos,SumSpecialCargos,SumVIPCargos;
+	int sumfinalnorm,sumfinalspec,sumfinalvip;
 	int SumCargos;
 	//int CargoAvgTime;
 	int SumAllloadTime;
@@ -73,7 +73,8 @@ class CompanyClass
 	int CargoID, CargoDist, CargoLoadTime, CargoCost;
 	int CargoExtraMoney;
 	UIclass* ui;
-	int noOfPromotedCargos,noOfAutoPCargos;
+	int noOfAutoPCargos;
+	//int noOfPromotedCargos;
 	int SumTruckActiveTimeH,SumTruckActiveTimeD;
 	int SumWaitTimeH, SumWaitTimeD;
 	int SumUtilization;
@@ -85,8 +86,11 @@ public:
 	CompanyClass();
 	CompanyClass(UIclass* uii);
 	void FileLoading();
+	//void OutputFile();
 	void RemoveCargo(int id);
 	void PromoteCargo(int id);
+	void ExecuteEvents();
+	bool checkfunction();
 	//void AutoPromote(int id);  Class responsibility?
 	//double setpriorityequation(int pH, int pD, int DD, int CC);
 
@@ -94,12 +98,12 @@ public:
 	void AddToSpecialCargos(Cargo* C);
 	void AddToVIPCargos(Cargo* C, double priority);
 	void AddToAppropriateList(Cargo* C);
-	void AddTruckToCheckup(Truck* T);
+	void MoveTruckFromMovingToCheckup(Truck* T);
 	void AssignCargoToTruck(); // uncomment stuff if MoveTruckFromEmptyToLoading is finished
 	void AddToDeliveredCargos();
-	void LoadingToMovingTrucks();
+	void MoveTruckFromLoadingToMoving();//MINE
 	void MoveTruckFromEmptyToLoading(Truck* T);
-	void MoveTruckFromLoadingToMoving(Truck* T);
+	void MoveTruckFromLoadingToMoving(Truck* T);//YARA
 	void MoveTruckFromCheckupToAvailable(Truck* T);
 
 	//SETTER
@@ -115,10 +119,14 @@ public:
 	int getNumberOfNormalTrucks();			//called at the end of simulation 
 	int getNumberOfspecialTrucks();			//called at the end of simulation 
 	int getNumberOfVipTrucks();				//called at the end of simulation 
+	int getnumfinalnorm();
+	int getnumfinalspec();
+	int getnumfinalvip();
+	int getautopromnum();
 	double getTruckSpeedCapacityEquation();
 	Cargo* dequeueDeliveredCargo();
-
 	//----------------PRINTS------------------------//
+	//void printHeadLine();
 	void printWNormalCargos();
 	void printWspecialCargos();
 	void printWvipCargos();
