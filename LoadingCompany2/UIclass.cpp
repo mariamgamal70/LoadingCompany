@@ -13,7 +13,7 @@ UIclass::UIclass(CompanyClass* company)
 void UIclass::printInteractive()
 {
 	cout << "Current Time (Day:Hour): " << comp->getCurrentTimeDay() << ":" << comp->getCurrentTimeHour() << endl;
-	comp->printwaitingcargos(); 
+	comp->printwaitingcargos();
 	cout << "\n--------------------------------------------------------\n";
 	comp->printloadingtrucks();
 	cout << "\n--------------------------------------------------------\n";
@@ -37,14 +37,14 @@ void UIclass::coutchar(char s)
 {
 	cout << s;
 }
-string UIclass::cinfilename () 
+string UIclass::cinfilename()
 {
-    string inFile;
+	string inFile;
 	cin >> inFile;
 	inFile = inFile + ".txt";
 	cout << endl;
 	fin.open(inFile);
-	while (!fin.is_open()) 
+	while (!fin.is_open())
 	{
 		cout << "File is not found, Please re-enter the file you want to load: ";
 		cin >> inFile;
@@ -122,30 +122,30 @@ void UIclass::Write()
 	LinkedQueue<Cargo*>* deliveredcarg = new LinkedQueue<Cargo*>;
 	int numcomp = deliveredcarg->getCount();
 	Cargo* temp;
-    for (int i = 0; i < numcomp; i++)
+	for (int i = 0; i < numcomp; i++)
 	{
-		int day,hour,id,dday,hhour;
+		int day, hour, id, dday, hhour;
 		deliveredcarg->dequeue(temp);
 		temp->getCargoDeliveryTime(day, hour);
-		id=temp->getCargoID();
+		id = temp->getCargoID();
 		temp->getCargoWaitTime(dday, hhour);
-		fout << day<<':'<<hour << "	";
-		fout << temp->getPreparationTimeDay()<< "	";
-		fout << dday<<':'<<hhour << "	";
-		fout << temp->getTruckLoadedOn()<< "	";
+		fout << day << ':' << hour << "	";
+		fout << temp->getPreparationTimeDay() << "	";
+		fout << dday << ':' << hhour << "	";
+		fout << temp->getTruckLoadedOn() << "	";
 		fout << endl;
 	}
 	fout << "\n ........................................................\n";
 	fout << "\n ........................................................ \n";
 	fout << "Cargos: " << comp->getTotalNumberOfCargos() << " ";
-	fout << "[N: " << comp->getnumfinalnorm()<< ", S: " << comp->getnumfinalspec() << ", V: " << comp->getnumfinalvip() << "]" << endl;
+	fout << "[N: " << comp->getnumfinalnorm() << ", S: " << comp->getnumfinalspec() << ", V: " << comp->getnumfinalvip() << "]" << endl;
 	int d, h;
 	comp->calcCargoAvgWaitTime(d, h);
-	fout << "Cargo Avg Wait= "<<d<<':'<<h<<endl;
+	fout << "Cargo Avg Wait= " << d << ':' << h << endl;
 	fout << "Auto-promoted Cargos: ";
 	if (comp->getautopromnum() == 0)
 	{
-		fout << "None"<<endl;
+		fout << "None" << endl;
 	}
 	else
 	{
@@ -153,10 +153,9 @@ void UIclass::Write()
 	}
 	fout << "Trucks:" << comp->getTotalNumberOfTrucks() << "  ";
 	fout << "[N: " << comp->getNumberOfNormalTrucks() << ", S: " << comp->getNumberOfspecialTrucks() << ", V: " << comp->getNumberOfVipTrucks() << "]" << endl;
-    fout << "Avg Active time= " << comp->calcAvgActiveTime() << '%' << endl;
+	fout << "Avg Active time= " << comp->calcAvgActiveTime() << '%' << endl;
 	fout << "Avg utilization= " << comp->calcAvgUtilization() << endl;
 	fout.close();
 }
-
 
 

@@ -13,9 +13,9 @@
 
 enum mode
 {
-	Interactive=1,
-	StepByStep=2,
-	Silent=3
+	Interactive = 1,
+	StepByStep = 2,
+	Silent = 3
 };
 using namespace std;
 class CompanyClass;
@@ -27,10 +27,10 @@ private:
 	ifstream fin;
 	mode modee;
 	CompanyClass* comp;
-	string output="OUTPUT.txt";
+	string output = "OUTPUT.txt";
 public:
 	UIclass(CompanyClass* company);
-	
+
 	/*string getidslinQcargo(LinkedQueue<Cargo*>* q);
 	string getidsPriQcargo(PriQ<Cargo*>* q);
 	string getidslinQtruck(LinkedQueue<Truck*>* q);
@@ -42,19 +42,19 @@ public:
 	void printinCheckuptrucks();
 	void printdeliveredcargo();
 	*/
-	
+
 	void printInteractive();	//Print Output in interactive
 	//void getinput();	//Open the inputs.txt file and read the data
 	void coutinteger(int m);
-    void coutstring(string k);
-    void coutchar(char s);
-    void coutendl();
+	void coutstring(string k);
+	void coutchar(char s);
+	void coutendl();
 	void waitforenter();
 	string cinfilename();
 	void printline();
-    ~UIclass();
+	~UIclass();
 	mode choosethemode();
-		void printSilent();
-		void printOutput();
-		void Write();
+	void printSilent();
+	void printOutput();
+	void Write();
 };

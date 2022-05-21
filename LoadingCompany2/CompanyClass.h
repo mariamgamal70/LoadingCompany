@@ -21,12 +21,11 @@ class CompanyClass
 	int Hour;
 	int Day;
 	int TotalNumberOfTrucks;
-	int sumfinalnorm,sumfinalspec,sumfinalvip;
+	int sumfinalnorm, sumfinalspec, sumfinalvip;
 	int SumCargos;
 	//int CargoAvgTime;
 	int SumAllloadTime;
 	double VIPCargoPriority;
-	double TruckSpeedCapacity;
 	//------------------------event list----------------------------------------------
 	LinkedQueue <Event*> Eventlist;
 	//------------------------intial Truck lists ==empty truck list-------------------
@@ -75,7 +74,7 @@ class CompanyClass
 	UIclass* ui;
 	int noOfAutoPCargos;
 	//int noOfPromotedCargos;
-	int SumTruckActiveTimeH,SumTruckActiveTimeD;
+	int SumTruckActiveTimeH, SumTruckActiveTimeD;
 	int SumWaitTimeH, SumWaitTimeD;
 	int SumUtilization;
 	int sumspecialloadtime;
@@ -105,12 +104,8 @@ public:
 	void MoveTruckFromEmptyToLoading(Truck* T);
 	void MoveTruckFromLoadingToMoving(Truck* T);//YARA
 	void MoveTruckFromCheckupToAvailable(Truck* T);
-
-	//SETTER
-	void setTruckSpeedCapacityEquation(Truck *T);
 	//-----------------GETTERS----------------------//	
 
-	
 	//double getCargoAvgTime();
 	int getTotalNumberOfCargos();			//called at the end of simulation 
 	int getTotalNumberOfTrucks();			//called at the end of simulation 
@@ -123,7 +118,6 @@ public:
 	int getnumfinalspec();
 	int getnumfinalvip();
 	int getautopromnum();
-	double getTruckSpeedCapacityEquation();
 	Cargo* dequeueDeliveredCargo();
 	//----------------PRINTS------------------------//
 	//void printHeadLine();
