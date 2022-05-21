@@ -114,7 +114,7 @@ public:
 	 }
 
 
-	/*void AutoPromoteCargo(CompanyClass* company_ptr, int Currentday, int Autopromote_days)
+	void AutoPromoteCargo(CompanyClass* company_ptr, int Currentday, int Autopromote_days)
 	{
 		 Node<Cargo*>* ptr = Head;
 		 while (ptr)
@@ -126,7 +126,7 @@ public:
 				 company_ptr->PromoteCargo(Cargo_Idpromote);
 			 }
 		 }
-	}*/
+	}
 
 
 
