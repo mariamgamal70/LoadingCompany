@@ -991,9 +991,9 @@ void CompanyClass::printloadingtrucks() //--------------------------------------
 }
 
 
-/*void CompanyClass::printmovingcargos()
+void CompanyClass::printmovingcargos()
 {
-	int numofmovc = 
+	/*int numofmovc = 
 	ui->coutinteger(numofmovc);
 	ui->coutstring(" Moving Cargos: ");
 	Truck* trc;
@@ -1034,9 +1034,9 @@ void CompanyClass::printloadingtrucks() //--------------------------------------
 		}
 
 	}
-	//ui->coutendl();
+	//ui->coutendl();*/
 }
-*/
+
 
 void CompanyClass::printavailtrucks()
 {

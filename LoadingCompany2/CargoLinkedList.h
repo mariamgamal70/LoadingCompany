@@ -114,26 +114,19 @@ public:
 	 }
 
 
-	/* void AutoPromoteCargo(CompanyClass* company_ptr, int Currentday, int Autopromote_days)
-	 {
-	 
+	/*void AutoPromoteCargo(CompanyClass* company_ptr, int Currentday, int Autopromote_days)
+	{
 		 Node<Cargo*>* ptr = Head;
 		 while (ptr)
 		 {
 			 if ((Currentday)-(ptr->getItem()->getPreparationTimeDay()) > Autopromote_days)
 			 {
 				 Cargo* Cargo_toAutoPromote = ptr->getItem();
-
 				 int Cargo_Idpromote = Cargo_toAutoPromote->getCargoID();
-
 				 company_ptr->PromoteCargo(Cargo_Idpromote);
 			 }
-
-
 		 }
-	 
-	 
-	 }*/
+	}*/
 
 
 
