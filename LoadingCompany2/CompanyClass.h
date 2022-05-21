@@ -53,9 +53,9 @@ class CompanyClass
 	PriQ<Cargo*> VIPCargoPriQueue;
 	//----------------------------cargo related lists-----------------------------------
 			//PriQ<Cargo*> MovingCargos;//priority to the least delivery time
-	LinkedQueue <Cargo*> NormalDeliveredCargos;
-	LinkedQueue <Cargo*> SpecialDeliveredCargos;
-	LinkedQueue <Cargo*> VIPDeliveredCargos;
+	//LinkedQueue <Cargo*> NormalDeliveredCargos;
+	//LinkedQueue <Cargo*> SpecialDeliveredCargos;
+	//LinkedQueue <Cargo*> VIPDeliveredCargos;
 	LinkedQueue <Cargo*> DeliveredCargos;
 	//---------------------------for file loading function------------------------------
 	int nN, nS, nV;
