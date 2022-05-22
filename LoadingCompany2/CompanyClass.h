@@ -98,12 +98,13 @@ public:
 	void AddToSpecialCargos(Cargo* C);
 	void AddToVIPCargos(Cargo* C, double priority);
 	void AddToAppropriateList(Cargo* C);
-	void MoveTruckFromMovingToCheckup(Truck* T);
+	
 	void AssignCargoToTruck(); // uncomment stuff if MoveTruckFromEmptyToLoading is finished
 	void AddToDeliveredCargos();
 	void MoveTruckFromLoadingToMoving();//MINE
-	void MoveTruckFromEmptyToLoading(Truck* T);
+	void MoveTruckFromEmptyToLoading(Truck* T,int totalloadtime);
 	void MoveTruckFromLoadingToMoving(Truck* T);//YARA
+	void MoveTruckFromMovingToCheckup();
 	void MoveTruckFromCheckupToAvailable(Truck* T);
 	//-----------------GETTERS----------------------//	
 
