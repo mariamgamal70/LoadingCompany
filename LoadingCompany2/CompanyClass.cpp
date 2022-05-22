@@ -858,8 +858,7 @@ void CompanyClass::SimulatorFunction()
 
 		ExecuteEvents();
 		//printHeadLine();
-		if(!NormalCargos.isEmpty())
-		NormalCargos.AutoPromoteCargo(this, Day, AutoPDays);
+	
 
 
 					//MALAK SHOULD ADD DELIVERCARGOS
@@ -891,7 +890,10 @@ void CompanyClass::SimulatorFunction()
 		AssignCargoToTruck();
 		//MoveTruckFromLoadingToMoving();
 		//MoveTruckFromMovingToCheckup();
-
+if (!NormalCargos.isEmpty())
+{
+	NormalCargos.AutoPromoteCargo(this, Day, AutoPDays);
+}
 		ui->printOutput();
 		Hour++;
 		while (Hour > 23) //24hour will be 00H:00MIN AM

@@ -86,7 +86,7 @@ void CargoLinkedList :: AutoPromoteCargo(CompanyClass* company_ptr, int Currentd
 	if (!ptr)
 		return;
 
-	while (ptr)
+	while (ptr!=nullptr)
 	{
 		if ((Currentday)-(ptr->getItem()->getPreparationTimeDay()) > Autopromote_days)
 		{
@@ -94,5 +94,7 @@ void CargoLinkedList :: AutoPromoteCargo(CompanyClass* company_ptr, int Currentd
 			int Cargo_Idpromote = Cargo_toAutoPromote->getCargoID();
 			company_ptr->PromoteCargo(Cargo_Idpromote);
 		}
+
+		ptr = ptr->getNext();
 	}
 }
