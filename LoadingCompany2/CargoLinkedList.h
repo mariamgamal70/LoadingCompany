@@ -1,16 +1,13 @@
 #pragma once
 #include "Cargo.h"
 #include "LinkedList.h"
-
 class CompanyClass;
 
 class CargoLinkedList :public LinkedList<Cargo*>
 {
 public:
-	CargoLinkedList()
-	{
-		
-	}
+	CargoLinkedList();
+	
 	/*void DeleteSpecificNode(int& value) //correct except for ID=1 //SHERIF DID
 	{
 		Node<Cargo*>* temp = Head;
@@ -45,41 +42,41 @@ public:
 			}
 		}
 	}*/
-	void DeleteSpecificNode(int& value) // MARIAM DID
-	{
-		Node<Cargo*>* temp = nullptr;
-		Node<Cargo*>* curr = Head;
-		if (curr == nullptr)
-			return;
-		if (curr->getItem()->getCargoID() == value)
-		{
-			Head = curr->getNext();
-			curr = nullptr;
-			delete curr;
-			count--;
-		}
-		else
-		{
-			temp = curr;
-			curr = curr->getNext();
-			while (curr && curr->getNext() != nullptr)
-			{
-				if (curr->getItem()->getCargoID() == value)
-				{
-					temp->setNext(curr->getNext());
-					delete curr;
-					curr = nullptr;
-					count--;
-					break;
-				}
-				temp = curr;
-				curr = curr->getNext();
-			}
-		}
-	}
+	void DeleteSpecificNode(int& value); // MARIAM DID
+	//{
+	//	Node<Cargo*>* temp = nullptr;
+	//	Node<Cargo*>* curr = Head;
+	//	if (curr == nullptr)
+	//		return;
+	//	if (curr->getItem()->getCargoID() == value)
+	//	{
+	//		Head = curr->getNext();
+	//		curr = nullptr;
+	//		delete curr;
+	//		count--;
+	//	}
+	//	else
+	//	{
+	//		temp = curr;
+	//		curr = curr->getNext();
+	//		while (curr && curr->getNext() != nullptr)
+	//		{
+	//			if (curr->getItem()->getCargoID() == value)
+	//			{
+	//				temp->setNext(curr->getNext());
+	//				delete curr;
+	//				curr = nullptr;
+	//				count--;
+	//				break;
+	//			}
+	//			temp = curr;
+	//			curr = curr->getNext();
+	//		}
+	//	}
+	//}
 
-	Cargo* findSpecificNode(int& value)
-	{
+	Cargo* findSpecificNode(int& value);
+	/*{
 		Cargo* c = nullptr;
 		Node<Cargo*>* temp = Head;
 
@@ -99,23 +96,23 @@ public:
 				temp = temp->getNext();
 			}
 		}
-	}
+	}*/
 
-     void InsertBegC(Cargo* C)  
-	 {
+	void InsertBegC(Cargo* C);
+	/* {
 		Node<Cargo*>* R = new Node<Cargo*>(C);
 		R->setNext(Head);
 		Head = R;
 		count++;
-	 }
-	 Cargo* peek()
-	 {
+	 }*/
+	 Cargo* peek();
+	/* {
 		 return Head->getItem();
-	 }
+	 }*/
 
 
-	/*void AutoPromoteCargo(CompanyClass* company_ptr, int Currentday, int Autopromote_days)
-	{
+	 void AutoPromoteCargo(CompanyClass* company_ptr, int Currentday, int Autopromote_days);
+	/*{
 		 Node<Cargo*>* ptr = Head;
 		 while (ptr)
 		 {

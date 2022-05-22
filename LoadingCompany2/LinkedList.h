@@ -4,8 +4,11 @@
 
 #include"Cargo.h"
 #include "Node.h"
+
+class CompanyClass;
 #include <iostream>
 using namespace std;
+
 template <typename T>
 class LinkedList
 {
