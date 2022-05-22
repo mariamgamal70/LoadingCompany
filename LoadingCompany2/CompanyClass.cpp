@@ -993,42 +993,48 @@ void CompanyClass::printloadingtrucks() //--------------------------------------
 
 void CompanyClass::printmovingcargos()
 {
-	/*int numofmovc = 
+	Truck* trcc=nullptr;
+	PriQ<Truck*> go = MovingTrucks;
+	PriQ<Truck*> gooo = MovingTrucks;
+	int numofmovc = 0;
+	for (int i = 0; i < go.getCount(); i++)
+	{
+		go.dequeue(trcc);
+		numofmovc += trcc->getLoadedCargosInTruck().getCount();
+	}
 	ui->coutinteger(numofmovc);
-	ui->coutstring(" Moving Cargos: ");
-	Truck* trc;
-	LinkedQueue<Truck*> goo = LoadingTrucks;
-	//goo = LoadingTrucks;
+	ui->coutstring(" Moving Cargos: ");	
+	//goo = LoadingTruck
 	for (int i = 0; i < numofmovc; i++)
 	{
-		goo.dequeue(trc);
-		if (trc->getCargoLoadedType() == 'N')
+		gooo.dequeue(trcc);
+		if (trcc->getCargoLoadedType() == 'N')
 		{
-			ui->coutinteger(trc->getTruckID());
+			ui->coutinteger(trcc->getTruckID());
 			ui->coutchar('[');
-			for (int j = 0; j < trc->getLoadedCargosInTruck().getCount(); j++)
+			for (int j = 0; j < trcc->getLoadedCargosInTruck().getCount(); j++)
 			{
-				//trc->.printList();
+				trcc->getLoadedCargosInTruck().printList();
 			}
 			ui->coutstring("]  ");
 		}
-		else if (trc->getCargoLoadedType() == 'S')
+		else if (trcc->getCargoLoadedType() == 'S')
 		{
-			ui->coutinteger(trc->getTruckID());
+			ui->coutinteger(trcc->getTruckID());
 			ui->coutchar('(');
-			for (int j = 0; j < trc->getLoadedCargosInTruck().getCount(); j++)
+			for (int j = 0; j < trcc->getLoadedCargosInTruck().getCount(); j++)
 			{
-				trc->getLoadedCargosInTruck().printList();
+				trcc->getLoadedCargosInTruck().printList();
 			}
 			ui->coutstring(")  ");
 		}
-		else if (trc->getCargoLoadedType() == 'V')
+		else if (trcc->getCargoLoadedType() == 'V')
 		{
-			ui->coutinteger(trc->getTruckID());
+			ui->coutinteger(trcc->getTruckID());
 			ui->coutchar('{');
-			for (int j = 0; j < trc->getLoadedCargosInTruck().getCount(); j++)
+			for (int j = 0; j < trcc->getLoadedCargosInTruck().getCount(); j++)
 			{
-				trc->getLoadedCargosInTruck().printList();
+				trcc->getLoadedCargosInTruck().printList();
 			}
 			ui->coutstring("}  ");
 		}
