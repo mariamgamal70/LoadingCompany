@@ -43,7 +43,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="CancelEvent.cpp" />
     <ClCompile Include="Cargo.cpp" />
+    <ClCompile Include="CargoLinkedList.cpp" />
     <ClCompile Include="CompanyClass.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="main.cpp" />
