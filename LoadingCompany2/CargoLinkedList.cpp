@@ -83,6 +83,9 @@ Cargo* CargoLinkedList::peek()
 void CargoLinkedList :: AutoPromoteCargo(CompanyClass* company_ptr, int Currentday, int Autopromote_days)
 {
 	Node<Cargo*>* ptr = Head;
+	if (!ptr)
+		return;
+
 	while (ptr)
 	{
 		if ((Currentday)-(ptr->getItem()->getPreparationTimeDay()) > Autopromote_days)
