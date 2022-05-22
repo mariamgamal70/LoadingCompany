@@ -477,7 +477,10 @@ void CompanyClass::AssignCargoToTruck()
 				}
 				else if (SpecialCargos.getCount() > 0 && SpecialCargos.getCount() < specialtruck->getTruckCapacity())
 				{
-					if (getCurrentTimeHour() + (getCurrentTimeDay() * 24) >= MaxWaitHours)//add check max wait (if condition)
+					SpecialCargos.peek(specialcargo);
+					int cargotime = specialcargo->getPreparationTimeHour() + (specialcargo->getPreparationTimeDay() * 24)+ MaxWaitHours;
+					int currtime = Hour + (Day * 24);
+					if (cargotime >= currtime)//add check max wait (if condition)
 					{
 						int totalloadtime=0;
 						for (int i = 0; i < SpecialCargos.getCount(); i++)
@@ -514,7 +517,10 @@ void CompanyClass::AssignCargoToTruck()
 				}
 				else if (NormalCargos.getCount() > 0 && NormalCargos.getCount() < normaltruck->getTruckCapacity())
 				{
-					if (getCurrentTimeHour() + (getCurrentTimeDay() * 24) >= MaxWaitHours)//add check max wait (if condition)
+					normalcargo=NormalCargos.peek();
+					int cargotime = normalcargo->getPreparationTimeHour() + (normalcargo->getPreparationTimeDay() * 24) + MaxWaitHours;
+					int currtime = Hour + (Day * 24);
+					if (cargotime >= currtime)//add check max wait (if condition)
 					{
 						int totalloadtime=0;
 						for (int i = 0; i < NormalCargos.getCount(); i++)
@@ -546,7 +552,10 @@ void CompanyClass::AssignCargoToTruck()
 				}
 				else if (NormalCargos.getCount() > 0 && NormalCargos.getCount() < viptruck->getTruckCapacity())
 				{
-					if (getCurrentTimeHour() + (getCurrentTimeDay() * 24) >= MaxWaitHours)//add check max wait (if condition)
+					normalcargo = NormalCargos.peek();
+					int cargotime = normalcargo->getPreparationTimeHour() + (normalcargo->getPreparationTimeDay() * 24) + MaxWaitHours;
+					int currtime = Hour + (Day * 24);
+					if (cargotime >= currtime)//add check max wait (if condition)
 					{
 						int totalloadtime=0;
 						for (int i = 0; i < NormalCargos.getCount(); i++)
