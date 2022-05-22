@@ -854,6 +854,9 @@ void CompanyClass::SimulatorFunction()
 
 		ExecuteEvents();
 		//printHeadLine();
+		if(!NormalCargos.isEmpty())
+		NormalCargos.AutoPromoteCargo(this, Day, AutoPDays);
+
 
 					//MALAK SHOULD ADD DELIVERCARGOS
 
