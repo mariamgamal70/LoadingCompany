@@ -319,8 +319,8 @@ void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T, int TLD)
 
 void  CompanyClass::MoveTruckFromLoadingToMoving(Truck* T)
 {
-	if (T->LoadedCargosFull())// FOR 1 LOADING LIST NEW
-	{
+	//if (T->LoadedCargosFull())// FOR 1 LOADING LIST NEW
+	//{
 		int mh, md;
 		T->getTruckMoveTime(mh, md);
 		if (mh == Hour && md == Day)
@@ -361,7 +361,7 @@ void  CompanyClass::MoveTruckFromLoadingToMoving(Truck* T)
 				MovingTrucks.enqueueAscending(T, hours);
 
 			}*/
-	}
+	//}
 }
 /*void CompanyClass::MoveTruckFromMovingToCheckup() //->MARIAM
 {
