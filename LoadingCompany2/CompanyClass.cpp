@@ -348,20 +348,42 @@ void  CompanyClass::MoveTruckFromLoadingToMoving()
 			lc->getCargoDeliveryTime(h, d);
 			MovingTrucks.enqueueAscending(toptruck, h + (d * 24));
 		}
-		else
-		{
-			break;
-		}
-	}
+			/*if (T->getTruckType() == 'N') //FOR 3 LOADING LISTS OLD
+			{
+				LoadingNormalTrucks.dequeue(T); //dequeue T and add it to MOVING truck
+				int hours;
+				int days;
+				T->getTruckDeliveryInterval(hours, days);
+				hours = hours + days * 24;
+				MovingTrucks.enqueueAscending(T, hours);
+			}
+			else if (T->getTruckType() == 'V')
+			{
+				LoadingVIPTrucks.dequeue(T);
+				int hours;
+				int days;
+				T->getTruckDeliveryInterval(hours, days);
+				hours = hours + days * 24;
+				MovingTrucks.enqueueAscending(T, hours);
+			}
+			else
+			{
+				LoadingSpecialTrucks.dequeue(T);
+				int hours;
+				int days;
+				T->getTruckDeliveryInterval(hours, days);
+				hours = hours + days * 24;
+				MovingTrucks.enqueueAscending(T, hours);
+
+			}*/
+	//}
 }
-/*void CompanyClass::MoveCargosFromMovingToDelivered()
+void CompanyClass::MoveTruckFromMovingToCheckup_Available()
 {
-	if (!MovingTrucks.isEmpty())
-	{
-		PriQNode<Truck*> toptrucknode;
-		MovingTrucks.peek(toptrucknode);
-	}
-}*/
+
+
+
+}
 /*void CompanyClass::MoveTruckFromMovingToCheckup() //->MARIAM
 {
 	PriQNode<Truck*> qnode;

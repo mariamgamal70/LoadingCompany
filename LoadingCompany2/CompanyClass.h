@@ -98,10 +98,11 @@ public:
 
 	void MoveTruckFromEmptyToLoading(Truck* T,int totalloadtime);
 	void MoveTruckFromLoadingToMoving();//MINE
-	//void MoveTruckFromLoadingToMoving(Truck* T);
-	//MoveCargosFromMovingToDelivered();
-	//void MoveTruckFromMovingToCheckup();
+	void MoveTruckFromEmptyToLoading(Truck* T,int totalloadtime);
+	void MoveTruckFromLoadingToMoving(Truck* T);//YARA
+	void MoveTruckFromMovingToCheckup_Available();
 	void MoveTruckFromCheckupToAvailable(Truck* T);
+
 	//-----------------GETTERS----------------------//	
 
 	//double getCargoAvgTime();
