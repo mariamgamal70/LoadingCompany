@@ -1,8 +1,8 @@
 #include "CompanyClass.h"
 #include "UIclass.h"
 #include"LinkedList.h"
-int main()
-{
+//int main()
+/*{
 	CompanyClass Maestro;
 	Maestro.SimulatorFunction();
-}
+}*/
