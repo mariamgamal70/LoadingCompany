@@ -45,7 +45,7 @@ class CompanyClass
 	/*LinkedQueue<Truck*> LoadingNormalTrucks;
 	LinkedQueue<Truck*> LoadingSpecialTrucks;
 	LinkedQueue<Truck*> LoadingVIPTrucks;*/
-	LinkedQueue<Truck*> LoadingTrucks;
+	PriQ<Truck*> LoadingTrucks;
 	//----------------------------initial cargo list------------------------------------
 		//waiting to be loaded 
 	CargoLinkedList NormalCargos; // to apply cancellation and promotion on it easier
@@ -99,12 +99,14 @@ public:
 	void AddToVIPCargos(Cargo* C, double priority);
 	void AddToAppropriateList(Cargo* C);
 	
-	void AssignCargoToTruck(); // uncomment stuff if MoveTruckFromEmptyToLoading is finished
+	void AssignCargoToTruck();
 	void AddToDeliveredCargos();
-	void MoveTruckFromLoadingToMoving();//MINE
+
 	void MoveTruckFromEmptyToLoading(Truck* T,int totalloadtime);
-	void MoveTruckFromLoadingToMoving(Truck* T);//YARA
-	void MoveTruckFromMovingToCheckup();
+	void MoveTruckFromLoadingToMoving();//MINE
+	//void MoveTruckFromLoadingToMoving(Truck* T);
+	//MoveCargosFromMovingToDelivered();
+	//void MoveTruckFromMovingToCheckup();
 	void MoveTruckFromCheckupToAvailable(Truck* T);
 	//-----------------GETTERS----------------------//	
 

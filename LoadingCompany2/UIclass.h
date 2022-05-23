@@ -29,7 +29,7 @@ private:
 	ifstream fin;
 	mode modee;
 	CompanyClass* comp;
-	string output = "OUTPUT.txt";
+	//string output = "OUTPUT.txt";
 public:
 	UIclass(CompanyClass* company);
 

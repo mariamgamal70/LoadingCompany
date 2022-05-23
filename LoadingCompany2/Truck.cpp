@@ -135,11 +135,6 @@ void Truck::getTruckDeliveryInterval(int& hours, int& days) //------------------
 	//return TruckDeliveryIntervalH;
 }
 
-/*int Truck::getTruckDeliveryIntervalDays()
-{
-	return TruckDeliveryIntervalD;
-}*/
-
 int Truck::getNoOfJourneys() const
 {
 	return TruckNoOfJourneys;

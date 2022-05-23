@@ -39,9 +39,8 @@ public:
 	Truck(char type, int speed, int capacity, int noOfJourneys, int CheckupTime, int id);
 	void setTruckType(char type);
 	void setTruckCapacity(int capacity);
-	void setTruckMaintenanceTime(int time);
+	void setTruckMaintenanceTime(int time);//adjust---------------------------------->
 	void setTruckSpeed(int speed);
-	/*void setTruckDeliveryInterval(int interval);*/
 	void SetNoOfJourneys(int number);
 	void SetTruckID(int id);
 	void setTruckMoveTime(int h, int d);
@@ -51,7 +50,6 @@ public:
 	int getTruckMaintenanceTime()const;
 	int getTruckSpeed()const;
 	void getTruckDeliveryInterval(int& hours, int& days);
-	//int getTruckDeliveryIntervalDays();
 	int getNoOfJourneys()const;
 	int getTruckID()const;
 	int getNoDeliveredCargosByTruck()const;
@@ -63,6 +61,7 @@ public:
 	int getSumUnloadTimeCargos();
 	double getTruckUtilization();
 	char getCargoLoadedType();
+
 	void LoadCargos(Cargo* c);
 	void UnloadCargo(PriQNode<Cargo*> delivered);
 	bool LoadedCargosFull();
