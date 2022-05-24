@@ -658,9 +658,9 @@ void CompanyClass:: MoveTruckFromMovingToCheckup_or_Available(Truck * truck_fini
 
 void CompanyClass::MoveTruckFromCheckupToAvailable()
 {
-	LinkedQueue<Truck*>Normal_temp_checkup;      //Temporary Queues to traverse on Checkup Queues
-	LinkedQueue<Truck*>Special_temp_checkup;     //Each Truck has different Move Time
-	LinkedQueue<Truck*>VIP_temp_checkup;          
+	//LinkedQueue<Truck*>Normal_temp_checkup;      
+	//LinkedQueue<Truck*>Special_temp_checkup;     
+	//LinkedQueue<Truck*>VIP_temp_checkup;          
 
 	int MoveTime_H = 0;
 	int MoveTime_D = 0;
@@ -671,7 +671,7 @@ void CompanyClass::MoveTruckFromCheckupToAvailable()
 	while (!NormalTrucksUnderCheckup.isEmpty())
 	{
 	
-		NormalTrucksUnderCheckup.dequeue(T);
+		NormalTrucksUnderCheckup.peek(T);
 		T->getTruckMoveTime(MoveTime_H, MoveTime_D);
 		T->getTruckDeliveryInterval(Deliveryinterval_H, Deliveryinterval_D);
 		int MoveTimeTotal_inHours = MoveTime_H + (MoveTime_D * 24);
@@ -680,26 +680,29 @@ void CompanyClass::MoveTruckFromCheckupToAvailable()
 
 		if (MoveTimeTotal_inHours+DeliveryIntervalTotal_inHours+NCheckupTime==(Hour+(Day*24)))  //Checkup finished condition
 		{
+			NormalTrucksUnderCheckup.dequeue(T);
+
 			NormalTruckQueue.enqueue(T);
 
 		}
 		else
 		{
-			Normal_temp_checkup.enqueue(T);
+			//Normal_temp_checkup.enqueue(T);
+			break;
 		}
 
 	}
-	while (!Normal_temp_checkup.isEmpty())
+	/*while (!Normal_temp_checkup.isEmpty())
 	{
 		Normal_temp_checkup.dequeue(T);
 		NormalTrucksUnderCheckup.enqueue(T);
 
-	}
+	}*/
 	
 	while (!SpecialTrucksUnderCheckup.isEmpty())
 	{
 
-		SpecialTrucksUnderCheckup.dequeue(T);
+		SpecialTrucksUnderCheckup.peek(T);
 		T->getTruckMoveTime(MoveTime_H, MoveTime_D);
 		T->getTruckDeliveryInterval(Deliveryinterval_H, Deliveryinterval_D);
 		int MoveTimeTotal_inHours = MoveTime_H + (MoveTime_D * 24);
@@ -707,25 +710,27 @@ void CompanyClass::MoveTruckFromCheckupToAvailable()
 
 		if (MoveTimeTotal_inHours + DeliveryIntervalTotal_inHours + SCheckupTime == Hour + (Day * 24))
 		{
+			SpecialTrucksUnderCheckup.dequeue(T);
 			SpecialTruckQueue.enqueue(T);
 
 		}
 		else
 		{
-			Special_temp_checkup.enqueue(T);
+			//Special_temp_checkup.enqueue(T);
+			break;
 		}
 
 	}
 
-	while (!Special_temp_checkup.isEmpty())
+	/*while (!Special_temp_checkup.isEmpty())
 	{
 		Special_temp_checkup.dequeue(T);
 		SpecialTrucksUnderCheckup.enqueue(T);
 
-	}
+	}*/
 	while (!VIPTrucksUnderCheckup.isEmpty())
 	{
-		VIPTrucksUnderCheckup.dequeue(T);
+		VIPTrucksUnderCheckup.peek(T);
 		T->getTruckMoveTime(MoveTime_H, MoveTime_D);
 		T->getTruckDeliveryInterval(Deliveryinterval_H, Deliveryinterval_D);
 		int MoveTimeTotal_inHours = MoveTime_H + (MoveTime_D * 24);
@@ -734,22 +739,24 @@ void CompanyClass::MoveTruckFromCheckupToAvailable()
 
 		if (MoveTimeTotal_inHours + DeliveryIntervalTotal_inHours + VCheckupTime == Hour + (Day * 24))
 		{
+			VIPTrucksUnderCheckup.dequeue(T);
 			VIPTruckQueue.enqueue(T);
 
 		}
 		else
 		{
-			VIP_temp_checkup.enqueue(T);
+			//VIP_temp_checkup.enqueue(T);
+			break;
 		}
 
 
 	}
-	while (!VIP_temp_checkup.isEmpty())
-	{
-		VIP_temp_checkup.dequeue(T);
-		VIPTrucksUnderCheckup.enqueue(T);
+	////while (!VIP_temp_checkup.isEmpty())
+	//{
+	//	VIP_temp_checkup.dequeue(T);
+	//	VIPTrucksUnderCheckup.enqueue(T);
 
-	}
+	//}
 }
 //--------------------------------------------------------------ASSIGNMENT-----------------------------------------------------------------//
 void CompanyClass::AssignCargoToTruck() //DIVIDE INTO SEPARATE FUNCTIONS TO BE EASIER TO TRACE
