@@ -37,14 +37,11 @@ class CompanyClass
 	//-----------------------------related trucks list---------------------------------
 	//not available trucks
 	PriQ<Truck*> MovingTrucks;
-	LinkedQueue<Truck*> NormalTrucksUnderCheckup; //each truck has its own check up time
+	LinkedQueue<Truck*> NormalTrucksUnderCheckup;
 	LinkedQueue<Truck*> SpecialTrucksUnderCheckup;
 	LinkedQueue<Truck*> VIPTrucksUnderCheckup;
 
 	//available but loading (to set calculations in it)
-	/*LinkedQueue<Truck*> LoadingNormalTrucks;
-	LinkedQueue<Truck*> LoadingSpecialTrucks;
-	LinkedQueue<Truck*> LoadingVIPTrucks;*/
 	PriQ<Truck*> LoadingTrucks;
 	//----------------------------initial cargo list------------------------------------
 		//waiting to be loaded 
@@ -53,9 +50,6 @@ class CompanyClass
 	PriQ<Cargo*> VIPCargoPriQueue;
 	//----------------------------cargo related lists-----------------------------------
 			//PriQ<Cargo*> MovingCargos;//priority to the least delivery time
-	//LinkedQueue <Cargo*> NormalDeliveredCargos;
-	//LinkedQueue <Cargo*> SpecialDeliveredCargos;
-	//LinkedQueue <Cargo*> VIPDeliveredCargos;
 	LinkedQueue <Cargo*> DeliveredCargos;
 	//---------------------------for file loading function------------------------------
 	int nN, nS, nV;
@@ -129,10 +123,6 @@ public:
 	void printWspecialCargos();
 	void printWvipCargos();
 
-	/*void printLnormalTrucks();
-	void printLspecialTrucks();
-	void printLVIPTrucks();*/
-
 	void printCheckupNormal();
 	void printCheckupSpecial();
 	void printCheckupVIP();
@@ -157,6 +147,6 @@ public:
 	int calcAutoPromotedCargos();				//called at the end of simulation 
 	double calcAvgActiveTime();					//called at the end of simulation 
 	double calcAvgUtilization();				//called at the end of simulation 
-	void writee();
+	
 	~CompanyClass();
 };
