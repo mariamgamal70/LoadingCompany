@@ -93,13 +93,16 @@ public:
 	void AddToVIPCargos(Cargo* C, double priority);
 	void AddToAppropriateList(Cargo* C);
 	
+	void AssignSpecialCargos();
+	void AssignNormalCargos();
+	void AssignVIPcargos();
 	void AssignCargoToTruck();
 	void AddToDeliveredCargos();
 
 	void MoveTruckFromEmptyToLoading(Truck* T,int totalloadtime);
 	void MoveTruckFromLoadingToMoving();//MINE
-	void MoveTruckFromEmptyToLoading(Truck* T,int totalloadtime);
-	void MoveTruckFromLoadingToMoving(Truck* T);//YARA
+	//void MoveTruckFromEmptyToLoading(Truck* T,int totalloadtime);
+	//void MoveTruckFromLoadingToMoving(Truck* T);//YARA
 	void MoveTruckFromMovingToCheckup_or_Available(Truck*truck_finishedjourney);
 	void MoveTruckFromCheckupToAvailable(Truck* T);
 
