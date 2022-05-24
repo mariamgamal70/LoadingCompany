@@ -292,6 +292,7 @@ void CompanyClass::AddToAppropriateList(Cargo* Cl)
 		sumfinalvip++;
 	}
 }
+
 void CompanyClass::AssignSpecialCargos()
 {
 	
@@ -335,6 +336,7 @@ void CompanyClass::AssignSpecialCargos()
 		}
 	}
 }
+
 void CompanyClass::AssignNormalCargos()
 {
 	
@@ -417,6 +419,7 @@ void CompanyClass::AssignNormalCargos()
 		}
 	}
 }
+
 void CompanyClass::AssignVIPcargos()
 {
 	if (!VIPCargoPriQueue.isEmpty())
@@ -479,29 +482,28 @@ void CompanyClass::AssignVIPcargos()
 	}
 }
 
-void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T, int TLD)
+void CompanyClass::MoveTruckFromEmptyToLoading(Truck*& T, int TLD)
 {
-	if (!NormalTruckQueue.isEmpty())
-	{
-		NormalTruckQueue.dequeue(T);
 		int MTH = Hour + TLD;
 		int MTD = Day;
+		Truck* T2;
+
+	if (!NormalTruckQueue.isEmpty() &&  T->getTruckType() =='N' )
+	{
+		NormalTruckQueue.dequeue(T2);// problem starting here
+		T->setTruckMoveTime(MTH, MTD);
+		//setcargo wait time and delivery interval
+		LoadingTrucks.enqueueAscending(T, MTH + (MTD * 24));
+	}
+	else if (!VIPTruckQueue.isEmpty() && T->getTruckType() == 'V')
+	{
+		VIPTruckQueue.dequeue(T2);
 		T->setTruckMoveTime(MTH, MTD);
 		LoadingTrucks.enqueueAscending(T, MTH + (MTD * 24));
 	}
-	else if (!VIPTruckQueue.isEmpty())
+	else if(!SpecialTruckQueue.isEmpty() && T->getTruckType() == 'S')
 	{
-		VIPTruckQueue.dequeue(T);
-		int MTH = Hour + TLD;
-		int MTD = Day;
-		T->setTruckMoveTime(MTH, MTD);
-		LoadingTrucks.enqueueAscending(T, MTH + (MTD * 24));
-	}
-	else if(!SpecialTruckQueue.isEmpty())
-	{
-		SpecialTruckQueue.dequeue(T);
-		int MTH = Hour + TLD;
-		int MTD = Day;
+		SpecialTruckQueue.dequeue(T2);
 		T->setTruckMoveTime(MTH, MTD);
 		LoadingTrucks.enqueueAscending(T, MTH + (MTD * 24));
 	}
@@ -509,7 +511,6 @@ void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T, int TLD)
 
 void  CompanyClass::MoveTruckFromLoadingToMoving()
 {
-
 	while (!LoadingTrucks.isEmpty())
 	{
 		PriQNode<Truck*> loadingnode;
@@ -517,7 +518,7 @@ void  CompanyClass::MoveTruckFromLoadingToMoving()
 		int mh, md;
 		LoadingTrucks.peek(loadingnode);
 		toptruck = loadingnode.getItem();
-		toptruck->getTruckMoveTime(mh, md);
+ 		toptruck->getTruckMoveTime(mh, md);
 		if (mh == Hour && md == Day)
 		{
 			LoadingTrucks.dequeue(toptruck);
@@ -528,8 +529,8 @@ void  CompanyClass::MoveTruckFromLoadingToMoving()
 			int sumcurrtime = Hour + (Day * 24);
 			MovingTrucks.enqueueAscending(T, totaltime-sumcurrtime);*/
 			int h, d;
-			toptruck->getLoadedCargosTop()->getCargoDeliveryTime(h, d);
-			MovingTrucks.enqueueAscending(toptruck, h + (d * 24));
+			toptruck->getLoadedCargosTop()->getCargoDeliveryTime(h, d); //day whats wrong with it?  
+			MovingTrucks.enqueueAscending(toptruck, h + (d * 24));//day sets priority wrong
 		}
 		else
 		{
@@ -552,11 +553,9 @@ void CompanyClass:: MoveTruckFromMovingToCheckup_or_Available(Truck * truck_fini
 		else if (truck_finishedjourney->getTruckType() == 'S')  //Special
 		{
 			SpecialTrucksUnderCheckup.enqueue(truck_finishedjourney);
-
 		}
 		else if (truck_finishedjourney->getTruckType() == 'V')  //VIP
 		{
-
 			VIPTrucksUnderCheckup.enqueue(truck_finishedjourney);
 		}
 	}
@@ -658,9 +657,9 @@ void CompanyClass::AssignCargoToTruck() //DIVIDE INTO SEPARATE FUNCTIONS TO BE E
 {
 	if (Hour >= 5 && Hour <= 23)
 	{
+		AssignVIPcargos();
 		AssignSpecialCargos();
 		AssignNormalCargos();
-		AssignVIPcargos();
 		/*Truck* specialtruck;
 		Truck* normaltruck;
 		Truck* viptruck;
@@ -1044,9 +1043,9 @@ void CompanyClass::SimulatorFunction()
 			Hour = Hour - 23;
 			Day++;
 		}
-
 	}
 	//produce output file <<<----------OUTPUTFILE---------------------*/
+	OutputFile();
 }
 
 //---------------------------------------------------------PHASE 1 PRINT FUNCTIONS--------------------------------------------------//
@@ -1109,30 +1108,22 @@ void CompanyClass::printloadingtrucks() //--------------------------------------
 		{
 			ui->coutinteger(trc->getTruckID());
 			ui->coutchar('[');
-			for (int j = 0; j < trc->getLoadedCargosInTruck().getCount(); j++)
-			{
-				trc->getLoadedCargosInTruck().printList();
-			}
+			//for loop existed till get count of 
+			trc->getLoadedCargosInTruck().printList();
 			ui->coutstring("]  ");
 		}
 		else if (trc->getCargoLoadedType() == 'S')
 		{
 			ui->coutinteger(trc->getTruckID());
 			ui->coutchar('(');
-			for (int j = 0; j < trc->getLoadedCargosInTruck().getCount(); j++)
-			{
-				trc->getLoadedCargosInTruck().printList();
-			}
+			trc->getLoadedCargosInTruck().printList();
 			ui->coutstring(")  ");
 		}
 		else if (trc->getCargoLoadedType() == 'V')
 		{
 			ui->coutinteger(trc->getTruckID());
 			ui->coutchar('{');
-			for (int j = 0; j < trc->getLoadedCargosInTruck().getCount(); j++)
-			{
-				trc->getLoadedCargosInTruck().printList();
-			}
+			trc->getLoadedCargosInTruck().printList();
 			ui->coutstring("}  ");
 		}
 	}
@@ -1160,35 +1151,24 @@ void CompanyClass::printmovingcargos()
 		{
 			ui->coutinteger(trcc->getTruckID());
 			ui->coutchar('[');
-			for (int j = 0; j < trcc->getLoadedCargosInTruck().getCount(); j++)
-			{
-				trcc->getLoadedCargosInTruck().printList();
-			}
+			trcc->getLoadedCargosInTruck().printList();
 			ui->coutstring("]  ");
 		}
 		else if (trcc->getCargoLoadedType() == 'S')
 		{
 			ui->coutinteger(trcc->getTruckID());
 			ui->coutchar('(');
-			for (int j = 0; j < trcc->getLoadedCargosInTruck().getCount(); j++)
-			{
-				trcc->getLoadedCargosInTruck().printList();
-			}
+			trcc->getLoadedCargosInTruck().printList();
 			ui->coutstring(")  ");
 		}
 		else if (trcc->getCargoLoadedType() == 'V')
 		{
 			ui->coutinteger(trcc->getTruckID());
 			ui->coutchar('{');
-			for (int j = 0; j < trcc->getLoadedCargosInTruck().getCount(); j++)
-			{
-				trcc->getLoadedCargosInTruck().printList();
-			}
+			trcc->getLoadedCargosInTruck().printList();
 			ui->coutstring("}  ");
 		}
-
 	}
-	//ui->coutendl();*/
 }
 
 

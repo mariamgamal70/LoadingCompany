@@ -124,7 +124,9 @@ Output: True if the operation is successful; otherwise false.
 		if (isEmpty())
 			return false;
 		Node<T>* nodeToDeletePtr = frontPtr;
+		//saves head value in parameter
 		frntEntry = frontPtr->getItem();
+		//move head to next
 		frontPtr = frontPtr->getNext();
 		// Queue is not empty; remove front
 		if (nodeToDeletePtr == backPtr)	 // Special case: last node in the queue

@@ -28,7 +28,6 @@ public:
 	}
 	void InsertBeg(const T& data)//Creates a new node and adds it to the beginning of a linked list,
 	//data : The value to be stored in the new node.
-
 	{
 		Node<T>* R = new Node<T>(data);
 		R->setNext(Head);

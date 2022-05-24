@@ -44,12 +44,12 @@ class CompanyClass
 	//available but loading (to set calculations in it)
 	PriQ<Truck*> LoadingTrucks;
 	//----------------------------initial cargo list------------------------------------
-		//waiting to be loaded 
+	//waiting to be loaded 
 	CargoLinkedList NormalCargos; // to apply cancellation and promotion on it easier
 	LinkedQueue<Cargo*> SpecialCargos;
 	PriQ<Cargo*> VIPCargoPriQueue;
 	//----------------------------cargo related lists-----------------------------------
-			//PriQ<Cargo*> MovingCargos;//priority to the least delivery time
+	//PriQ<Cargo*> MovingCargos;//priority to the least delivery time
 	LinkedQueue <Cargo*> DeliveredCargos;
 	//---------------------------for file loading function------------------------------
 	int nN, nS, nV;
@@ -99,7 +99,7 @@ public:
 	void AssignCargoToTruck();
 	void AddToDeliveredCargos();
 
-	void MoveTruckFromEmptyToLoading(Truck* T,int totalloadtime);
+	void MoveTruckFromEmptyToLoading(Truck*& T,int totalloadtime);
 	void MoveTruckFromLoadingToMoving();//MINE
 	//void MoveTruckFromEmptyToLoading(Truck* T,int totalloadtime);
 	//void MoveTruckFromLoadingToMoving(Truck* T);//YARA
