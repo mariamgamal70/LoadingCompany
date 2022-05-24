@@ -327,7 +327,7 @@ void CompanyClass::AssignSpecialCargos()
 					for (int i = 0; i < SpecialCargos.getCount(); i++)
 					{
 						SpecialCargos.dequeue(specialcargo);
-						sumspecialloadtime = sumspecialloadtime + specialcargo->getLoadTime();//save currenttime in variable,keep checking in if condition if currenttime+cargoloadtime is currenttime
+						totalloadtime = totalloadtime + specialcargo->getLoadTime();//save currenttime in variable,keep checking in if condition if currenttime+cargoloadtime is currenttime
 						specialtruck->LoadCargos(specialcargo);
 					}
 					MoveTruckFromEmptyToLoading(specialtruck, totalloadtime);
