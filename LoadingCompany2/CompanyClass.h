@@ -104,8 +104,9 @@ public:
 	//void MoveTruckFromEmptyToLoading(Truck* T,int totalloadtime);
 	//void MoveTruckFromLoadingToMoving(Truck* T);//YARA
 	void MoveTruckFromMovingToCheckup_or_Available(Truck*truck_finishedjourney);
-	void MoveTruckFromCheckupToAvailable(Truck* T);
+	/*void MoveTruckFromCheckupToAvailable(Truck* T);*/
 
+	void MoveTruckFromCheckupToAvailable();
 	//-----------------GETTERS----------------------//	
 
 	//double getCargoAvgTime();
