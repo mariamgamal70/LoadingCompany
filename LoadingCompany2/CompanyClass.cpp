@@ -484,28 +484,31 @@ void CompanyClass::AssignVIPcargos()
 
 void CompanyClass::MoveTruckFromEmptyToLoading(Truck*& T, int TLD)
 {
+	if (LoadingTrucks.getCount() < 3)
+	{
 		int MTH = Hour + TLD;
 		int MTD = Day;
 		Truck* T2;
 
-	if (!NormalTruckQueue.isEmpty() &&  T->getTruckType() =='N' )
-	{
-		NormalTruckQueue.dequeue(T2);// problem starting here
-		T->setTruckMoveTime(MTH, MTD);
-		//setcargo wait time and delivery interval
-		LoadingTrucks.enqueueAscending(T, MTH + (MTD * 24));
-	}
-	else if (!VIPTruckQueue.isEmpty() && T->getTruckType() == 'V')
-	{
-		VIPTruckQueue.dequeue(T2);
-		T->setTruckMoveTime(MTH, MTD);
-		LoadingTrucks.enqueueAscending(T, MTH + (MTD * 24));
-	}
-	else if(!SpecialTruckQueue.isEmpty() && T->getTruckType() == 'S')
-	{
-		SpecialTruckQueue.dequeue(T2);
-		T->setTruckMoveTime(MTH, MTD);
-		LoadingTrucks.enqueueAscending(T, MTH + (MTD * 24));
+		if (!NormalTruckQueue.isEmpty() && T->getTruckType() == 'N')
+		{
+			NormalTruckQueue.dequeue(T2);// problem starting here
+			T->setTruckMoveTime(MTH, MTD);
+			//setcargo wait time and delivery interval
+			LoadingTrucks.enqueueAscending(T, MTH + (MTD * 24));
+		}
+		else if (!VIPTruckQueue.isEmpty() && T->getTruckType() == 'V')
+		{
+			VIPTruckQueue.dequeue(T2);
+			T->setTruckMoveTime(MTH, MTD);
+			LoadingTrucks.enqueueAscending(T, MTH + (MTD * 24));
+		}
+		else if (!SpecialTruckQueue.isEmpty() && T->getTruckType() == 'S')
+		{
+			SpecialTruckQueue.dequeue(T2);
+			T->setTruckMoveTime(MTH, MTD);
+			LoadingTrucks.enqueueAscending(T, MTH + (MTD * 24));
+		}
 	}
 }
 
