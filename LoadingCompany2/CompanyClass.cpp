@@ -344,8 +344,7 @@ void  CompanyClass::MoveTruckFromLoadingToMoving()
 			int sumcurrtime = Hour + (Day * 24);
 			MovingTrucks.enqueueAscending(T, totaltime-sumcurrtime);*/
 			int h, d;
-			Cargo* lc = toptruck->getLoadedCargosTop();
-			lc->getCargoDeliveryTime(h, d);
+			toptruck->getLoadedCargosTop()->getCargoDeliveryTime(h, d);
 			MovingTrucks.enqueueAscending(toptruck, h + (d * 24));
 		}
 			/*if (T->getTruckType() == 'N') //FOR 3 LOADING LISTS OLD
@@ -515,7 +514,7 @@ void CompanyClass::MoveTruckFromCheckupToAvailable(Truck* T)
 }
 
 //--------------------------------------------------------------ASSIGNMENT-----------------------------------------------------------------//
-void CompanyClass::AssignCargoToTruck()
+void CompanyClass::AssignCargoToTruck() //DIVIDE INTO SEPARATE FUNCTIONS TO BE EASIER TO TRACE
 {
 	if (Hour >= 5 && Hour <= 23)
 	{
@@ -979,7 +978,6 @@ void CompanyClass::printloadingtrucks() //--------------------------------------
 	PriQNode<Truck*> trcnode;
 	Truck* trc;
 	PriQ<Truck*> goo = LoadingTrucks;
-	//goo = LoadingTrucks;
 	for (int i = 0; i < numofloadingt; i++)
 	{
 		goo.dequeue(trcnode);
@@ -1014,7 +1012,6 @@ void CompanyClass::printloadingtrucks() //--------------------------------------
 			}
 			ui->coutstring("}  ");
 		}
-
 	}
 }
 
