@@ -325,10 +325,11 @@ void CompanyClass::MoveTruckFromEmptyToLoading(Truck* T, int TLD)
 
 void  CompanyClass::MoveTruckFromLoadingToMoving()
 {
-	PriQNode<Truck*> loadingnode;
-	Truck* toptruck;
+	
 	while (!LoadingTrucks.isEmpty())
 	{
+		PriQNode<Truck*> loadingnode;
+		Truck* toptruck;
 		int mh, md;
 		LoadingTrucks.peek(loadingnode);
 		toptruck = loadingnode.getItem();
@@ -343,7 +344,8 @@ void  CompanyClass::MoveTruckFromLoadingToMoving()
 			int sumcurrtime = Hour + (Day * 24);
 			MovingTrucks.enqueueAscending(T, totaltime-sumcurrtime);*/
 			int h, d;
-			toptruck->getLoadedCargosTop()->getCargoDeliveryTime(h, d);
+			Cargo* lc = toptruck->getLoadedCargosTop();
+			lc->getCargoDeliveryTime(h, d);
 			MovingTrucks.enqueueAscending(toptruck, h + (d * 24));
 		}
 		else
@@ -477,7 +479,7 @@ void CompanyClass::AssignCargoToTruck()
 					SpecialCargos.peek(specialcargo);
 					int cargotime = specialcargo->getPreparationTimeHour() + (specialcargo->getPreparationTimeDay() * 24) + MaxWaitHours;
 					int currtime = Hour + (Day * 24);
-					if (cargotime >= currtime)//add check max wait (if condition)
+					if (cargotime <= currtime)//add check max wait (if condition)//LESS THAN NOT GREATER THAN
 					{
 						int totalloadtime = 0;
 						for (int i = 0; i < SpecialCargos.getCount(); i++)
@@ -517,7 +519,7 @@ void CompanyClass::AssignCargoToTruck()
 					normalcargo = NormalCargos.peek();
 					int cargotime = normalcargo->getPreparationTimeHour() + (normalcargo->getPreparationTimeDay() * 24) + MaxWaitHours;
 					int currtime = Hour + (Day * 24);
-					if (cargotime >= currtime)//add check max wait (if condition)
+					if (cargotime <= currtime)//add check max wait (if condition)
 					{
 						int totalloadtime = 0;
 						for (int i = 0; i < NormalCargos.getCount(); i++)
@@ -552,7 +554,7 @@ void CompanyClass::AssignCargoToTruck()
 					normalcargo = NormalCargos.peek();
 					int cargotime = normalcargo->getPreparationTimeHour() + (normalcargo->getPreparationTimeDay() * 24) + MaxWaitHours;
 					int currtime = Hour + (Day * 24);
-					if (cargotime >= currtime)//add check max wait (if condition)
+					if (cargotime <= currtime)//add check max wait (if condition)
 					{
 						int totalloadtime = 0;
 						for (int i = 0; i < NormalCargos.getCount(); i++)
