@@ -117,16 +117,22 @@ int Cargo::getCargoID() const
 	days = CargoDeliveryTimeDays+ movetimed;
 }*/
 
-void Cargo::setCargoDeliveryTime(int TruckMoveTimeHour,int TruckMoveTimeDay,int Truckspeed)//-------------->OPTION2
+void Cargo::setCargoDeliveryTime(int TruckMoveTimeHour, int TruckMoveTimeDay, int Truckspeed)//-------------->OPTION2
 {
-	int movetimeh, movetimed;
-	CargoDeliveryTimeHours = TruckMoveTimeHour + DeliveringDistance / Truckspeed + LoadTime;
+	int movingtimehours = DeliveringDistance / Truckspeed;
+	int movingtimedays = 0;
+	while (movingtimehours > 23)
+	{
+		movingtimehours = movingtimehours - 23;
+		movingtimedays++;
+	}
+	CargoDeliveryTimeHours = TruckMoveTimeHour + movingtimehours + LoadTime;
+	CargoDeliveryTimeDays = movingtimedays + TruckMoveTimeDay;
 	while (CargoDeliveryTimeHours > 23)
 	{
 		CargoDeliveryTimeHours = CargoDeliveryTimeHours - 23;
-		CargoDeliveryTimeDays ++;
+		CargoDeliveryTimeDays++;
 	}
-	CargoDeliveryTimeDays = CargoDeliveryTimeDays + TruckMoveTimeDay;
 }
 
 void Cargo::setCargoWaitTime(int movetimeh, int movetimed)
