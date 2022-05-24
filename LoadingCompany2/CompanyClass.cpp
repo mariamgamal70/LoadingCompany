@@ -378,8 +378,55 @@ void  CompanyClass::MoveTruckFromLoadingToMoving()
 			}*/
 	//}
 }
-void CompanyClass::MoveTruckFromMovingToCheckup_Available()
+void CompanyClass::MoveTruckFromMovingToCheckup_or_Available(Truck*truck_finishedjourney)  //Truck is back to company and empty
 {
+	
+	truck_finishedjourney->AddJourney();
+
+	if (truck_finishedjourney->getNoOfJourneys()==NoOfJourneys)    //Truck---->Maintainance 
+	{
+		if (truck_finishedjourney->getTruckType() == 'N')  //Normal
+		{
+			NormalTrucksUnderCheckup.enqueue(truck_finishedjourney);
+		}
+
+		else if (truck_finishedjourney->getTruckType() == 'S')  //Special
+		{
+			SpecialTrucksUnderCheckup.enqueue(truck_finishedjourney);
+
+		}
+
+		else if (truck_finishedjourney->getTruckType() == 'V')  //VIP
+		{
+
+			VIPTrucksUnderCheckup.enqueue(truck_finishedjourney);
+		}
+
+
+	}
+
+	else                                                         //Maintainance time is not reached yet
+	{
+		    if (truck_finishedjourney->getTruckType() == 'N')  //Normal
+			{
+				NormalTruckQueue.enqueue(truck_finishedjourney);
+			}
+
+			else if (truck_finishedjourney->getTruckType() == 'S')  //Special
+			{
+				SpecialTruckQueue.enqueue(truck_finishedjourney);
+
+			}
+
+			else if (truck_finishedjourney->getTruckType() == 'V')  //VIP
+			{
+
+				VIPTruckQueue.enqueue(truck_finishedjourney);
+			}
+
+
+	}
+
 
 
 
