@@ -159,13 +159,16 @@ void Truck::getTruckMoveTime(int& h, int& d)
 }
 void Truck::setTimeToComeBack()
 {
-	TimeToComeBackD = 1;
+	/*TimeToComeBackD = 1;*/
 	TimeToComeBackH = LoadedCargoFurthestDistance / TruckSpeed;
-	while (TimeToComeBackH > 23)
+	TimeToComeBackD = TimeToComeBackH / 24;
+	TimeToComeBackH = TimeToComeBackH - (TimeFinishDeliverD * 24);
+
+	/*while (TimeToComeBackH > 23)
 	{
 		TimeToComeBackH = TimeToComeBackH - 23;
 		TimeToComeBackD++;
-	}
+	}*/
 }
 void Truck::setTimeFinishedDelivering(int hour, int day)
 {
