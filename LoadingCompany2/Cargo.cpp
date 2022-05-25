@@ -13,10 +13,10 @@ Cargo::Cargo()
 	setPreparationTimeDay(1);
 	setPreparationTimeHour(1);
 	SetCargoID(0);
-	CargoDeliveryTimeHours = 1;
-	CargoDeliveryTimeDays = 1;
-	WaitTimeHour=1;
-	WaitTimeDay=1;
+	CargoDeliveryTimeHours = 0;
+	CargoDeliveryTimeDays = 0;
+	WaitTimeHour=0;
+	WaitTimeDay=0;
 }
 
 Cargo::Cargo(char type, int pd, int ph, int id, int dist, int LT, int cost)
@@ -120,7 +120,7 @@ int Cargo::getCargoID() const
 void Cargo::setCargoDeliveryTime(int TruckMoveTimeHour, int TruckMoveTimeDay, int Truckspeed)//-------------->OPTION2
 {
 	int movingtimehours = DeliveringDistance / Truckspeed;
-	int movingtimedays = 0;
+	int movingtimedays = 1;
 	while (movingtimehours > 23)
 	{
 		movingtimehours = movingtimehours - 23;
@@ -137,6 +137,7 @@ void Cargo::setCargoDeliveryTime(int TruckMoveTimeHour, int TruckMoveTimeDay, in
 
 void Cargo::setCargoWaitTime(int movetimeh, int movetimed)
 {
+	WaitTimeDay = 0;
 	WaitTimeHour = (movetimeh+(movetimed*24)) - (PreparationTimeHour+ (PreparationTimeDays*24));
 	while (WaitTimeHour > 23)
 	{
