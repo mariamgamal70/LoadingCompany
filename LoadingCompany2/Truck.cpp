@@ -94,6 +94,11 @@ void Truck::setTruckMoveTime(int h, int d)
 	}
 }
 
+void Truck::setCargosLoadedFurthestDistance(int dist)
+{
+	LoadedCargoFurthestDistance = dist;
+}
+
 char Truck::getTruckType() const
 {
 	return TruckType;
@@ -152,12 +157,25 @@ void Truck::getTruckMoveTime(int& h, int& d)
 	h = TruckMoveTimeHour;
 	d = TruckMoveTimeDay;
 }
+void Truck::setTimeToComeBack()
+{
+	TimeToComeBackD = 1;
+	TimeToComeBackH = LoadedCargoFurthestDistance / TruckSpeed;
+	while (TimeToComeBackH > 23)
+	{
+		TimeToComeBackH = TimeToComeBackH - 23;
+		TimeToComeBackD++;
+	}
+}
 void Truck::LoadCargos(Cargo* c)
 {
 	c->setCargoDeliveryTime(TruckMoveTimeHour, TruckMoveTimeDay, TruckSpeed);//OPTION2
 	c->setCargoWaitTime(TruckMoveTimeHour, TruckMoveTimeDay);
 	c->setTruckLoadedOn(TruckID);
-	LoadingCargos.enqueueAscending(c, c->getDeliveringDistance());//---->check descending or ascending
+	int CDTH, CDTD;
+	c->getCargoDeliveryTime(CDTH, CDTD);
+	int CDT = CDTH + (CDTD * 24);
+	LoadingCargos.enqueueAscending(c,CDT);//---->check descending or ascending
 	//c->setTruckLoadedOn(this); //OPTION1
 }
 
@@ -178,15 +196,8 @@ PriQ<Cargo*> Truck::getLoadedCargosInTruck() const
 {
 	return LoadingCargos;
 }
-void Truck::getTimeToComeBack(int &hour, int &day)
+void Truck::getTimeToComeBack(int& hour, int& day)
 {
-	int furthestdistance = getLoadedCargoFurthestDistance();
-	TimeToComeBackH = furthestdistance / TruckSpeed;
-	while (TimeToComeBackH > 23)
-	{
-		TimeToComeBackH = TimeToComeBackH - 23;
-		TimeToComeBackD++;
-	}
 	hour = TimeToComeBackH;
 	day = TimeToComeBackD;
 }
@@ -206,8 +217,8 @@ int Truck::getLoadedCargoFurthestDistance()
 	while (!Extra.isEmpty())
 	{
 		Extra.dequeue(node);
+		LoadedCargoFurthestDistance = LoadedCargoFurthestDistance + node.getItem()->getDeliveringDistance();
 	}
-	LoadedCargoFurthestDistance = node.getItem()->getDeliveringDistance();
 	return LoadedCargoFurthestDistance;
 }
 

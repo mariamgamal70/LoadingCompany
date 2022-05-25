@@ -121,7 +121,6 @@ public:
 	int getNumberOfMovingCargos();
 	Cargo* dequeueDeliveredCargo();
 	//----------------PRINTS------------------------//
-	//void printHeadLine();
 	void printWNormalCargos();
 	void printWspecialCargos();
 	void printWvipCargos();

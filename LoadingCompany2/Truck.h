@@ -44,6 +44,8 @@ public:
 	void SetNoOfJourneys(int number);
 	void SetTruckID(int id);
 	void setTruckMoveTime(int h, int d);
+	void setCargosLoadedFurthestDistance(int dist);
+	void setTimeToComeBack(); //should be set and make another getter
 
 	char getTruckType()const;
 	int getTruckCapacity()const;
@@ -54,8 +56,8 @@ public:
 	int getTruckID()const;
 	int getNoDeliveredCargosByTruck()const;
 	void getTruckMoveTime(int& h, int& d);
-	PriQ<Cargo*> getLoadedCargosInTruck() const;
 	void getTimeToComeBack(int& hour, int& day);
+	PriQ<Cargo*> getLoadedCargosInTruck() const;
 	Cargo* getLoadedCargosTop();
 	int getLoadedCargoFurthestDistance();
 	int getSumUnloadTimeCargos();

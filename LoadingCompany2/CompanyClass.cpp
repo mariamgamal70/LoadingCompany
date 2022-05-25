@@ -471,6 +471,7 @@ void CompanyClass::MoveTruckFromEmptyToLoading(Truck*& T, int TLD, PriQ<Cargo*>l
 	{
 		int MTH = Hour + TLD;
 		int MTD = Day;
+		int WTH, WTD;
 		Truck* T2;
 		PriQNode<Cargo*> cargonode;
 		if (!NormalTruckQueue.isEmpty() && T->getTruckType() == 'N')
@@ -482,8 +483,13 @@ void CompanyClass::MoveTruckFromEmptyToLoading(Truck*& T, int TLD, PriQ<Cargo*>l
 			while (!loadingcargos.isEmpty())
 			{
 				loadingcargos.dequeue(cargonode);
+				cargonode.getItem()->setCargoWaitTime(MTH, MTD);
+				cargonode.getItem()->getCargoWaitTime(WTH, WTD);
+				SumWaitTimeH = SumWaitTimeH + WTH;
+				SumWaitTimeD = SumWaitTimeD + WTD;
 				T->LoadCargos(cargonode.getItem());
-			}
+			}//SET DIST
+			T->setCargosLoadedFurthestDistance(T->getLoadedCargoFurthestDistance());
 		}
 		else if (!VIPTruckQueue.isEmpty() && T->getTruckType() == 'V')
 		{
@@ -493,8 +499,13 @@ void CompanyClass::MoveTruckFromEmptyToLoading(Truck*& T, int TLD, PriQ<Cargo*>l
 			while (!loadingcargos.isEmpty())
 			{
 				loadingcargos.dequeue(cargonode);
+				cargonode.getItem()->setCargoWaitTime(MTH, MTD);
+				cargonode.getItem()->getCargoWaitTime(WTH, WTD);
+				SumWaitTimeH = SumWaitTimeH + WTH;
+				SumWaitTimeD = SumWaitTimeD + WTD;
 				T->LoadCargos(cargonode.getItem());
 			}
+			T->setCargosLoadedFurthestDistance(T->getLoadedCargoFurthestDistance());
 		}
 		else if (!SpecialTruckQueue.isEmpty() && T->getTruckType() == 'S')
 		{
@@ -504,8 +515,13 @@ void CompanyClass::MoveTruckFromEmptyToLoading(Truck*& T, int TLD, PriQ<Cargo*>l
 			while (!loadingcargos.isEmpty())
 			{
 				loadingcargos.dequeue(cargonode);
+				cargonode.getItem()->setCargoWaitTime(MTH, MTD);
+				cargonode.getItem()->getCargoWaitTime(WTH, WTD);
+				SumWaitTimeH = SumWaitTimeH + WTH;
+				SumWaitTimeD = SumWaitTimeD + WTD;
 				T->LoadCargos(cargonode.getItem());
 			}
+			T->setCargosLoadedFurthestDistance(T->getLoadedCargoFurthestDistance());
 		}
 	}
 }
@@ -654,6 +670,7 @@ void CompanyClass::MoveCargosFrom_Moving_to_Delivered()
 	{
 		MovingTrucks.peek(Trucknode_top);
 		Truckptr_top = Trucknode_top.getItem();
+		Truckptr_top->setTimeToComeBack();
 		C_tobedelivered = Truckptr_top->getLoadedCargosTop();
 		if (C_tobedelivered != nullptr)
 		{
@@ -686,7 +703,7 @@ void CompanyClass::MoveCargosFrom_Moving_to_Delivered()
 		}
 		else if (C_tobedelivered == nullptr)
 		{
-			Truckptr_top->getTimeToComeBack(Truck_back_Company_H, Truck_back_Company_D);
+			Truckptr_top->getTimeToComeBack(Truck_back_Company_H, Truck_back_Company_D);//problem here with distance
 			int TotalTimeHours_back_company = Truck_back_Company_H + Truck_back_Company_D * 24;
 			if (TotalTimeHours_back_company == Hour + Day * 24)
 			{
@@ -1246,6 +1263,11 @@ void CompanyClass::dequeueMovingTruck(Truck* deq)
 //--------------------------------------------------OUTPUT FILE CALCULATIONS-------------------------------------------------//
 void CompanyClass::calcCargoAvgWaitTime(int& h, int& d)
 {
+	while (SumWaitTimeH > 23)
+	{
+		SumWaitTimeH = SumWaitTimeH - 23;
+		SumWaitTimeD++;
+	}
 	h = SumWaitTimeH / SumCargos;
 	d = SumWaitTimeD / SumCargos;
 }
