@@ -567,7 +567,6 @@ void CompanyClass:: MoveTruckFromMovingToCheckup_or_Available(Truck * truck_fini
 		{
 			NormalTrucksUnderCheckup.enqueue(truck_finishedjourney);
 		}
-
 		else if (truck_finishedjourney->getTruckType() == 'S')  //Special
 		{
 			SpecialTrucksUnderCheckup.enqueue(truck_finishedjourney);
@@ -663,7 +662,6 @@ void CompanyClass::MoveTruckFromCheckupToAvailable()
 
 void CompanyClass::MoveCargosFrom_Moving_to_Delivered()
 {
-
 	int Cargodelivery_day = 0;
 	int Cargodelivery_hour = 0;
 	int Truck_back_Company_H = 0;
@@ -691,7 +689,7 @@ void CompanyClass::MoveCargosFrom_Moving_to_Delivered()
 				Cargo* C_toadjust = Truckptr_top->getLoadedCargosTop();
 				if (C_toadjust == nullptr)
 				{
-					/////////////////////////////////
+					Truckptr_top->setTimeFinishedDelivering(Hour, Day);
 					continue; //break? //dequeue truck then enqueue truck into movinglist key=timetocomeback 
 				}
 				else
@@ -711,15 +709,16 @@ void CompanyClass::MoveCargosFrom_Moving_to_Delivered()
 		}
 		else if (C_tobedelivered == nullptr)
 		{
+			int TFDH, TFDD;
 			Truckptr_top->getTimeToComeBack(Truck_back_Company_H, Truck_back_Company_D);//problem here with distance
-			int TotalTimeHours_back_company = Truck_back_Company_H + Truck_back_Company_D * 24;
-			if (TotalTimeHours_back_company == Hour + Day * 24)
+			Truckptr_top->getTimeFinishedDelivering(TFDH, TFDD);
+			int TotalTimeHours_back_company = TFDH + Truck_back_Company_H + ((Truck_back_Company_D * 24)+(TFDD *24));
+			if (TotalTimeHours_back_company == Hour + Day * 24)//errrorrrrrrrrr
 			{
 				MovingTrucks.dequeue(Truckptr_top);
 				MoveTruckFromMovingToCheckup_or_Available(Truckptr_top);
 				continue;
 			}
-
 			else
 			{
 				MovingTrucks.dequeue(Truckptr_top);
@@ -1227,13 +1226,13 @@ void CompanyClass::printavailtrucks()
 }
 void CompanyClass::printdeliveredcargo()
 {
-	LinkedQueue<Cargo*> extra;
+	LinkedQueue<Cargo*> extra= DeliveredCargos;
 	Cargo* car;
 	ui->coutinteger(DeliveredCargos.getCount());
 	ui->coutstring(" Delivered Cargos: ");
-	while (!DeliveredCargos.isEmpty())
+	while (!extra.isEmpty())
 	{
-		DeliveredCargos.dequeue(car);
+		extra.dequeue(car);
 		if (car->getCargoType() == 'N')
 		{
 			ui->coutchar('[');
@@ -1252,13 +1251,13 @@ void CompanyClass::printdeliveredcargo()
 			ui->coutinteger(car->getCargoID());
 			ui->coutstring("} ");
 		}
-		extra.enqueue(car);
+		//extra.enqueue(car);
 	}
-	while (!extra.isEmpty())
+	/*while (!extra.isEmpty())
 	{
 		extra.dequeue(car);
 		DeliveredCargos.enqueue(car);
-	}
+	}*/
 }
 void CompanyClass::dequeueLoadingTruck(Truck* deq)
 {
