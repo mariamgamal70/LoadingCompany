@@ -161,7 +161,7 @@ void Truck::LoadCargos(Cargo* c)
 	//c->setTruckLoadedOn(this); //OPTION1
 }
 
-void Truck::UnloadCargo(PriQNode<Cargo*> delivered)
+void Truck::UnloadCargo(PriQNode<Cargo*>& delivered)
 {
 	LoadingCargos.dequeue(delivered);
 }

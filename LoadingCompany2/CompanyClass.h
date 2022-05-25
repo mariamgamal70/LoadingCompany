@@ -52,10 +52,10 @@ class CompanyClass
 	//PriQ<Cargo*> MovingCargos;//priority to the least delivery time
 	LinkedQueue <Cargo*> DeliveredCargos;
 	//---------------------------for file loading function------------------------------
-	int nN, nS, nV;
-	int Ns, Ss, Vs;
-	int Nc, Sc, Vc;
-	int Nj, Sj, Vj;
+	int nN, nS, nV; //number
+	int Ns, Ss, Vs; //speed
+	int Nc, Sc, Vc; //capacity
+	//int Nj, Sj, Vj; 
 	char N, S, V;
 	int NoOfJourneys, NCheckupTime, VCheckupTime, SCheckupTime;
 	int AutoPDays, MaxWaitHours;
@@ -74,6 +74,7 @@ class CompanyClass
 	int sumspecialloadtime;
 	int sumnormalloadtime;
 	int sumviploadtime;
+	int countDelivered;
 
 public:
 	CompanyClass();
@@ -107,8 +108,8 @@ public:
 	void MoveTruckFromEmptyToLoading(Truck*& T, int TLD, PriQ<Cargo*>loadingcargos);
 	void MoveTruckFromLoadingToMoving();
 	void MoveTruckFromMovingToCheckup_or_Available(Truck*truck_finishedjourney);
-	/*void MoveTruckFromCheckupToAvailable(Truck* T);*/
 	void MoveTruckFromCheckupToAvailable();
+	void MoveCargosFrom_Moving_to_Delivered();
 	//-----------------GETTERS----------------------//	
 
 	//double getCargoAvgTime();

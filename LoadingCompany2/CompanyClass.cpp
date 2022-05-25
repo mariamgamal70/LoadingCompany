@@ -37,6 +37,7 @@ CompanyClass::CompanyClass()
 	sumspecialloadtime = 0;
 	sumnormalloadtime = 0;
 	sumviploadtime = 0;
+	countDelivered = 0;
 	ui = new UIclass(this);
 }
 CompanyClass::CompanyClass(UIclass* uii)
@@ -66,19 +67,19 @@ void CompanyClass::FileLoading()
 		for (int i = 0; i < nN; i++)
 		{
 			TruckID++;
-			T1 = new Truck('N', Ns, Nc, Nj, NCheckupTime, TruckID);
+			T1 = new Truck('N', Ns, Nc, NoOfJourneys, NCheckupTime, TruckID);
 			NormalTruckQueue.enqueue(T1);
 		}
 		for (int i = 0; i < nS; i++)
 		{
 			TruckID++;
-			T1 = new Truck('S', Ss, Sc, Sj, SCheckupTime, TruckID);
+			T1 = new Truck('S', Ss, Sc, NoOfJourneys, SCheckupTime, TruckID);
 			SpecialTruckQueue.enqueue(T1);
 		}
 		for (int i = 0; i < nV; i++)
 		{
 			TruckID++;
-			T1 = new Truck('V', Vs, Vc, Vj, VCheckupTime, TruckID);
+			T1 = new Truck('V', Vs, Vc, NoOfJourneys, VCheckupTime, TruckID);
 			VIPTruckQueue.enqueue(T1);
 		}
 		inFile >> AutoPDays >> MaxWaitHours;
@@ -570,89 +571,8 @@ void CompanyClass:: MoveTruckFromMovingToCheckup_or_Available(Truck * truck_fini
 	}
 }
 
-/*void CompanyClass::MoveTruckFromMovingToCheckup() //->MARIAM
-{
-	PriQNode<Truck*> qnode;
-	PriQ <Truck*> Extra;
-	int TDIh, TDId;
-
-	while (MovingTrucks.peek(qnode))
-	{
-		if (qnode.getItem()->getNoOfJourneys()>=NoOfJourneys)
-		{
-			MovingTrucks.dequeue(qnode);
-			qnode.getItem()->getTruckDeliveryInterval(TDIh, TDId);
-			q.enqueueAscending(qnode.getItem(), (TDIh)+(TDId * 24));
-		}
-		else
-		{
-			break;
-		}
-	}
-	MovingTrucks.dequeue(qnode);
-	switch (T->getTruckType())
-	{
-	case('N'):
-	{
-		NormalTrucksUnderCheckup.enqueue(T);
-		break;
-	}
-	case('S'):
-	{
-		SpecialTrucksUnderCheckup.enqueue(T);
-		break;
-	}
-	case ('V'):
-	{
-		VIPTrucksUnderCheckup.enqueue(T);
-		break;
-	}
-	default:
-		break;
-	}
-	while (!q.isEmpty())
-	{
-		q.dequeue(qnode);
-		qnode.getItem()->getTruckDeliveryInterval(TDIh, TDId);
-		MovingTrucks.enqueueAscending(qnode.getItem(), (TDIh)+(TDId * 24));
-	}
-}*/
-//void CompanyClass::MoveTruckFromCheckupToAvailable(Truck* T)
-//{
-//	if (T->getTruckType() == 'N')
-//	{
-//		if (T->getTruckMaintenanceTime() == NULL)
-//		{
-//			NormalTrucksUnderCheckup.dequeue(T);
-//			NormalTruckQueue.enqueue(T);
-//		}
-//	}
-//	else if (T->getTruckType() == 'V')
-//	{
-//
-//		if (T->getTruckMaintenanceTime() == NULL)
-//		{
-//			VIPTrucksUnderCheckup.dequeue(T);
-//			VIPTruckQueue.enqueue(T);
-//		}
-//	}
-//	else
-//	{
-//		if (T->getTruckMaintenanceTime() == NULL)
-//		{
-//			SpecialTrucksUnderCheckup.dequeue(T);
-//			SpecialTruckQueue.enqueue(T);
-//		}
-//	}
-//}
-
-
 void CompanyClass::MoveTruckFromCheckupToAvailable()
-{
-	//LinkedQueue<Truck*>Normal_temp_checkup;      
-	//LinkedQueue<Truck*>Special_temp_checkup;     
-	//LinkedQueue<Truck*>VIP_temp_checkup;          
-
+{    
 	int MoveTime_H = 0;
 	int MoveTime_D = 0;
 	int Deliveryinterval_H = 0;
@@ -661,35 +581,24 @@ void CompanyClass::MoveTruckFromCheckupToAvailable()
 	Truck* T;
 	while (!NormalTrucksUnderCheckup.isEmpty())
 	{
-	
+
 		NormalTrucksUnderCheckup.peek(T);
 		T->getTruckMoveTime(MoveTime_H, MoveTime_D);
 		T->getTruckDeliveryInterval(Deliveryinterval_H, Deliveryinterval_D);
 		int MoveTimeTotal_inHours = MoveTime_H + (MoveTime_D * 24);
 		int DeliveryIntervalTotal_inHours = Deliveryinterval_H + (Deliveryinterval_D * 24);
-
-
-		if (MoveTimeTotal_inHours+DeliveryIntervalTotal_inHours+NCheckupTime==(Hour+(Day*24)))  //Checkup finished condition
+		if (MoveTimeTotal_inHours + DeliveryIntervalTotal_inHours + NCheckupTime == (Hour + (Day * 24)))  //Checkup finished condition
 		{
 			NormalTrucksUnderCheckup.dequeue(T);
-
 			NormalTruckQueue.enqueue(T);
-
 		}
 		else
 		{
-			//Normal_temp_checkup.enqueue(T);
 			break;
 		}
 
 	}
-	/*while (!Normal_temp_checkup.isEmpty())
-	{
-		Normal_temp_checkup.dequeue(T);
-		NormalTrucksUnderCheckup.enqueue(T);
 
-	}*/
-	
 	while (!SpecialTrucksUnderCheckup.isEmpty())
 	{
 
@@ -703,22 +612,13 @@ void CompanyClass::MoveTruckFromCheckupToAvailable()
 		{
 			SpecialTrucksUnderCheckup.dequeue(T);
 			SpecialTruckQueue.enqueue(T);
-
 		}
 		else
 		{
-			//Special_temp_checkup.enqueue(T);
 			break;
 		}
-
 	}
 
-	/*while (!Special_temp_checkup.isEmpty())
-	{
-		Special_temp_checkup.dequeue(T);
-		SpecialTrucksUnderCheckup.enqueue(T);
-
-	}*/
 	while (!VIPTrucksUnderCheckup.isEmpty())
 	{
 		VIPTrucksUnderCheckup.peek(T);
@@ -726,29 +626,84 @@ void CompanyClass::MoveTruckFromCheckupToAvailable()
 		T->getTruckDeliveryInterval(Deliveryinterval_H, Deliveryinterval_D);
 		int MoveTimeTotal_inHours = MoveTime_H + (MoveTime_D * 24);
 		int DeliveryIntervalTotal_inHours = Deliveryinterval_H + (Deliveryinterval_D * 24);
-
-
 		if (MoveTimeTotal_inHours + DeliveryIntervalTotal_inHours + VCheckupTime == Hour + (Day * 24))
 		{
 			VIPTrucksUnderCheckup.dequeue(T);
 			VIPTruckQueue.enqueue(T);
-
 		}
 		else
 		{
-			//VIP_temp_checkup.enqueue(T);
 			break;
 		}
-
-
 	}
-	////while (!VIP_temp_checkup.isEmpty())
-	//{
-	//	VIP_temp_checkup.dequeue(T);
-	//	VIPTrucksUnderCheckup.enqueue(T);
-
-	//}
 }
+
+void CompanyClass::MoveCargosFrom_Moving_to_Delivered()
+{
+
+	int Cargodelivery_day = 0;
+	int Cargodelivery_hour = 0;
+	int Truck_back_Company_H = 0;
+	int Truck_back_Company_D = 0;
+
+	PriQNode <Truck*> Trucknode_top;
+	Truck* Truckptr_top;
+	Cargo* C_tobedelivered;
+
+	while (!MovingTrucks.isEmpty())
+	{
+		MovingTrucks.peek(Trucknode_top);
+		Truckptr_top = Trucknode_top.getItem();
+		C_tobedelivered = Truckptr_top->getLoadedCargosTop();
+		if (C_tobedelivered != nullptr)
+		{
+			C_tobedelivered->getCargoDeliveryTime(Cargodelivery_hour, Cargodelivery_day);
+			if (Cargodelivery_hour == Hour && Cargodelivery_day == Day)
+			{
+				PriQNode<Cargo*>Cargo_Unloaded;
+				Truckptr_top->UnloadCargo(Cargo_Unloaded); //unload problem?
+				DeliveredCargos.enqueue(C_tobedelivered); //get delivering distance prob?
+				countDelivered++;
+				Cargo* C_toadjust = Truckptr_top->getLoadedCargosTop();
+				if (C_toadjust == nullptr)
+				{
+					continue; //break? //dequeue truck then enqueue truck into movinglist key=timetocomeback 
+				}
+				else
+				{
+					int C_toadjust_Delivery_H = 0;
+					int C_toadjust_Delivery_D = 0;
+					C_toadjust->getCargoDeliveryTime(C_toadjust_Delivery_H, C_toadjust_Delivery_D);
+					int Totaldelivery_Hours = C_toadjust_Delivery_H + C_toadjust_Delivery_D * 24;
+					MovingTrucks.dequeue(Truckptr_top);
+					MovingTrucks.enqueueAscending(Truckptr_top, Totaldelivery_Hours);
+				}
+			}
+			else
+			{
+				break;
+			}
+		}
+		else if (C_tobedelivered == nullptr)
+		{
+			Truckptr_top->getTimeToComeBack(Truck_back_Company_H, Truck_back_Company_D);
+			int TotalTimeHours_back_company = Truck_back_Company_H + Truck_back_Company_D * 24;
+			if (TotalTimeHours_back_company == Hour + Day * 24)
+			{
+				MovingTrucks.dequeue(Truckptr_top);
+				MoveTruckFromMovingToCheckup_or_Available(Truckptr_top);
+				continue;
+			}
+
+			else
+			{
+				MovingTrucks.dequeue(Truckptr_top);
+				MovingTrucks.enqueueAscending(Truckptr_top, TotalTimeHours_back_company);
+			}
+		}
+	}
+}
+
 //--------------------------------------------------------------ASSIGNMENT-----------------------------------------------------------------//
 void CompanyClass::AssignCargoToTruck() //DIVIDE INTO SEPARATE FUNCTIONS TO BE EASIER TO TRACE
 {
@@ -1062,17 +1017,16 @@ void CompanyClass::printEmptyVIPTrucks()
 //add new function corner case check whether trucks are empty , do not continue simulation function 
 bool CompanyClass::checkfunction()
 {
-	//bool keepchecking=true;
-	if (VIPTruckQueue.isEmpty() && NormalTruckQueue.isEmpty() && SpecialTruckQueue.isEmpty())//to be removed after adding checkuptoavailabletruck
+	if (VIPTruckQueue.getCount() == nV && NormalTruckQueue.getCount() == nN && SpecialTruckQueue.getCount() == nS)//to be removed after adding checkuptoavailabletruck
 	{
-		if (NormalCargos.isEmpty() && SpecialCargos.isEmpty() && VIPCargoPriQueue.isEmpty())
+		if (LoadingTrucks.isEmpty())
 		{
-			if (LoadingTrucks.isEmpty())//LoadingNormalTrucks.isEmpty() && LoadingSpecialTrucks.isEmpty() && LoadingVIPTrucks.isEmpty())
+			if (MovingTrucks.isEmpty())
 			{
-				if (MovingTrucks.isEmpty())
+				if (NormalTrucksUnderCheckup.isEmpty() && SpecialTrucksUnderCheckup.isEmpty() && VIPTrucksUnderCheckup.isEmpty())
 				{
-					if (NormalTrucksUnderCheckup.isEmpty() && SpecialTrucksUnderCheckup.isEmpty() && VIPTrucksUnderCheckup.isEmpty())
-					{
+					if(SumCargos-VIPCargoPriQueue.getCount()==countDelivered)
+					{ 
 						return false;
 					}
 				}
@@ -1085,16 +1039,16 @@ void CompanyClass::SimulatorFunction()
 {
 	FileLoading();
 	ui->choosethemode();
-	while (checkfunction())
+	do 
 	{
 		ExecuteEvents();
-		AssignCargoToTruck();
-		MoveTruckFromLoadingToMoving();
-		//MoveTruckFromMovingToCheckup();
 		if (!NormalCargos.isEmpty())
 		{
 			NormalCargos.AutoPromoteCargo(this, Day, AutoPDays);
 		}
+		MoveCargosFrom_Moving_to_Delivered();
+		AssignCargoToTruck();
+		MoveTruckFromLoadingToMoving();
 		ui->printOutput();
 		Hour++;
 		while (Hour > 23) //24hour will be 00H:00MIN AM
@@ -1102,7 +1056,8 @@ void CompanyClass::SimulatorFunction()
 			Hour = Hour - 23;
 			Day++;
 		}
-	}
+	} 
+	while (checkfunction());
 	//produce output file <<<----------OUTPUTFILE---------------------*/
 	OutputFile();
 }
@@ -1258,19 +1213,19 @@ void CompanyClass::printdeliveredcargo()
 		{
 			ui->coutchar('[');
 			ui->coutinteger(car->getCargoID());
-			ui->coutchar('] ');
+			ui->coutstring("]  ");
 		}
 		if (car->getCargoType() == 'S')
 		{
 			ui->coutchar('(');
 			ui->coutinteger(car->getCargoID());
-			ui->coutchar(') ');
+			ui->coutstring(") ");
 		}
 		if (car->getCargoType() == 'V')
 		{
 			ui->coutchar('{');
 			ui->coutinteger(car->getCargoID());
-			ui->coutchar('} ');
+			ui->coutstring("} ");
 		}
 		extra.enqueue(car);
 	}

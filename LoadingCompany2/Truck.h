@@ -63,7 +63,7 @@ public:
 	char getCargoLoadedType();
 
 	void LoadCargos(Cargo* c);
-	void UnloadCargo(PriQNode<Cargo*> delivered);
+	void UnloadCargo(PriQNode<Cargo*>& delivered);
 	bool LoadedCargosFull();
 	//bool LoadedCargosEmpty(); //yara might need it 
 	void getDeliveredCargosByTruck();
