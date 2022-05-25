@@ -189,6 +189,8 @@ void Truck::getTimeToComeBack(int &hour, int &day)
 		TimeToComeBackH = TimeToComeBackH - 23;
 		TimeToComeBackD++;
 	}
+	hour = TimeToComeBackH;
+	day = TimeToComeBackD;
 }
 Cargo* Truck::getLoadedCargosTop()
 {
@@ -200,31 +202,31 @@ Cargo* Truck::getLoadedCargosTop()
 }
 int Truck::getLoadedCargoFurthestDistance()
 {
-	PriQ <Cargo*> Extra = getLoadedCargosInTruck();
-	PriQNode<Cargo*>* node=nullptr;
-	Extra.peek(*node);
-	while (!Extra.isEmpty() && node->getNext() != nullptr)
+	PriQ <Cargo*> Extra = LoadingCargos;
+	PriQNode<Cargo*> node;
+	Extra.peek(node);
+	while (!Extra.isEmpty())
 	{
-		Extra.dequeue(*node);
-		node = node->getNext();
+		Extra.dequeue(node);
 	}
-	LoadedCargoFurthestDistance= node->getItem()->getDeliveringDistance();
+	LoadedCargoFurthestDistance = node.getItem()->getDeliveringDistance();
 	return LoadedCargoFurthestDistance;
 }
+
 int Truck::getSumUnloadTimeCargos()
 {
-	int sum=0;
-	PriQ <Cargo*> Extra = getLoadedCargosInTruck();
-	PriQNode<Cargo*>* node=NULL;
-	Extra.peek(*node);
-	while (!Extra.isEmpty() && node!= nullptr)
+	int sum = 0;
+	PriQ <Cargo*> Extra = LoadingCargos;
+	PriQNode<Cargo*> node;
+	Extra.peek(node);
+	while (!Extra.isEmpty())
 	{
-		sum = sum + node->getItem()->getLoadTime();
-		Extra.dequeue(*node);
-		node = node->getNext();
+		sum = sum + node.getItem()->getLoadTime();
+		Extra.dequeue(node);
 	}
 	return sum;
 }
+
 double Truck::getTruckUtilization()
 {
 	return TruckUtilization;
