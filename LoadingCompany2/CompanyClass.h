@@ -75,6 +75,8 @@ class CompanyClass
 	int sumnormalloadtime;
 	int sumviploadtime;
 	int countDelivered;
+	int sumactiveloadingh;
+	//int sumactiveloadingd;
 
 public:
 	CompanyClass();

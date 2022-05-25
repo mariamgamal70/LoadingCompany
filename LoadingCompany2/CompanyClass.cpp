@@ -39,6 +39,8 @@ CompanyClass::CompanyClass()
 	sumviploadtime = 0;
 	countDelivered = 0;
 	ui = new UIclass(this);
+	int sumactiveloadingh=0;
+	//int sumactiveloadingd = 0;
 }
 CompanyClass::CompanyClass(UIclass* uii)
 {
@@ -276,7 +278,7 @@ void CompanyClass::AddToAppropriateList(Cargo* Cl)
 
 void CompanyClass::AssignSpecialCargos()
 {
-
+	int totalloadtime = 0;
 	if (!SpecialCargos.isEmpty())
 	{
 		Cargo* specialcargo = nullptr;
@@ -288,7 +290,7 @@ void CompanyClass::AssignSpecialCargos()
 
 			if (SpecialCargos.getCount() >= specialtruck->getTruckCapacity())
 			{
-				int totalloadtime = 0;
+
 				for (int i = 0; i < specialtruck->getTruckCapacity(); i++)
 				{
 					SpecialCargos.dequeue(specialcargo);
@@ -304,7 +306,7 @@ void CompanyClass::AssignSpecialCargos()
 				int currtime = Hour + (Day * 24);
 				if (cargotime <= currtime)//add check max wait (if condition)//LESS THAN NOT GREATER THAN
 				{
-					int totalloadtime = 0;
+					//int totalloadtime = 0;
 					for (int i = 0; i < SpecialCargos.getCount(); i++)
 					{
 						SpecialCargos.dequeue(specialcargo);
@@ -316,10 +318,12 @@ void CompanyClass::AssignSpecialCargos()
 			}
 		}
 	}
+	sumactiveloadingh += totalloadtime;
 }
 
 void CompanyClass::AssignNormalCargos()
 {
+	int totalloadtime = 0;
 	if (!NormalCargos.isEmpty())
 	{
 		Cargo* normalcargo = nullptr;
@@ -331,7 +335,7 @@ void CompanyClass::AssignNormalCargos()
 
 			if (NormalCargos.getCount() >= normaltruck->getTruckCapacity())
 			{
-				int totalloadtime = 0;
+				
 				for (int i = 0; i < normaltruck->getTruckCapacity(); i++)
 				{
 					normalcargo = NormalCargos.peek();//peek
@@ -348,7 +352,7 @@ void CompanyClass::AssignNormalCargos()
 				int currtime = Hour + (Day * 24);
 				if (cargotime <= currtime)//add check max wait (if condition)
 				{
-					int totalloadtime = 0;
+					//int totalloadtime = 0;
 					for (int i = 0; i < NormalCargos.getCount(); i++)
 					{
 						normalcargo = NormalCargos.peek();//peek
@@ -384,7 +388,7 @@ void CompanyClass::AssignNormalCargos()
 				int currtime = Hour + (Day * 24);
 				if (cargotime <= currtime)//add check max wait (if condition)
 				{
-					int totalloadtime = 0;
+					//int totalloadtime = 0;
 					for (int i = 0; i < NormalCargos.getCount(); i++)
 					{
 						normalcargo = NormalCargos.peek();//peek
@@ -397,10 +401,12 @@ void CompanyClass::AssignNormalCargos()
 			}
 		}
 	}
+	sumactiveloadingh += totalloadtime;
 }
 
 void CompanyClass::AssignVIPcargos()
 {
+	int totalloadtime = 0;
 	if (!VIPCargoPriQueue.isEmpty())
 	{
 		Cargo* vipcargo = nullptr;
@@ -413,7 +419,7 @@ void CompanyClass::AssignVIPcargos()
 
 			if (VIPCargoPriQueue.getCount() >= viptruck->getTruckCapacity())
 			{
-				int totalloadtime = 0;
+				//int totalloadtime = 0;
 				for (int i = 0; i < viptruck->getTruckCapacity(); i++)
 				{
 					PriQNode <Cargo*> vipcargonode;
@@ -433,7 +439,7 @@ void CompanyClass::AssignVIPcargos()
 
 			if (VIPCargoPriQueue.getCount() >= specialtruck->getTruckCapacity())
 			{
-				int totalloadtime = 0;
+				
 				for (int i = 0; i < specialtruck->getTruckCapacity(); i++)
 				{
 					VIPCargoPriQueue.dequeue(vipcargo);
@@ -451,7 +457,7 @@ void CompanyClass::AssignVIPcargos()
 
 			if (VIPCargoPriQueue.getCount() >= normaltruck->getTruckCapacity())
 			{
-				int totalloadtime = 0;
+				//int totalloadtime = 0;
 				for (int i = 0; i < normaltruck->getTruckCapacity(); i++)
 				{
 					SpecialCargos.dequeue(vipcargo);
@@ -463,6 +469,7 @@ void CompanyClass::AssignVIPcargos()
 			}
 		}
 	}
+	sumactiveloadingh += totalloadtime;
 }
 
 void CompanyClass::MoveTruckFromEmptyToLoading(Truck*& T, int TLD, PriQ<Cargo*>loadingcargos)
@@ -479,7 +486,7 @@ void CompanyClass::MoveTruckFromEmptyToLoading(Truck*& T, int TLD, PriQ<Cargo*>l
 			NormalTruckQueue.dequeue(T2);
 			T->setTruckMoveTime(MTH, MTD);
 			//setcargo wait time and delivery interval
-			LoadingTrucks.enqueueAscending(T, MTH + (MTD * 24));
+			LoadingTrucks.enqueueAscending(T, (MTH + (MTD * 24)));
 			while (!loadingcargos.isEmpty())
 			{
 				loadingcargos.dequeue(cargonode);
@@ -1280,14 +1287,15 @@ int CompanyClass::calcAutoPromotedCargos()
 
 double CompanyClass::calcAvgActiveTime()
 {
+	//SumTruckActiveTimeH = sumactiveloadingh + //el moving bel hours;       
 	int activetime = SumTruckActiveTimeH + (SumTruckActiveTimeD * 24);
-	double avgactivetime = activetime / TotalNumberOfTrucks * 100;
+	double avgactivetime = (activetime / TotalNumberOfTrucks) * 100;
 	return avgactivetime;
 }
 
 double CompanyClass::calcAvgUtilization()
 {
-	double avgUt = SumUtilization / TotalNumberOfTrucks * 100;
+	double avgUt = (SumUtilization / TotalNumberOfTrucks) * 100;
 	return avgUt;
 }
 
