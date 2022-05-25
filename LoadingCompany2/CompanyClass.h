@@ -121,6 +121,7 @@ public:
 	int getnumfinalspec();
 	int getnumfinalvip();
 	int getautopromnum();
+	int getNumberOfMovingCargos();
 	Cargo* dequeueDeliveredCargo();
 	//----------------PRINTS------------------------//
 	//void printHeadLine();

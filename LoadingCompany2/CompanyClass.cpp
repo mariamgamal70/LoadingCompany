@@ -521,19 +521,13 @@ void  CompanyClass::MoveTruckFromLoadingToMoving()
 		int mh, md;
 		LoadingTrucks.peek(loadingnode);
 		toptruck = loadingnode.getItem();
- 		toptruck->getTruckMoveTime(mh, md);
+		toptruck->getTruckMoveTime(mh, md);
 		if (mh == Hour && md == Day)
 		{
-			LoadingTrucks.dequeue(toptruck);
-			/*int TDIhours;
-			int TDIdays;
-			T->getTruckDeliveryInterval(TDIhours, TDIdays);
-			int totaltime = TDIhours + (TDIdays * 24);
-			int sumcurrtime = Hour + (Day * 24);
-			MovingTrucks.enqueueAscending(T, totaltime-sumcurrtime);*/
 			int h, d;
 			toptruck->getLoadedCargosTop()->getCargoDeliveryTime(h, d); //day whats wrong with it?  
 			MovingTrucks.enqueueAscending(toptruck, h + (d * 24));//day sets priority wrong
+			LoadingTrucks.dequeue(toptruck);
 		}
 		else
 		{
@@ -1052,6 +1046,21 @@ int CompanyClass::getautopromnum()
 	return noOfAutoPCargos;
 }
 
+int CompanyClass::getNumberOfMovingCargos()
+{
+	PriQ<Truck*>Extra = MovingTrucks;
+	PriQNode<Truck*>TruckExtra;
+	int count = MovingTrucks.getCount();
+	int movingcargos = 0;
+	for (int i = 0; i < count; i++)
+	{
+		Extra.peek(TruckExtra);
+		movingcargos = movingcargos + TruckExtra.getItem()->getLoadedCargosInTruck().getCount();
+		Extra.dequeue(TruckExtra);
+	}
+	return movingcargos;
+}
+
 //----------------------------------------PRINTING-------------------------------------//
 
 void CompanyClass::printWNormalCargos()
@@ -1238,42 +1247,38 @@ void CompanyClass::printloadingtrucks() //--------------------------------------
 
 void CompanyClass::printmovingcargos()
 {
-	Truck* trcc = nullptr;
-	PriQ<Truck*> go = MovingTrucks;
 	PriQ<Truck*> gooo = MovingTrucks;
-	int numofmovc = 0;
-	for (int i = 0; i < go.getCount(); i++)
-	{
-		go.dequeue(trcc);
-		numofmovc += trcc->getLoadedCargosInTruck().getCount();
-	}
-	ui->coutinteger(numofmovc);
+	int movingcargoscount = getNumberOfMovingCargos();
+	ui->coutinteger(movingcargoscount);
 	ui->coutstring(" Moving Cargos: ");
-	//goo = LoadingTruck
-	for (int i = 0; i < numofmovc; i++)
+	PriQNode<Truck*> trucknodea;
+	Truck* trcca;
+	while (!gooo.isEmpty())
 	{
-		gooo.dequeue(trcc);
-		if (trcc->getCargoLoadedType() == 'N')
+		gooo.peek(trucknodea);
+		trcca = trucknodea.getItem();
+		if (trcca->getCargoLoadedType() == 'N')
 		{
-			ui->coutinteger(trcc->getTruckID());
+			ui->coutinteger(trcca->getTruckID());
 			ui->coutchar('[');
-			trcc->getLoadedCargosInTruck().printList();
+			trcca->getLoadedCargosInTruck().printList();
 			ui->coutstring("]  ");
 		}
-		else if (trcc->getCargoLoadedType() == 'S')
+		else if (trcca->getCargoLoadedType() == 'S')
 		{
-			ui->coutinteger(trcc->getTruckID());
+			ui->coutinteger(trcca->getTruckID());
 			ui->coutchar('(');
-			trcc->getLoadedCargosInTruck().printList();
+			trcca->getLoadedCargosInTruck().printList();
 			ui->coutstring(")  ");
 		}
-		else if (trcc->getCargoLoadedType() == 'V')
+		else if (trcca->getCargoLoadedType() == 'V')
 		{
-			ui->coutinteger(trcc->getTruckID());
+			ui->coutinteger(trcca->getTruckID());
 			ui->coutchar('{');
-			trcc->getLoadedCargosInTruck().printList();
+			trcca->getLoadedCargosInTruck().printList();
 			ui->coutstring("}  ");
 		}
+		gooo.dequeue(trucknodea);
 	}
 }
 
