@@ -3,15 +3,10 @@
 #include <string>
 #include<fstream>
 #include <cstdlib>
-//#include"Truck.h"
-//#include"LinkedList.h"
-//#include"PriQ.h"
-//#include"ArrayStack.h"
-//#include"LinkedQueue.h"
-//#include "Truck.h"
+
 using std::ifstream;
 using namespace std;
-//class Truck; //---------------------->OPTION1
+
 class Cargo
 {
 private:
@@ -28,12 +23,11 @@ private:
 	int WaitTimeHour;
 	int WaitTimeDay;
 	int TID;
-	//Truck* TruckLoadedOn; //OPTION1
 
 public:
 
 	Cargo();
-	Cargo(char type, int pd, int ph, int id, int dist, int LT, int cost); //for preparation class
+	Cargo(char type, int pd, int ph, int id, int dist, int LT, int cost); 
 	void setCargoLoadTime(int time);
 	void setPreparationTimeDay(int day);
 	void setPreparationTimeHour(int hour);
@@ -41,11 +35,9 @@ public:
 	void setDeliveringDistance(int distance);
 	void setCargoType(char type);
 	void SetCargoID(int id);
-	void setCargoDeliveryTime(int TruckMoveTimeHour, int TruckMoveTimeDay, int Truckspeed);//OPTION2
+	void setCargoDeliveryTime(int TruckMoveTimeHour, int TruckMoveTimeDay, int Truckspeed);
 	void setCargoWaitTime(int movetimeh,int movetimed);
 	void setTruckLoadedOn(int tid);
-	//void setTruckLoadedOn(Truck* T);//OPTION1
-	//void setCargoDeliveryTime(int& hours, int& days);//-------->get movetime and truckspeed //OPTION1
 
 	char getPreparationTimeDay() const;
 	int getPreparationTimeHour()const;

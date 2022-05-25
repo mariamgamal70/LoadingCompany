@@ -68,7 +68,6 @@ class CompanyClass
 	int CargoExtraMoney;
 	UIclass* ui;
 	int noOfAutoPCargos;
-	//int noOfPromotedCargos;
 	int SumTruckActiveTimeH, SumTruckActiveTimeD;
 	int SumWaitTimeH, SumWaitTimeD;
 	int SumUtilization;
@@ -97,15 +96,12 @@ public:
 	void AssignNormalCargos();
 	void AssignVIPcargos();
 	void AssignCargoToTruck();
-	void AddToDeliveredCargos();
+	//void AddToDeliveredCargos();
 
 	void MoveTruckFromEmptyToLoading(Truck*& T, int TLD, PriQ<Cargo*>loadingcargos);
-	void MoveTruckFromLoadingToMoving();//MINE
-	//void MoveTruckFromEmptyToLoading(Truck* T,int totalloadtime);
-	//void MoveTruckFromLoadingToMoving(Truck* T);//YARA
+	void MoveTruckFromLoadingToMoving();
 	void MoveTruckFromMovingToCheckup_or_Available(Truck*truck_finishedjourney);
 	/*void MoveTruckFromCheckupToAvailable(Truck* T);*/
-
 	void MoveTruckFromCheckupToAvailable();
 	//-----------------GETTERS----------------------//	
 

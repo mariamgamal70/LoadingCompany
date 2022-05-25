@@ -47,7 +47,6 @@ CompanyClass::CompanyClass(UIclass* uii)
 void CompanyClass::FileLoading()
 {
 	ifstream inFile;
-	//string filename = ui->cinfilename();//ACCORDING TO MALAK'S WORDS
 	inFile.open("input.txt");//open a file to perform read operation using file object
 	if (!inFile)
 	{
@@ -209,25 +208,6 @@ void CompanyClass::OutputFile()
 	fout.close();
 
 }
-
-/*void CompanyClass::AutoPromote(int id)
-{
-	Cargo* c=NormalCargos.findSpecificNode(id);
-	if (c)
-	{
-		int hours = (c->getPreparationTimeDay()) * 24;
-		hours = hours + c->getPreparationTimeHour();
-		if (hours >= (AutoPDays * 24))
-		{
-			PromoteCargo(id);
-		}
-	}
-}*/
-/*double CompanyClass::setpriorityequation(int pH, int pD, int DD, int CC)
-{
-	VIPCargoPriority = (2 * (pH + pD) + 1 * DD) / CC;
-	return VIPCargoPriority;
-}*/
 
 void CompanyClass::ExecuteEvents()
 {
@@ -952,59 +932,6 @@ void CompanyClass::AssignCargoToTruck() //DIVIDE INTO SEPARATE FUNCTIONS TO BE E
 				}
 			}
 		}*/
-	}
-}
-/*void CompanyClass::AddToDeliveredCargos()
-{
-	PriQ<Cargo*> Calternative;
-	PriQNode<Truck*> NodeT;
-	PriQNode<Truck*> currT;
-	PriQNode<Cargo*> NodeC;
-	PriQNode<Cargo*> DeliveredCargoNode;
-	Cargo* CargoDelivered;
-	Truck* T;
-	bool unloadmorecargo = true;
-	int CDTH, CDTD;
-	while(!MovingTrucks.isEmpty())
-	{
-		MovingTrucks.peek(NodeT);
-		T = NodeT.getItem();
-		Calternative = T->getLoadedCargosInTruck();
-		while (!Calternative.isEmpty() && !unloadmorecargo)
-		{
-			Calternative.peek(NodeC);
-			NodeC.getItem()->getCargoDeliveryTime(CDTH, CDTD);
-			if (CDTH == Hour && CDTD == Day)
-			{
-				T->UnloadCargo(DeliveredCargoNode);
-				CargoDelivered = DeliveredCargoNode.getItem();
-				if (CargoDelivered->getCargoType() == 'N')
-				{
-					NormalDeliveredCargos.enqueue(CargoDelivered);
-				}
-				else if (CargoDelivered->getCargoType() == 'S')
-				{
-					SpecialDeliveredCargos.enqueue(CargoDelivered);
-				}
-				else if (CargoDelivered->getCargoType() == 'V')
-				{
-					VIPDeliveredCargos.enqueue(CargoDelivered);
-				}
-				Calternative.dequeue(NodeC);
-			}
-			unloadmorecargo = false;
-		}
-		//MovingTrucks.
-	}
-}*/
-void CompanyClass::AddToDeliveredCargos() //trial2
-{
-	while (!MovingTrucks.isEmpty())
-	{
-		Truck* truck;
-		PriQ<Truck*> ExtraMovingTruck;
-		//MovingTrucks.dequeue(truck); -----------------------------------------------------------------------------
-
 	}
 }
 

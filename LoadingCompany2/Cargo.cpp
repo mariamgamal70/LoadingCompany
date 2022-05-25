@@ -103,21 +103,7 @@ int Cargo::getCargoID() const
 	return CargoID;
 }
 
-/*void Cargo::setCargoDeliveryTime(int& hours, int& days)//----------------->OPTION1
-{
-	int movetimeh, movetimed;
-	TruckLoadedOn->getTruckMoveTime(movetimeh, movetimed);
-	CargoDeliveryTimeHours = movetimeh + DeliveringDistance / TruckLoadedOn->getTruckSpeed() + PreparationTimeHour; //--->NEEDS MOVE TIME AND TRUCKSPEED , replace preparationtimehour with loadtime
-	while (CargoDeliveryTimeHours > 23)
-	{
-		CargoDeliveryTimeHours = CargoDeliveryTimeHours - 23;
-		CargoDeliveryTimeDays = PreparationTimeHour + 1;//--> increment cargo delivery time alone without the need of preparationtimeHour
-	}
-	hours = CargoDeliveryTimeHours;
-	days = CargoDeliveryTimeDays+ movetimed;
-}*/
-
-void Cargo::setCargoDeliveryTime(int TruckMoveTimeHour, int TruckMoveTimeDay, int Truckspeed)//-------------->OPTION2
+void Cargo::setCargoDeliveryTime(int TruckMoveTimeHour, int TruckMoveTimeDay, int Truckspeed)
 {
 	int movingtimehours = DeliveringDistance / Truckspeed;
 	int movingtimedays = 1;
@@ -173,7 +159,7 @@ Cargo Cargo::getCID(int CID)
 	return *this;
 }
 
-Cargo::~Cargo()  //any additions?
+Cargo::~Cargo()
 {
 
 }

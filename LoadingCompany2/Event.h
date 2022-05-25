@@ -17,7 +17,6 @@ public:
 	void SetHours(int h);
 	void SetDays(int d);
 	void SetID(int id);
-	//void SetCompanyptr(CompanyClass*c);
 
 	int GetHours() const;
 	int GetDays() const;

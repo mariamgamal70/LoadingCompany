@@ -180,8 +180,6 @@ PriQ<Cargo*> Truck::getLoadedCargosInTruck() const
 }
 void Truck::getTimeToComeBack(int &hour, int &day)
 {
-	//Cargo* lastnode = LoadingCargos.getLastNode();
-	//int furthestdistance =lastnode->getDeliveringDistance();
 	int furthestdistance = getLoadedCargoFurthestDistance();
 	TimeToComeBackH = furthestdistance / TruckSpeed;
 	while (TimeToComeBackH > 23)
