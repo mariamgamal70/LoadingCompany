@@ -167,6 +167,11 @@ void Truck::setTimeToComeBack()
 		TimeToComeBackD++;
 	}
 }
+void Truck::setTimeFinishedDelivering(int hour, int day)
+{
+	TimeFinishDeliverH = hour;
+	TimeFinishDeliverD = day;
+}
 void Truck::LoadCargos(Cargo* c)
 {
 	c->setCargoDeliveryTime(TruckMoveTimeHour, TruckMoveTimeDay, TruckSpeed);//OPTION2
@@ -213,7 +218,7 @@ int Truck::getLoadedCargoFurthestDistance()
 {
 	PriQ <Cargo*> Extra = LoadingCargos;
 	PriQNode<Cargo*> node;
-	Extra.peek(node);
+	//Extra.peek(node);
 	while (!Extra.isEmpty())
 	{
 		Extra.dequeue(node);
@@ -245,6 +250,11 @@ char Truck::getCargoLoadedType()
 	PriQNode<Cargo*>top;
 	LoadingCargos.peek(top);
 	return top.getItem()->getCargoType();
+}
+void Truck::getTimeFinishedDelivering(int& hour, int& day)
+{
+	hour = TimeFinishDeliverH;
+	day = TimeFinishDeliverD;
 }
 Truck::~Truck()
 {
