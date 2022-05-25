@@ -192,11 +192,11 @@ void Truck::getTimeToComeBack(int &hour, int &day)
 }
 Cargo* Truck::getLoadedCargosTop()
 {
-	Cargo* top=nullptr;
+	Cargo* top = nullptr;
 	PriQNode<Cargo*> node;
 	LoadingCargos.peek(node);
-	top=node.getItem();
-	return top ;
+	top = node.getItem();
+	return top;
 }
 int Truck::getLoadedCargoFurthestDistance()
 {

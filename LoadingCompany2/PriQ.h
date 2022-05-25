@@ -132,7 +132,9 @@ public:
 			return false;
 
 		temp = *Head;
+		PriQNode<T>* NodePtrto_Delete = Head;
 		Head = Head->getNext();
+		delete NodePtrto_Delete;
 		count--;
 		//delete temp;
 		//temp = NULL;
