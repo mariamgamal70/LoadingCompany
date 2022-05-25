@@ -39,8 +39,9 @@ CompanyClass::CompanyClass()
 	sumviploadtime = 0;
 	countDelivered = 0;
 	ui = new UIclass(this);
-	int sumactiveloadingh=0;
-	//int sumactiveloadingd = 0;
+	sumactiveloadingh = 0;
+	summovingactived = 0;
+	summovingactiveh = 0;
 }
 CompanyClass::CompanyClass(UIclass* uii)
 {
@@ -290,7 +291,7 @@ void CompanyClass::AssignSpecialCargos()
 
 			if (SpecialCargos.getCount() >= specialtruck->getTruckCapacity())
 			{
-
+				//int totalloadtime = 0;
 				for (int i = 0; i < specialtruck->getTruckCapacity(); i++)
 				{
 					SpecialCargos.dequeue(specialcargo);
@@ -335,7 +336,7 @@ void CompanyClass::AssignNormalCargos()
 
 			if (NormalCargos.getCount() >= normaltruck->getTruckCapacity())
 			{
-				
+				//int totalloadtime = 0;
 				for (int i = 0; i < normaltruck->getTruckCapacity(); i++)
 				{
 					normalcargo = NormalCargos.peek();//peek
@@ -371,7 +372,7 @@ void CompanyClass::AssignNormalCargos()
 
 			if (NormalCargos.getCount() >= viptruck->getTruckCapacity())
 			{
-				int totalloadtime = 0;
+				//int totalloadtime = 0;
 				for (int i = 0; i < viptruck->getTruckCapacity(); i++)
 				{
 					normalcargo = NormalCargos.peek();
@@ -439,7 +440,7 @@ void CompanyClass::AssignVIPcargos()
 
 			if (VIPCargoPriQueue.getCount() >= specialtruck->getTruckCapacity())
 			{
-				
+				//int totalloadtime = 0;
 				for (int i = 0; i < specialtruck->getTruckCapacity(); i++)
 				{
 					VIPCargoPriQueue.dequeue(vipcargo);
@@ -469,7 +470,6 @@ void CompanyClass::AssignVIPcargos()
 			}
 		}
 	}
-	sumactiveloadingh += totalloadtime;
 }
 
 void CompanyClass::MoveTruckFromEmptyToLoading(Truck*& T, int TLD, PriQ<Cargo*>loadingcargos)
@@ -486,7 +486,7 @@ void CompanyClass::MoveTruckFromEmptyToLoading(Truck*& T, int TLD, PriQ<Cargo*>l
 			NormalTruckQueue.dequeue(T2);
 			T->setTruckMoveTime(MTH, MTD);
 			//setcargo wait time and delivery interval
-			LoadingTrucks.enqueueAscending(T, (MTH + (MTD * 24)));
+			LoadingTrucks.enqueueAscending(T, MTH + (MTD * 24));
 			while (!loadingcargos.isEmpty())
 			{
 				loadingcargos.dequeue(cargonode);
@@ -546,7 +546,7 @@ void  CompanyClass::MoveTruckFromLoadingToMoving()
 		if (mh == Hour && md == Day)
 		{
 			int h, d;
-			toptruck->getLoadedCargosTop()->getCargoDeliveryTime(h, d); 
+			toptruck->getLoadedCargosTop()->getCargoDeliveryTime(h, d);
 			MovingTrucks.enqueueAscending(toptruck, h + (d * 24));
 			LoadingTrucks.dequeue(toptruck);
 		}
@@ -557,11 +557,11 @@ void  CompanyClass::MoveTruckFromLoadingToMoving()
 	}
 }
 
-void CompanyClass:: MoveTruckFromMovingToCheckup_or_Available(Truck * truck_finishedjourney) //Truck is back to company and empty
+void CompanyClass::MoveTruckFromMovingToCheckup_or_Available(Truck* truck_finishedjourney) //Truck is back to company and empty
 {
 	truck_finishedjourney->AddJourney();
 
-	if (truck_finishedjourney->getNoOfJourneys()==NoOfJourneys)    //Truck---->Maintainance 
+	if (truck_finishedjourney->getNoOfJourneys() == NoOfJourneys)    //Truck---->Maintainance 
 	{
 		if (truck_finishedjourney->getTruckType() == 'N')  //Normal
 		{
@@ -594,7 +594,7 @@ void CompanyClass:: MoveTruckFromMovingToCheckup_or_Available(Truck * truck_fini
 }
 
 void CompanyClass::MoveTruckFromCheckupToAvailable()
-{    
+{
 	int MoveTime_H = 0;
 	int MoveTime_D = 0;
 	int Deliveryinterval_H = 0;
@@ -603,7 +603,6 @@ void CompanyClass::MoveTruckFromCheckupToAvailable()
 	Truck* T;
 	while (!NormalTrucksUnderCheckup.isEmpty())
 	{
-
 		NormalTrucksUnderCheckup.peek(T);
 		T->getTruckMoveTime(MoveTime_H, MoveTime_D);
 		T->getTruckDeliveryInterval(Deliveryinterval_H, Deliveryinterval_D);
@@ -618,7 +617,6 @@ void CompanyClass::MoveTruckFromCheckupToAvailable()
 		{
 			break;
 		}
-
 	}
 
 	while (!SpecialTrucksUnderCheckup.isEmpty())
@@ -670,7 +668,7 @@ void CompanyClass::MoveCargosFrom_Moving_to_Delivered()
 	PriQNode <Truck*> Trucknode_top;
 	Truck* Truckptr_top;
 	Cargo* C_tobedelivered;
-
+	//bool checkingprev = false;
 	while (!MovingTrucks.isEmpty())
 	{
 		MovingTrucks.peek(Trucknode_top);
@@ -683,14 +681,21 @@ void CompanyClass::MoveCargosFrom_Moving_to_Delivered()
 			if (Cargodelivery_hour == Hour && Cargodelivery_day == Day)
 			{
 				PriQNode<Cargo*>Cargo_Unloaded;
-				Truckptr_top->UnloadCargo(Cargo_Unloaded); //unload problem?
-				DeliveredCargos.enqueue(C_tobedelivered); //get delivering distance prob?
+				Truckptr_top->UnloadCargo(Cargo_Unloaded);
+				DeliveredCargos.enqueue(C_tobedelivered);
 				countDelivered++;
+				//checkingprev = true;
 				Cargo* C_toadjust = Truckptr_top->getLoadedCargosTop();
 				if (C_toadjust == nullptr)
 				{
+					int TFDH, TFDD;
+					int tfdh, tfdd;
 					Truckptr_top->setTimeFinishedDelivering(Hour, Day);
-					continue; //break? //dequeue truck then enqueue truck into movinglist key=timetocomeback 
+					Truckptr_top->getTimeFinishedDelivering(TFDH, TFDD);
+					Truckptr_top->getTruckMoveTime(tfdh, tfdd);
+					summovingactived += TFDD - tfdd;
+					summovingactiveh += TFDH - tfdh;
+					continue;
 				}
 				else
 				{
@@ -710,10 +715,10 @@ void CompanyClass::MoveCargosFrom_Moving_to_Delivered()
 		else if (C_tobedelivered == nullptr)
 		{
 			int TFDH, TFDD;
-			Truckptr_top->getTimeToComeBack(Truck_back_Company_H, Truck_back_Company_D);//problem here with distance
+			Truckptr_top->getTimeToComeBack(Truck_back_Company_H, Truck_back_Company_D);
 			Truckptr_top->getTimeFinishedDelivering(TFDH, TFDD);
-			int TotalTimeHours_back_company = TFDH + Truck_back_Company_H + ((Truck_back_Company_D * 24)+(TFDD *24));
-			if (TotalTimeHours_back_company == Hour + Day * 24)//errrorrrrrrrrr
+			int TotalTimeHours_back_company = TFDH + Truck_back_Company_H + ((Truck_back_Company_D * 24) + (TFDD * 24));
+			if (TotalTimeHours_back_company == Hour + Day * 24)
 			{
 				MovingTrucks.dequeue(Truckptr_top);
 				MoveTruckFromMovingToCheckup_or_Available(Truckptr_top);
@@ -723,6 +728,14 @@ void CompanyClass::MoveCargosFrom_Moving_to_Delivered()
 			{
 				MovingTrucks.dequeue(Truckptr_top);
 				MovingTrucks.enqueueAscending(Truckptr_top, TotalTimeHours_back_company);
+				/*if (checkingprev)
+				{
+					continue;
+				}
+				else
+				{
+					break;
+				}*/
 			}
 		}
 	}
@@ -1049,8 +1062,8 @@ bool CompanyClass::checkfunction()
 			{
 				if (NormalTrucksUnderCheckup.isEmpty() && SpecialTrucksUnderCheckup.isEmpty() && VIPTrucksUnderCheckup.isEmpty())
 				{
-					if(SumCargos-VIPCargoPriQueue.getCount()==countDelivered)
-					{ 
+					if (SumCargos - VIPCargoPriQueue.getCount() == countDelivered)
+					{
 						return false;
 					}
 				}
@@ -1063,7 +1076,7 @@ void CompanyClass::SimulatorFunction()
 {
 	FileLoading();
 	ui->choosethemode();
-	do 
+	do
 	{
 		ExecuteEvents();
 		if (!NormalCargos.isEmpty())
@@ -1080,9 +1093,33 @@ void CompanyClass::SimulatorFunction()
 			Hour = Hour - 23;
 			Day++;
 		}
-	} 
-	while (checkfunction());
+	} while (checkfunction());
+
 	//produce output file <<<----------OUTPUTFILE---------------------*/
+	LinkedQueue<Truck*> utilnorm = NormalTruckQueue;
+	LinkedQueue<Truck*> utilspec = SpecialTruckQueue;
+	LinkedQueue<Truck*> utilvip = VIPTruckQueue;
+	while (!utilnorm.isEmpty())
+	{
+		Truck* temp;
+		utilnorm.dequeue(temp);
+		temp->CalculateTruckUtilization(Hour, Day);
+		SumUtilization = SumUtilization + temp->getTruckUtilization();
+	}
+	while (!utilspec.isEmpty())
+	{
+		Truck* temp;
+		utilspec.dequeue(temp);
+		temp->CalculateTruckUtilization(Hour, Day);
+		SumUtilization = SumUtilization + temp->getTruckUtilization();
+	}
+	while (!utilvip.isEmpty())
+	{
+		Truck* temp;
+		utilvip.dequeue(temp);
+		temp->CalculateTruckUtilization(Hour, Day);
+		SumUtilization = SumUtilization + temp->getTruckUtilization();
+	}
 	OutputFile();
 }
 
@@ -1235,7 +1272,7 @@ void CompanyClass::printavailtrucks()
 }
 void CompanyClass::printdeliveredcargo()
 {
-	LinkedQueue<Cargo*> extra= DeliveredCargos;
+	LinkedQueue<Cargo*> extra = DeliveredCargos;
 	Cargo* car;
 	ui->coutinteger(DeliveredCargos.getCount());
 	ui->coutstring(" Delivered Cargos: ");
@@ -1296,15 +1333,16 @@ int CompanyClass::calcAutoPromotedCargos()
 
 double CompanyClass::calcAvgActiveTime()
 {
-	//SumTruckActiveTimeH = sumactiveloadingh + //el moving bel hours;       
+	SumTruckActiveTimeH = sumactiveloadingh + summovingactiveh;
+	SumTruckActiveTimeD = summovingactived + summovingactived;
 	int activetime = SumTruckActiveTimeH + (SumTruckActiveTimeD * 24);
-	double avgactivetime = (activetime / TotalNumberOfTrucks) * 100;
+	double avgactivetime = activetime / TotalNumberOfTrucks * 100;
 	return avgactivetime;
 }
 
 double CompanyClass::calcAvgUtilization()
 {
-	double avgUt = (SumUtilization / TotalNumberOfTrucks) * 100;
+	double avgUt = SumUtilization / TotalNumberOfTrucks * 100;
 	return avgUt;
 }
 

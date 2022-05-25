@@ -76,8 +76,6 @@ public:
 	void incrementTruckTotalActiveTime();
 	void AddJourney();
 	void CalculateTruckUtilization(int simh, int simd);//called at the end of simulation 
-	double getTruckUtilizationTime();
-
 	friend ostream& operator<<(ostream& output, Truck* t);
 	~Truck();
 

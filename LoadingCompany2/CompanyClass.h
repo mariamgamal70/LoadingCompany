@@ -70,13 +70,14 @@ class CompanyClass
 	int noOfAutoPCargos;
 	int SumTruckActiveTimeH, SumTruckActiveTimeD;
 	int SumWaitTimeH, SumWaitTimeD;
-	int SumUtilization;
+	double SumUtilization;
 	int sumspecialloadtime;
 	int sumnormalloadtime;
 	int sumviploadtime;
 	int countDelivered;
 	int sumactiveloadingh;
-	//int sumactiveloadingd;
+	int summovingactived;
+	int summovingactiveh;
 
 public:
 	CompanyClass();
@@ -94,7 +95,7 @@ public:
 	void AddToSpecialCargos(Cargo* C);
 	void AddToVIPCargos(Cargo* C, double priority);
 	void AddToAppropriateList(Cargo* C);
-	
+
 	void AssignSpecialCargos();
 	void AssignNormalCargos();
 	void AssignVIPcargos();
@@ -103,7 +104,7 @@ public:
 
 	void MoveTruckFromEmptyToLoading(Truck*& T, int TLD, PriQ<Cargo*>loadingcargos);
 	void MoveTruckFromLoadingToMoving();
-	void MoveTruckFromMovingToCheckup_or_Available(Truck*truck_finishedjourney);
+	void MoveTruckFromMovingToCheckup_or_Available(Truck* truck_finishedjourney);
 	void MoveTruckFromCheckupToAvailable();
 	void MoveCargosFrom_Moving_to_Delivered();
 	//-----------------GETTERS----------------------//	
@@ -151,6 +152,6 @@ public:
 	int calcAutoPromotedCargos();				//called at the end of simulation 
 	double calcAvgActiveTime();					//called at the end of simulation 
 	double calcAvgUtilization();				//called at the end of simulation 
-	
+
 	~CompanyClass();
 };
