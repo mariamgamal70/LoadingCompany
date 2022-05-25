@@ -99,7 +99,7 @@ public:
 	void AssignCargoToTruck();
 	void AddToDeliveredCargos();
 
-	void MoveTruckFromEmptyToLoading(Truck*& T,int totalloadtime);
+	void MoveTruckFromEmptyToLoading(Truck*& T, int TLD, PriQ<Cargo*>loadingcargos);
 	void MoveTruckFromLoadingToMoving();//MINE
 	//void MoveTruckFromEmptyToLoading(Truck* T,int totalloadtime);
 	//void MoveTruckFromLoadingToMoving(Truck* T);//YARA
