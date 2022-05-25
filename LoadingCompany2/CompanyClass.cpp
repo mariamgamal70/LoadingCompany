@@ -691,6 +691,7 @@ void CompanyClass::MoveCargosFrom_Moving_to_Delivered()
 				Cargo* C_toadjust = Truckptr_top->getLoadedCargosTop();
 				if (C_toadjust == nullptr)
 				{
+					/////////////////////////////////
 					continue; //break? //dequeue truck then enqueue truck into movinglist key=timetocomeback 
 				}
 				else
