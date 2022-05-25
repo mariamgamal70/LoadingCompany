@@ -1180,28 +1180,37 @@ void CompanyClass::printmovingcargos()
 	{
 		gooo.peek(trucknodea);
 		trcca = trucknodea.getItem();
-		if (trcca->getCargoLoadedType() == 'N')
+		if (trcca->getLoadedCargosInTruck().getCount() != 0)
 		{
-			ui->coutinteger(trcca->getTruckID());
-			ui->coutchar('[');
-			trcca->getLoadedCargosInTruck().printList();
-			ui->coutstring("]  ");
+			if (trcca->getCargoLoadedType() == 'N')
+			{
+				ui->coutinteger(trcca->getTruckID());
+				ui->coutchar('[');
+				trcca->getLoadedCargosInTruck().printList();
+				ui->coutstring("]  ");
+			}
+			else if (trcca->getCargoLoadedType() == 'S')
+			{
+				ui->coutinteger(trcca->getTruckID());
+				ui->coutchar('(');
+				trcca->getLoadedCargosInTruck().printList();
+				ui->coutstring(")  ");
+			}
+			else if (trcca->getCargoLoadedType() == 'V')
+			{
+				ui->coutinteger(trcca->getTruckID());
+				ui->coutchar('{');
+				trcca->getLoadedCargosInTruck().printList();
+				ui->coutstring("}  ");
+			}
+			gooo.dequeue(trucknodea);
 		}
-		else if (trcca->getCargoLoadedType() == 'S')
+		else
 		{
-			ui->coutinteger(trcca->getTruckID());
-			ui->coutchar('(');
-			trcca->getLoadedCargosInTruck().printList();
-			ui->coutstring(")  ");
+			/*ui->coutinteger(trcca->getTruckID());
+			ui->coutchar(' ');*/
+			gooo.dequeue(trucknodea);
 		}
-		else if (trcca->getCargoLoadedType() == 'V')
-		{
-			ui->coutinteger(trcca->getTruckID());
-			ui->coutchar('{');
-			trcca->getLoadedCargosInTruck().printList();
-			ui->coutstring("}  ");
-		}
-		gooo.dequeue(trucknodea);
 	}
 }
 

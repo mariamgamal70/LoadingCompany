@@ -83,6 +83,11 @@ void Truck::CalculateTruckUtilization(int simh,int simd) //NEEDED TO BE FIXED ,(
 	TruckUtilization = getNoDeliveredCargosByTruck() / (DeliveredCargosByTruck * TruckNoOfJourneys) * ((TruckTotalActiveTimeH + (TruckTotalActiveTimeD * 24))/totalsimulationtime);
 }
 
+double Truck::getTruckUtilizationTime()
+{
+	return TruckUtilization;
+}
+
 void Truck::setTruckMoveTime(int h, int d)
 {
 	TruckMoveTimeHour = h;
