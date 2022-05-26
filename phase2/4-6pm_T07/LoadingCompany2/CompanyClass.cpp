@@ -40,8 +40,8 @@ CompanyClass::CompanyClass()
 	countDelivered = 0;
 	ui = new UIclass(this);
 	sumactiveloadingh = 0;
-	summovingactived = 0;
-	summovingactiveh = 0;
+	summovingactived=0;
+	summovingactiveh=0;
 }
 CompanyClass::CompanyClass(UIclass* uii)
 {
@@ -546,8 +546,8 @@ void  CompanyClass::MoveTruckFromLoadingToMoving()
 		if (mh == Hour && md == Day)
 		{
 			int h, d;
-			toptruck->getLoadedCargosTop()->getCargoDeliveryTime(h, d);
-			MovingCargos.enqueueAscending(toptruck, h + (d * 24));
+			toptruck->getLoadedCargosTop()->getCargoDeliveryTime(h, d); 
+			MovingTrucks.enqueueAscending(toptruck, h + (d * 24));
 			LoadingTrucks.dequeue(toptruck);
 		}
 		else
@@ -557,11 +557,11 @@ void  CompanyClass::MoveTruckFromLoadingToMoving()
 	}
 }
 
-void CompanyClass::MoveTruckFromMovingToCheckup_or_Available(Truck* truck_finishedjourney) //Truck is back to company and empty
+void CompanyClass:: MoveTruckFromMovingToCheckup_or_Available(Truck * truck_finishedjourney) //Truck is back to company and empty
 {
 	truck_finishedjourney->AddJourney();
 
-	if (truck_finishedjourney->getNoOfJourneys() == NoOfJourneys)    //Truck---->Maintainance 
+	if (truck_finishedjourney->getNoOfJourneys()==NoOfJourneys)    //Truck---->Maintainance 
 	{
 		if (truck_finishedjourney->getTruckType() == 'N')  //Normal
 		{
@@ -594,7 +594,7 @@ void CompanyClass::MoveTruckFromMovingToCheckup_or_Available(Truck* truck_finish
 }
 
 void CompanyClass::MoveTruckFromCheckupToAvailable()
-{
+{    
 	int MoveTime_H = 0;
 	int MoveTime_D = 0;
 	int Deliveryinterval_H = 0;
@@ -610,8 +610,6 @@ void CompanyClass::MoveTruckFromCheckupToAvailable()
 		int DeliveryIntervalTotal_inHours = Deliveryinterval_H + (Deliveryinterval_D * 24);
 		if (MoveTimeTotal_inHours + DeliveryIntervalTotal_inHours + NCheckupTime == (Hour + (Day * 24)))  //Checkup finished condition
 		{
-			NormalTrucksUnderCheckup.peek(T);
-			T->SetNoOfJourneys(0);
 			NormalTrucksUnderCheckup.dequeue(T);
 			NormalTruckQueue.enqueue(T);
 		}
@@ -670,9 +668,10 @@ void CompanyClass::MoveCargosFrom_Moving_to_Delivered()
 	PriQNode <Truck*> Trucknode_top;
 	Truck* Truckptr_top;
 	Cargo* C_tobedelivered;
-	while (!MovingCargos.isEmpty())
+	//bool checkingprev = false;
+	while (!MovingTrucks.isEmpty())
 	{
-		MovingCargos.peek(Trucknode_top);
+		MovingTrucks.peek(Trucknode_top);
 		Truckptr_top = Trucknode_top.getItem();
 		Truckptr_top->setTimeToComeBack();
 		C_tobedelivered = Truckptr_top->getLoadedCargosTop();
@@ -682,9 +681,10 @@ void CompanyClass::MoveCargosFrom_Moving_to_Delivered()
 			if (Cargodelivery_hour == Hour && Cargodelivery_day == Day)
 			{
 				PriQNode<Cargo*>Cargo_Unloaded;
-				Truckptr_top->UnloadCargo(Cargo_Unloaded);
-				DeliveredCargos.enqueue(C_tobedelivered);
+				Truckptr_top->UnloadCargo(Cargo_Unloaded); 
+				DeliveredCargos.enqueue(C_tobedelivered); 
 				countDelivered++;
+				//checkingprev = true;
 				Cargo* C_toadjust = Truckptr_top->getLoadedCargosTop();
 				if (C_toadjust == nullptr)
 				{
@@ -695,22 +695,16 @@ void CompanyClass::MoveCargosFrom_Moving_to_Delivered()
 					Truckptr_top->getTruckMoveTime(tfdh, tfdd);
 					summovingactived += TFDD - tfdd;
 					summovingactiveh += TFDH - tfdh;
-					MovingCargos.dequeue(Trucknode_top);
-					Truckptr_top->getTimeToComeBack(Truck_back_Company_H, Truck_back_Company_D);
-					int TotalTimeHours_back_company = TFDH + Truck_back_Company_H + ((Truck_back_Company_D * 24) + (TFDD * 24));
-					MovingTrucks.enqueueAscending(Trucknode_top.getItem(), TotalTimeHours_back_company);
 					continue;
-					//break;
 				}
-				else
+				else 
 				{
 					int C_toadjust_Delivery_H = 0;
 					int C_toadjust_Delivery_D = 0;
 					C_toadjust->getCargoDeliveryTime(C_toadjust_Delivery_H, C_toadjust_Delivery_D);
 					int Totaldelivery_Hours = C_toadjust_Delivery_H + C_toadjust_Delivery_D * 24;
-					MovingCargos.dequeue(Truckptr_top);
-					MovingCargos.enqueueAscending(Truckptr_top, Totaldelivery_Hours);
-					continue;
+					MovingTrucks.dequeue(Truckptr_top);
+					MovingTrucks.enqueueAscending(Truckptr_top, Totaldelivery_Hours);
 				}
 			}
 			else
@@ -718,31 +712,31 @@ void CompanyClass::MoveCargosFrom_Moving_to_Delivered()
 				break;
 			}
 		}
-	}
-}
-void CompanyClass::MoveTruckToComeBack()
-{
-	PriQNode <Truck*> Trucknode_top;
-	Truck* Truckptr_top = nullptr;
-	int Truck_back_Company_H, Truck_back_Company_D;
-	while (!MovingTrucks.isEmpty())
-	{
-		int TFDH, TFDD;
-		PriQNode<Truck*> toptrucknode;
-		Truck* toptruck;
-		MovingTrucks.peek(toptrucknode);
-		toptruck = toptrucknode.getItem();
-		toptruck->getTimeToComeBack(Truck_back_Company_H, Truck_back_Company_D);
-		toptruck->getTimeFinishedDelivering(TFDH, TFDD);
-		int TotalTimeHours_back_company = TFDH + Truck_back_Company_H + ((Truck_back_Company_D * 24) + (TFDD * 24));
-		if (TotalTimeHours_back_company == Hour + Day * 24)//check calc
+		else if (C_tobedelivered == nullptr)
 		{
-			MovingTrucks.dequeue(Truckptr_top);
-			MoveTruckFromMovingToCheckup_or_Available(toptruck);
-		}
-		else
-		{
-			break;
+			int TFDH, TFDD;
+			Truckptr_top->getTimeToComeBack(Truck_back_Company_H, Truck_back_Company_D);
+			Truckptr_top->getTimeFinishedDelivering(TFDH, TFDD);
+			int TotalTimeHours_back_company = TFDH + Truck_back_Company_H + ((Truck_back_Company_D * 24)+(TFDD *24));
+			if (TotalTimeHours_back_company == Hour + Day * 24)
+			{
+				MovingTrucks.dequeue(Truckptr_top);
+				MoveTruckFromMovingToCheckup_or_Available(Truckptr_top);
+				continue;
+			}
+			else 
+			{
+				MovingTrucks.dequeue(Truckptr_top);
+				MovingTrucks.enqueueAscending(Truckptr_top, TotalTimeHours_back_company);
+				/*if (checkingprev)
+				{
+					continue;
+				}
+				else
+				{
+					break;
+				}*/
+			}
 		}
 	}
 }
@@ -755,6 +749,181 @@ void CompanyClass::AssignCargoToTruck() //DIVIDE INTO SEPARATE FUNCTIONS TO BE E
 		AssignVIPcargos();
 		AssignSpecialCargos();
 		AssignNormalCargos();
+		/*Truck* specialtruck;
+		Truck* normaltruck;
+		Truck* viptruck;
+
+		//LOADING SPECIAL CARGO
+		if (!SpecialCargos.isEmpty())
+		{
+			Cargo* specialcargo = nullptr;
+
+			if (!SpecialTruckQueue.isEmpty())
+			{
+				SpecialTruckQueue.peek(specialtruck);
+
+				if (SpecialCargos.getCount() >= specialtruck->getTruckCapacity())
+				{
+					int totalloadtime = 0;
+					for (int i = 0; i < specialtruck->getTruckCapacity(); i++)
+					{
+						SpecialCargos.dequeue(specialcargo);
+						totalloadtime = totalloadtime + specialcargo->getLoadTime();//save currenttime in variable,keep checking in if condition if currenttime+cargoloadtime is currenttime
+						specialtruck->LoadCargos(specialcargo);
+					}
+					MoveTruckFromEmptyToLoading(specialtruck, totalloadtime);
+				}
+				else if (SpecialCargos.getCount() > 0 && SpecialCargos.getCount() < specialtruck->getTruckCapacity())
+				{
+					SpecialCargos.peek(specialcargo);
+					int cargotime = specialcargo->getPreparationTimeHour() + (specialcargo->getPreparationTimeDay() * 24) + MaxWaitHours;
+					int currtime = Hour + (Day * 24);
+					if (cargotime <= currtime)//add check max wait (if condition)//LESS THAN NOT GREATER THAN
+					{
+						int totalloadtime = 0;
+						for (int i = 0; i < SpecialCargos.getCount(); i++)
+						{
+							SpecialCargos.dequeue(specialcargo);
+							sumspecialloadtime = sumspecialloadtime + specialcargo->getLoadTime();//save currenttime in variable,keep checking in if condition if currenttime+cargoloadtime is currenttime
+							specialtruck->LoadCargos(specialcargo);
+						}
+						MoveTruckFromEmptyToLoading(specialtruck, totalloadtime);
+					}
+				}
+			}
+		}
+		//LOADING NORMAL CARGO (FIRST NORMAL TRUCK THEN VIP TRUCK)
+		if (!NormalCargos.isEmpty())
+		{
+			Cargo* normalcargo = nullptr;
+
+			if (!NormalTruckQueue.isEmpty())
+			{
+				NormalTruckQueue.peek(normaltruck);
+
+				if (NormalCargos.getCount() >= normaltruck->getTruckCapacity())
+				{
+					int totalloadtime = 0;
+					for (int i = 0; i < normaltruck->getTruckCapacity(); i++)
+					{
+						normalcargo = NormalCargos.peek();//peek
+						totalloadtime = totalloadtime + normalcargo->getLoadTime();
+						NormalCargos.DeleteBeg();
+						normaltruck->LoadCargos(normalcargo);
+					}
+					MoveTruckFromEmptyToLoading(normaltruck, totalloadtime);
+				}
+				else if (NormalCargos.getCount() > 0 && NormalCargos.getCount() < normaltruck->getTruckCapacity())
+				{
+					normalcargo = NormalCargos.peek();
+					int cargotime = normalcargo->getPreparationTimeHour() + (normalcargo->getPreparationTimeDay() * 24) + MaxWaitHours;
+					int currtime = Hour + (Day * 24);
+					if (cargotime <= currtime)//add check max wait (if condition)
+					{
+						int totalloadtime = 0;
+						for (int i = 0; i < NormalCargos.getCount(); i++)
+						{
+							normalcargo = NormalCargos.peek();//peek
+							totalloadtime = totalloadtime + normalcargo->getLoadTime();
+							NormalCargos.DeleteBeg();
+							normaltruck->LoadCargos(normalcargo);
+						}
+						MoveTruckFromEmptyToLoading(normaltruck, totalloadtime);
+					}
+				}
+			}
+			else if (!VIPTruckQueue.isEmpty())
+			{
+				VIPTruckQueue.peek(viptruck);
+
+				if (NormalCargos.getCount() >= viptruck->getTruckCapacity())
+				{
+					int totalloadtime = 0;
+					for (int i = 0; i < viptruck->getTruckCapacity(); i++)
+					{
+						normalcargo = NormalCargos.peek();
+						totalloadtime = totalloadtime + normalcargo->getLoadTime();
+						NormalCargos.DeleteBeg();
+						viptruck->LoadCargos(normalcargo);
+					}
+					MoveTruckFromEmptyToLoading(viptruck, totalloadtime);
+				}
+				else if (NormalCargos.getCount() > 0 && NormalCargos.getCount() < viptruck->getTruckCapacity())
+				{
+					normalcargo = NormalCargos.peek();
+					int cargotime = normalcargo->getPreparationTimeHour() + (normalcargo->getPreparationTimeDay() * 24) + MaxWaitHours;
+					int currtime = Hour + (Day * 24);
+					if (cargotime <= currtime)//add check max wait (if condition)
+					{
+						int totalloadtime = 0;
+						for (int i = 0; i < NormalCargos.getCount(); i++)
+						{
+							normalcargo = NormalCargos.peek();//peek
+							totalloadtime = totalloadtime + normalcargo->getLoadTime();
+							NormalCargos.DeleteBeg();
+							viptruck->LoadCargos(normalcargo);
+						}
+						MoveTruckFromEmptyToLoading(viptruck, totalloadtime);
+					}
+				}
+			}
+		}
+		//LOADING VIP CARGO
+		if (!VIPCargoPriQueue.isEmpty())
+		{
+			Cargo* vipcargo = nullptr;
+
+			if (!VIPTruckQueue.isEmpty())
+			{
+				VIPTruckQueue.peek(viptruck);
+
+				if (VIPCargoPriQueue.getCount() >= viptruck->getTruckCapacity())
+				{
+					int totalloadtime = 0;
+					for (int i = 0; i < viptruck->getTruckCapacity(); i++)
+					{
+						PriQNode <Cargo*> vipcargonode;
+						VIPCargoPriQueue.dequeue(vipcargonode);
+						vipcargo = vipcargonode.getItem();
+						totalloadtime = totalloadtime + (vipcargo->getLoadTime());
+						viptruck->LoadCargos(vipcargo);
+					}
+					MoveTruckFromEmptyToLoading(viptruck, totalloadtime);
+				}
+			}
+			else if (!SpecialTruckQueue.isEmpty())
+			{
+				SpecialTruckQueue.peek(specialtruck);
+
+				if (VIPCargoPriQueue.getCount() >= specialtruck->getTruckCapacity())
+				{
+					int totalloadtime = 0;
+					for (int i = 0; i < specialtruck->getTruckCapacity(); i++)
+					{
+						VIPCargoPriQueue.dequeue(vipcargo);
+						totalloadtime = totalloadtime + vipcargo->getLoadTime();
+						specialtruck->LoadCargos(vipcargo);
+					}
+					MoveTruckFromEmptyToLoading(specialtruck, totalloadtime);
+				}
+			}
+			else if (!NormalTruckQueue.isEmpty())
+			{
+				NormalTruckQueue.peek(normaltruck);
+
+				if (VIPCargoPriQueue.getCount() >= normaltruck->getTruckCapacity())
+				{
+					int totalloadtime = 0;
+					for (int i = 0; i < normaltruck->getTruckCapacity(); i++)
+					{
+						SpecialCargos.dequeue(vipcargo);
+						totalloadtime = totalloadtime + vipcargo->getLoadTime();
+						normaltruck->LoadCargos(vipcargo);
+					}
+					MoveTruckFromEmptyToLoading(normaltruck, totalloadtime);
+				}
+			}
+		}*/
 	}
 }
 
@@ -815,9 +984,9 @@ int CompanyClass::getautopromnum()
 
 int CompanyClass::getNumberOfMovingCargos()
 {
-	PriQ<Truck*>Extra = MovingCargos;
+	PriQ<Truck*>Extra = MovingTrucks;
 	PriQNode<Truck*>TruckExtra;
-	int count = MovingCargos.getCount();
+	int count = MovingTrucks.getCount();
 	int movingcargos = 0;
 	for (int i = 0; i < count; i++)
 	{
@@ -889,12 +1058,12 @@ bool CompanyClass::checkfunction()
 	{
 		if (LoadingTrucks.isEmpty())
 		{
-			if (MovingTrucks.isEmpty() && MovingCargos.isEmpty())
+			if (MovingTrucks.isEmpty())
 			{
 				if (NormalTrucksUnderCheckup.isEmpty() && SpecialTrucksUnderCheckup.isEmpty() && VIPTrucksUnderCheckup.isEmpty())
 				{
-					if (SumCargos - VIPCargoPriQueue.getCount() == countDelivered)
-					{
+					if(SumCargos-VIPCargoPriQueue.getCount()==countDelivered)
+					{ 
 						return false;
 					}
 				}
@@ -907,8 +1076,7 @@ void CompanyClass::SimulatorFunction()
 {
 	FileLoading();
 	ui->choosethemode();
-
-	do
+	do 
 	{
 		ExecuteEvents();
 		if (!NormalCargos.isEmpty())
@@ -916,7 +1084,6 @@ void CompanyClass::SimulatorFunction()
 			NormalCargos.AutoPromoteCargo(this, Day, AutoPDays);
 		}
 		MoveCargosFrom_Moving_to_Delivered();
-		MoveTruckToComeBack();
 		AssignCargoToTruck();
 		MoveTruckFromLoadingToMoving();
 		ui->printOutput();
@@ -926,7 +1093,8 @@ void CompanyClass::SimulatorFunction()
 			Hour = Hour - 23;
 			Day++;
 		}
-	} while (checkfunction());
+	} 
+	while (checkfunction());
 
 	//produce output file <<<----------OUTPUTFILE---------------------*/
 	LinkedQueue<Truck*> utilnorm = NormalTruckQueue;
@@ -936,7 +1104,7 @@ void CompanyClass::SimulatorFunction()
 	{
 		Truck* temp;
 		utilnorm.dequeue(temp);
-		temp->CalculateTruckUtilization(Hour, Day);
+		temp->CalculateTruckUtilization(Hour,Day);
 		SumUtilization = SumUtilization + temp->getTruckUtilization();
 	}
 	while (!utilspec.isEmpty())
@@ -973,6 +1141,7 @@ void CompanyClass::printwaitingcargos()
 	ui->coutchar('{');
 	VIPCargoPriQueue.printList();
 	ui->coutchar('}');
+	//ui->coutendl();
 }
 
 void CompanyClass::printcheckuptruck()
@@ -1039,7 +1208,7 @@ void CompanyClass::printloadingtrucks() //--------------------------------------
 
 void CompanyClass::printmovingcargos()
 {
-	PriQ<Truck*> gooo = MovingCargos;
+	PriQ<Truck*> gooo = MovingTrucks;
 	int movingcargoscount = getNumberOfMovingCargos();
 	ui->coutinteger(movingcargoscount);
 	ui->coutstring(" Moving Cargos: ");
@@ -1076,6 +1245,8 @@ void CompanyClass::printmovingcargos()
 		}
 		else
 		{
+			/*ui->coutinteger(trcca->getTruckID());
+			ui->coutchar(' ');*/
 			gooo.dequeue(trucknodea);
 		}
 	}
@@ -1102,7 +1273,7 @@ void CompanyClass::printavailtrucks()
 }
 void CompanyClass::printdeliveredcargo()
 {
-	LinkedQueue<Cargo*> extra = DeliveredCargos;
+	LinkedQueue<Cargo*> extra= DeliveredCargos;
 	Cargo* car;
 	ui->coutinteger(DeliveredCargos.getCount());
 	ui->coutstring(" Delivered Cargos: ");
@@ -1127,7 +1298,13 @@ void CompanyClass::printdeliveredcargo()
 			ui->coutinteger(car->getCargoID());
 			ui->coutstring("} ");
 		}
+		//extra.enqueue(car);
 	}
+	/*while (!extra.isEmpty())
+	{
+		extra.dequeue(car);
+		DeliveredCargos.enqueue(car);
+	}*/
 }
 void CompanyClass::dequeueLoadingTruck(Truck* deq)
 {

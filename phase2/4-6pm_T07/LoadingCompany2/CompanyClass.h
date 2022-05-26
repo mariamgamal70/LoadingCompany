@@ -37,7 +37,6 @@ class CompanyClass
 	//-----------------------------related trucks list---------------------------------
 	//not available trucks
 	PriQ<Truck*> MovingTrucks;
-	PriQ<Truck*> MovingCargos;
 	LinkedQueue<Truck*> NormalTrucksUnderCheckup;
 	LinkedQueue<Truck*> SpecialTrucksUnderCheckup;
 	LinkedQueue<Truck*> VIPTrucksUnderCheckup;
@@ -96,7 +95,7 @@ public:
 	void AddToSpecialCargos(Cargo* C);
 	void AddToVIPCargos(Cargo* C, double priority);
 	void AddToAppropriateList(Cargo* C);
-
+	
 	void AssignSpecialCargos();
 	void AssignNormalCargos();
 	void AssignVIPcargos();
@@ -105,10 +104,9 @@ public:
 
 	void MoveTruckFromEmptyToLoading(Truck*& T, int TLD, PriQ<Cargo*>loadingcargos);
 	void MoveTruckFromLoadingToMoving();
-	void MoveCargosFrom_Moving_to_Delivered();
-	void MoveTruckToComeBack();
-	void MoveTruckFromMovingToCheckup_or_Available(Truck* truck_finishedjourney);
+	void MoveTruckFromMovingToCheckup_or_Available(Truck*truck_finishedjourney);
 	void MoveTruckFromCheckupToAvailable();
+	void MoveCargosFrom_Moving_to_Delivered();
 	//-----------------GETTERS----------------------//	
 
 	//double getCargoAvgTime();
@@ -154,6 +152,6 @@ public:
 	int calcAutoPromotedCargos();				//called at the end of simulation 
 	double calcAvgActiveTime();					//called at the end of simulation 
 	double calcAvgUtilization();				//called at the end of simulation 
-
+	
 	~CompanyClass();
 };
