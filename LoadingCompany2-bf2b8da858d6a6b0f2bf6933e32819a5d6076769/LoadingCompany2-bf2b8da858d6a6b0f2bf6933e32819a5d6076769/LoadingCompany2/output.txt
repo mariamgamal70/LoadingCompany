@@ -1,0 +1,11 @@
+CDT	ID	PT	WT	TID	
+
+ ........................................................
+
+ ........................................................ 
+Cargos: 1 [N: 0, S: 0, V: 1]
+Cargo Avg Wait= 0:0
+Auto-promoted Cargos: None
+Trucks:9  [N: 4, S: 3, V: 2]
+Avg Active time= 0%
+Avg utilization= 0
